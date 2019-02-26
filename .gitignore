@@ -1,0 +1,10 @@
+*~
+.*.sw?
+*.un~
+Session.vim
+.netrwhist
+.DS_Store
+*.pyc
+_tmp_
+*.nosync
+
