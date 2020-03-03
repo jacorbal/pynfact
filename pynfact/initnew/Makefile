@@ -2,7 +2,7 @@
 #
 # Modify this file to your convenience
 
-BIN = python ./pynfact/cli.py
+BIN = /usr/bin/env python3 ./pynfact/cli.py
 PORT = 4000 # test port when serving on local machine.
 
 

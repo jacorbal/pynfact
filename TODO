@@ -4,11 +4,10 @@ TODO LIST
 Code
 ----
 
-Make this a package and distribute it.
-Specify dependencies in `setup.py`
+  * Specify dependencies in `setup.py`
 
   * In `struri.py`:
-    * Apply `re.sub` to all members of the list.
+    * Apply `re.sub` to all members of the list
 
   * In `builder.py`:
     * Remove redundant code using a universal method for gathering posts
@@ -16,38 +15,11 @@ Specify dependencies in `setup.py`
     * Too much params. in the constructor
     * Modularize: classes within classes?
 
-    Builder
-        Entries
-            gen_entry
-            gen_entries
-            gen_archive
-            gen_home
-            generate
-
-        Feed
-            gen_rss
-            gen_atom
-            generate
-
-        Tags
-            gen_tagcloud
-            gen_tags
-            generate
-
-        ...
-
   * In `mulang.py`:
     * Retrieve metainfo without regenerating all HTML from Markdown
 
   * In *all* of the above and the rest:
-    * Use a much more *pythonic* code.
-
-Display
--------
-
-  * Categories:
-    - Sort entries by name or by date
-    - Fix date format in cagtegories page
+    * Use a much more *pythonic* code
 
 
 Templates

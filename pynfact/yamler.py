@@ -1,5 +1,4 @@
-# vim: ft=python:fenc=utf-8:tw=72:fdm=indent:nowrap
-# -*- coding: utf-8 -*-
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
     pyblic.yamler
     ~~~~~~~~~~~~~
@@ -7,7 +6,7 @@
     Handles a YAML file by setting a default value when variable
     is not set.
 
-    :copyright: (c) 2012-2019, J. A. Corbal
+    :copyright: (c) 2012-2020, J. A. Corbal
     :license: 3-clause license ("Modified BSD License")
 """
 import sys
@@ -28,7 +27,7 @@ class Yamler:
             self.fd = open(self.filename, 'r')
             self.config = yaml.load(self.fd)
         except IOError:
-            sys.stderr.write("Error, config file is aready open")
+            sys.stderr.write("Error: config file is aready open")
 
 
     def __del__(self):
@@ -40,16 +39,22 @@ class Yamler:
         try:
             value = self.config[key]
         except KeyError:
-            sys.stderr.write("Error, Key not found")
+            sys.stderr.write("Error: key not found")
         else:
             return value
 
+
     def retrieve(self, key, default_value=None):
         """Gets a value from a key or sets a default value."""
-        try:
+#        try:
+#            value = self.config[key]
+#        except KeyError:
+#            value = default_value
+#        else:
+#            return value
+        if key in self.config:
             value = self.config[key]
-        except KeyError:
-            value = default_value
         else:
-            return value
+            value = default_value
+        return value
 

@@ -1,16 +1,16 @@
-# -*- coding: utf-8 -*-
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
     pynfact.server
     ~~~~~~~~~~~~~~
 
     Simple server for testing purposes.
 
-    :copyright: (c) 2012-2019, J. A. Corbal
+    :copyright: (c) 2012-2020, J. A. Corbal
     :license: 3-clause license ("Modified BSD License")
 """
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-import sys
 import os
+import sys
 
 
 class Server:

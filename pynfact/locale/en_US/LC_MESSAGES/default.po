@@ -1,7 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
-"PO-Revision-Date: 2012-09-27 18:33+0200\n"
+"POT-Creation-Date: 2012-09-27 18:33+0200\n"
+"PO-Revision-Date: 2020-03-02 15:14+0200\n"
 "Last-Translator: J. A. Corbal <jacorbal@gmail.com>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -31,9 +32,17 @@ msgstr "Entries tagged"
 msgid " and "
 msgstr " and "
 
-#: templates/archive.html.j2:25 templates/entry.html.j2:14 templates/tag.html.j2:20
+#: templates/archive.html.j2:25 templates/entry.html.j2:22 templates/tag.html.j2:20
 msgid "published on"
 msgstr "published on"
+
+#:  templates/entry.html.j2:15
+msgid "published for first time on"
+msgstr "published for first time on"
+
+#:  templates/entry.html.j2:18
+msgid "updated on"
+msgstr "updated on"
 
 #: templates/entry.html.j2:26
 msgid "This entry is tagged"

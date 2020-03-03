@@ -15,11 +15,11 @@ Features:
 Requirements:
 
   * _Python 3_
-  * _Markdown_: Python implementation of Markdown.
-  * _pyatom_: A Python library for generating Atom 1.0 feeds.
+  * _Markdown_: Python implementation of Markdown
+  * _feedgen_: Feed Generator (ATOM, RSS, Podcasts)
   * _Unidecode_: ASCII transliterations of Unicode text
   * _Jinja2_: A small but fast and easy to use stand-alone template
-              engine written in pure python.
+              engine written in pure python
 
 
 Why this name?
@@ -46,7 +46,7 @@ License
 *Py'nFact* is distributed under 3-Clause BSD (New BSD License).
 More information in `LICENSE` file.
 
-(c) 2012-2019, J. A. Corbal.
+(c) 2012-2020, J. A. Corbal.
 
 
 [pynfact_logo]: logo.png

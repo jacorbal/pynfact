@@ -1,31 +1,30 @@
-# vim: ft=python:fenc=utf-8:tw=72:fdm=indent:nowrap
-# -*- coding: utf-8 -*-
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
     pynfact.builder
     ~~~~~~~~~~~~~~~
 
     Builds the content.
 
-    Only markdown files will be taken, but a markdown file are
+    Only markdown files will be taken, but markdown files are
     identified by its extension, which for this application is
     ``.md`` (but it may be specified in ``infile_ext`` argument).
 
-    :copyright: (c) 2012-2019, J. A. Corbal
+    :copyright: (c) 2012-2020, J. A. Corbal
     :license: 3-clause license ("Modified BSD License")
 """
-from jinja2 import Environment, FileSystemLoader, Markup
-#import PyRSS2Gen as RSS2
-from pyatom import AtomFeed
-import codecs
-import gettext
-import locale
-from math import ceil
 from datetime import datetime
-from struri import slugify, link_to, strip_html_tags#
+from feedgen.feed import FeedGenerator
+from jinja2 import Environment, FileSystemLoader, Markup
+from math import ceil
 from meta import Meta#
 from mulang import Mulang#
-import shutil
+from struri import slugify, link_to, strip_html_tags#
+import distutils.dir_util
+import filecmp
+import gettext
+import locale
 import os
+import textwrap
 
 
 class Builder:
@@ -56,12 +55,13 @@ class Builder:
     """
 
     def __init__(self, canonical_uri, base_uri='', deploy_dir='_build',
-            template_values=dict(), wlocale='en_US', encoding='utf-8',
-            max_entries=10, date_format_entries='%c',
+            template_values=dict(), wlocale='en_US.UTF-8',
+            encoding='utf-8', max_entries=10, date_format_entries='%c',
             date_format_list='%Y-%m-%d', date_format_home='%Y-%m-%d',
             extra_dirs=None, site_name='', site_description='Feed',
-            site_author='', feed_format='atom',
-            infile_ext='.md', verbose=True):
+            site_author='', site_author_email='', site_language='en',
+            site_copyright='', default_category='Miscellaneous',
+            feed_format='atom', infile_ext='.md', verbose=True):
         """Constructor.
 
         :param template_values: Common values in all templates
@@ -69,23 +69,27 @@ class Builder:
         :param wlocale: Working locale; locale of the generated site
         :type wlocale: str
         """
-        self.max_entries = max_entries
-        self.template_values = template_values
-        self.wlocale = wlocale
-        self.encoding = encoding
         self.base_uri = base_uri
-        self.deploy_dir = os.path.join(deploy_dir, base_uri)
-        self.date_format_list = date_format_list
+        self.canonical_uri = canonical_uri
         self.date_format_entries = date_format_entries
         self.date_format_home = date_format_home
-        self.canonical_uri = canonical_uri
-        self.site_name = site_name
-        self.site_author = site_author
-        self.feed_format = feed_format
-        self.site_description = site_description
+        self.date_format_list = date_format_list
+        self.default_category = default_category
+        self.deploy_dir = os.path.join(deploy_dir, base_uri)
+        self.encoding = encoding
         self.extra_dirs = extra_dirs
+        self.feed_format = feed_format
         self.infile_ext = infile_ext.lower()
+        self.max_entries = max_entries
+        self.site_author_email = site_author_email
+        self.site_author = site_author
+        self.site_copyright = site_copyright
+        self.site_description = site_description
+        self.site_language = site_language
+        self.site_name = site_name
+        self.template_values = template_values
         self.verbose = verbose
+        self.wlocale = wlocale
 
         # Set locale for the site.
         self.old_locale = locale.getlocale()
@@ -105,7 +109,7 @@ class Builder:
         self.tags_dir = 'tags'             # one dir. per tag
 
         #src. & dest. dirs.
-        self.pages_dir = '.'               # other pages such as 'About'
+        self.pages_dir = '.'               # other pages such as 'About'...
         self.entries_dir = 'posts'         # where posts are
         self.static_dir = 'static'         # CSS and JS
         self.templates_dir = 'templates'   # Layout base template
@@ -137,9 +141,24 @@ class Builder:
         env.globals['strip_html_tags'] = strip_html_tags
         template = env.get_template(template)
         html = template.render(**values)
-        output_file = codecs.open(output_data, mode="w",
-                encoding=self.encoding)
-        output_file.write(html)
+
+        # Update only those files that are different in content
+        # comparing with a cache file
+        with open(output_data + '~', mode="w",
+                  encoding=self.encoding) as cache_file:
+            cache_file.write(html)
+
+        if not os.path.exists(output_data) or \
+           not filecmp.cmp(output_data + '~', output_data):
+            with open(output_data, mode="w",
+                      encoding=self.encoding) as output_file:
+                output_file.write(html)
+                if self.verbose:
+                    print("Updated: ", textwrap.shorten(output_data, 70))
+
+        # Clear cache, both in memory and space
+        filecmp.clear_cache()
+        os.remove(output_data + '~')
 
         return html
 
@@ -148,10 +167,10 @@ class Builder:
         """Compute entrie final path."""
         meta = Meta(Mulang(os.path.join(self.entries_dir, entry),
             self.encoding).metadata())
-        category = meta.category()
+        category = meta.category(self.default_category)
         date = meta.date('%Y-%m-%d')
         date_arr = date.split('-')
-        path = os.path.join(self.entries_dir,
+        path = os.path.join(str(self.entries_dir),
                             slugify(category),
                             str(date_arr[0]),
                             str(date_arr[1]),
@@ -179,21 +198,32 @@ class Builder:
             # to html5 timezone conv.
             timezone = timezone[:3] + ':' + timezone[3:]
         datehtml = meta.date('%Y-%m-%dT%H:%M') + timezone
+        up_datehtml = meta.up_date('%Y-%m-%dT%H:%M') + \
+                              timezone if meta.up_date('%Y-%m-%dT%H:%M') \
+                                       else None
 
         values = self.template_values.copy()
         values['entry'] = { #append
-                  'title': meta.title(),
-                  'raw_title': strip_html_tags(meta.title()),
-                  'private': meta.private(),
-                  'comments': meta.comments(),
-                  'category': meta.category(),
-                  'category_uri': link_to(slugify(strip_html_tags(meta.category())),
-                          os.path.join('/', self.base_uri, self.categories_dir),
-                          makedirs=False, justdir=True),
-                  'date': meta.date(date_format),
-                  'datehtml': datehtml,
-                  'tags': meta.tag_list(),
-                  'content': content_html }
+               'title': meta.title(),
+               'raw_title': strip_html_tags(meta.title()),
+               'private': meta.private(),
+               'comments': meta.comments(),
+               'category': meta.category(self.default_category),
+               'category_uri': \
+                   link_to(slugify(strip_html_tags(meta.category(self.default_category))),
+                           os.path.join('/', self.base_uri, self.categories_dir),
+                           makedirs=False, justdir=True),
+               'date': meta.date(date_format),
+               'datehtml': datehtml,
+               'tags': meta.tag_list(),
+               'content': content_html }
+
+        # Publish original date if needed
+        if meta.up_date():
+            values['entry'].update({
+                      'up_date': meta.up_date(date_format),
+                      'up_datehtml': up_datehtml })
+
         outfile = link_to(slugify(strip_html_tags(meta.title())),
                 os.path.join(self.deploy_dir,
                     self.entry_link_prefix(infile)))
@@ -229,8 +259,9 @@ class Builder:
                 private = meta.private()
                 title = meta.title()
                 summary = meta.summary()
-                category = meta.category()
-                category_uri = link_to(slugify(strip_html_tags(meta.category())),
+                category = meta.category(self.default_category)
+                category_uri = \
+                    link_to(slugify(strip_html_tags(meta.category(self.default_category))),
                         os.path.join('/', self.base_uri, self.categories_dir),
                         makedirs=False, justdir=True)
                 date = meta.date(date_format)
@@ -297,7 +328,7 @@ class Builder:
                 private = meta.private()
                 title = meta.title()
                 #summary = meta.summary()
-                category = meta.category()
+                category = meta.category(self.default_category)
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d')
                 uri = link_to(slugify(strip_html_tags(title)),
@@ -347,7 +378,7 @@ class Builder:
                 private = meta.private()
                 title = meta.title()
                 #summary = meta.summary()
-                category = meta.category()
+                category = meta.category(self.default_category)
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d')
                 comments = meta.comments()
@@ -391,7 +422,7 @@ class Builder:
                 private = meta.private()
                 title = meta.title()
                 #summary = meta.summary()
-                category = meta.category()
+                category = meta.category(self.default_category)
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d')
                 uri = link_to(slugify(strip_html_tags(title)),
@@ -436,7 +467,7 @@ class Builder:
                 private = meta.private()
                 title = meta.title()
                 #summary = meta.summary()
-                category = meta.category()
+                category = meta.category(self.default_category)
                 tag_list = meta.tag_list()
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d')
@@ -535,23 +566,25 @@ class Builder:
                 self.gen_page(filename)
 
 
-    def gen_feed(self, feed="atom"):
-        if feed == "rss":
-            self.gen_feed_rss()
-        else:
-            self.gen_feed_atom()
-
-
-    def gen_feed_atom(self, outfile='atom.xml'):
-        """Generate blog Atom feed.
+    def gen_feed(self, feed_format="atom", outfile='feed.xml'):
+        """Generate blog feed.
         """
-        feed = AtomFeed(title=self.site_name if self.site_name \
-                                             else self.canonical_uri,
-                        subtitle=self.site_description if self.site_description
-                                                       else 'Feed',
-                        feed_url=os.path.join(self.canonical_uri, self.base_uri, outfile),
-                        url=os.path.join(self.canonical_uri, self.base_uri),
-                        author=self.site_author)
+        feed = FeedGenerator()
+        #feed.logo()
+        feed.id(self.site_name if self.site_name \
+                               else self.canonical_uri)
+        feed.title(self.site_name if self.site_name \
+                                  else self.canonical_uri)
+        feed.subtitle(self.site_description if self.site_description \
+                                            else 'Feed')
+        feed.author({'name':self.site_author, 'email':self.site_author_email})
+        feed.description(self.site_description)
+        feed.link(href=os.path.join(self.canonical_uri, self.base_uri),
+            rel='alternate')
+        feed.link(href=os.path.join(self.canonical_uri, self.base_uri,
+                    outfile), rel='self')
+        feed.language(self.site_language)
+        feed.copyright(self.site_copyright)
 
         entries = list()
         for filename in os.listdir(self.entries_dir):
@@ -561,14 +594,23 @@ class Builder:
                 meta = Meta(ml.metadata())
                 author = self.site_name if not meta.author() \
                                         else meta.author()
+                email = self.site_author_email if not meta.email() \
+                                               else meta.email()
                 content_html = ml.html(verbose=False)
                 private = meta.private()
                 title = meta.title()
+                summary = meta.summary()
+                up_date_idx = meta.up_date('%Y-%m-%d %H:%M:%S')
                 date_idx = meta.date('%Y-%m-%d %H:%M:%S')
                 timezone = 'UTC' if not meta.date('%Z') else meta.date('%Z')
                 date_iso8601 = meta.date('%Y-%m-%dT%H:%M') + timezone
-                updated = datetime.strptime(date_iso8601, \
-                        '%Y-%m-%dT%H:%M%Z')
+                up_date_iso8601 = meta.up_date('%Y-%m-%dT%H:%M') + \
+                                      timezone if meta.up_date('%Y-%m-%dT%H:%M') \
+                                               else None
+                pub_date = date_iso8601
+                up_date = up_date_iso8601
+
+                #updated = datetime.strptime(date_iso8601, '%Y-%m-%dT%H:%M%Z')
                 uri = link_to(slugify(title),
                         self.entry_link_prefix(filename),
                         makedirs=False, justdir=True)
@@ -577,93 +619,34 @@ class Builder:
 
                 if not private:
                     val = { 'title': strip_html_tags(title),
+                            'subtitle': summary,
                             'content_html': content_html,
                             'author': author,
+                            'email': email,
                             'full_uri': full_uri,
                             'date_idx': date_idx,
-                            'updated': updated }
+                            'pub_date': pub_date,
+                            'up_date': up_date }
                     entries.append(val)
 
         # sort chronologically descent
         entries = sorted(entries, key=lambda k: k['date_idx'],
                 reverse=True)
         for entry in entries:
-            feed.add(title = entry['title'],
-                     content = entry['content_html'],
-                     author = entry['author'],
-                     url = entry['full_uri'],
-                     updated = entry['updated'])
+            fnew = feed.add_entry()
+            fnew.id(slugify(strip_html_tags(entry['title'])))
+            fnew.title(entry['title'])
+            fnew.description(entry['content_html'])
+            if up_date:
+                fnew.updated(entry['up_date'])
+            fnew.pubDate(entry['pub_date'])
+            fnew.author({'name':entry['author']})#, 'email':entry['email']})
+            fnew.link(href=entry['full_uri'], rel='alternate')
 
-        output_file = codecs.open(os.path.join(self.deploy_dir, \
-            outfile), mode='w', encoding=self.encoding)
-        output_file.write(feed.to_string())
-
-
-#    def gen_feed_rss(self, outfile='feed.xml'):
-#        """Generate blog feed.
-#
-#        .. todo: Why I cannot do this without changing the locale?
-#        """
-#        # This doesn't work in another locale, will be restored
-#        locale.setlocale(locale.LC_ALL, "en_US")
-#
-#        entries = list()
-#        for filename in os.listdir(self.entries_dir):
-#            if os.path.splitext(filename)[1] == self.infile_ext:
-#                infile = os.path.join(self.entries_dir, filename)
-#                ml = Mulang(infile, self.encoding)
-#                meta = Meta(ml.metadata())
-#                content_html = ml.html(verbose=False)
-#                private = meta.private()
-#                title = meta.title()
-#                summary = meta.summary()
-#                date_idx = meta.date('%Y-%m-%d %H:%M:%S')
-#                # Date+time in RFC-822 format. fixing lack of timezone
-#                # when there's none (UTC by default).
-#                timezone = '+0000' if not meta.date('%z') \
-#                                   else meta.date('%z')
-#                pub_date = meta.date('%a, %d %b %Y %H:%M:%S') + \
-#                        " " + timezone
-#                uri = link_to(slugify(title),
-#                        self.entry_link_prefix(filename),
-#                        makedirs=False, justdir=True)
-#                full_uri = os.path.join(self.canonical_uri,
-#                        self.base_uri, uri)
-#                if not private:
-#                    val = { 'title': strip_html_tags(title),
-#                            'content_html': content_html,
-#                            #'summary': summary,
-#                            'full_uri': full_uri,
-#                            'date_idx': date_idx,
-#                            'pub_date': pub_date }
-#                    entries.append(val)
-#
-#        # sort chronologically descent
-#        entries = sorted(entries, key=lambda k: k['date_idx'],
-#                reverse=True)
-#        for entry in entries:
-#            entries.append(
-#                    RSS2.RSSItem(
-#                        title = entry['title'],
-#                        link = entry['full_uri'],
-#                        #description = entry['summary'],
-#                        description = entry['content_html'],
-#                        guid = RSS2.Guid(entry['full_uri']),
-#                        pubDate = entry['pub_date']))
-#
-#        rss = RSS2.RSS2(
-#                title = self.site_name if self.site_name \
-#                                       else self.canonical_uri,
-#                description = "RSS",
-#                link = self.canonical_uri,
-#                lastBuildDate = datetime.now(),
-#                items = entries
-#                )
-#
-#        rss.write_xml(open(os.path.join(self.deploy_dir, outfile), 'w'),
-#                self.encoding)
-#        # Restore locale
-#        locale.setlocale(locale.LC_ALL, self.wlocale)
+        if feed_format == "rss":
+            feed.rss_file(os.path.join(self.deploy_dir, outfile))
+        else:
+            feed.atom_file(os.path.join(self.deploy_dir, outfile))
 
 
     def gen_static(self):
@@ -671,8 +654,8 @@ class Builder:
         src = self.static_dir
         dst = os.path.join(self.deploy_dir, self.static_dir)
         if os.path.exists(src):
-            shutil.rmtree(dst, ignore_errors=True)
-            shutil.copytree(src, dst)
+            distutils.dir_util.copy_tree(src, dst, update=True,
+                                         verbose=self.verbose)
 
 
     def gen_media(self):
@@ -682,10 +665,8 @@ class Builder:
                 src = extra_dir
                 dst = os.path.join(self.deploy_dir, extra_dir)
                 if os.path.exists(src):
-                    shutil.rmtree(dst, ignore_errors=True)
-                    shutil.copytree(src, dst)
-                    if self.verbose:
-                        print('Copied directory', src)
+                    distutils.dir_util.copy_tree(src, dst, update=True,
+                                                 verbose=self.verbose)
 
 
     def gen_site(self):

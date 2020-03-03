@@ -1,6 +1,8 @@
 Title: First entry
-Summary: Just as an example
-Date: 2012/10/31
+Summary: Just as an example.
+Date: 2019-03-01 11:11 UTC
+Comments: No
+Private: No
 
 
 Write in the directory `posts`  your posts in Markdown format with the
@@ -13,8 +15,9 @@ Example file:
     Title: Post title
     Summary: A _small_ summary for this *Py'nFact* entry. This summary
              is way too long, but it doesn't matter.
+    Category: Miscellaneous
     Tags: tag1, tagtwo, tag three, Four
-    Date: 2012/12/21 21:55
+    Date: 2012-12-21 21:55
     Comments: No
     Private: No
 
@@ -30,7 +33,8 @@ Example file:
     valid Markdown syntax.
 
     There is **at least** one blank line between the metadata and the
-    post entry.
+    post entry, although for the sake of readabiliy, two blank lines are
+    encouraged.
 
     Notes:
 
@@ -39,8 +43,14 @@ Example file:
       * If you don't want comments for any post, turn off the *Disqus*
         engine by setting "disqus: no" in the `config.yml` file.
 
-      * The extension of each post **must** be `.md`.
+      * The extension of each post **must** be `.md` or `.mkdn`, or else
+        the file will be ignored
+
+      * A post set as "Private" it will be generated, but it's not
+        referenced by any link
 
       * Read the full documentation for more information.
 ```
+
+Feel free to send bugs to <https://github.com/jacorbal/pynfact>.
 

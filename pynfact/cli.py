@@ -1,21 +1,20 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# vim: ft=python:fenc=utf-8:tw=72:fdm=indent:nowrap
+#!/usr/bin/env python3
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
     pynfact.cli
     ~~~~~~~~~~~
 
     The Command line interface.
 
-    :copyright: (c) 2012-2019, J. A. Corbal
+    :copyright: (c) 2012-2020, J. A. Corbal
     :license: 3-clause license ("Modified BSD License")
 """
-import os
-import sys
-import shutil
-from yamler import Yamler#
-from server import Server#
 from builder import Builder#
+from server import Server#
+from yamler import Yamler#
+import os
+import shutil
+import sys
 
 
 try:
@@ -61,23 +60,26 @@ def main():
 
         # Get config
         author = config.retrieve('author', "Nobody")
-        site_name = config.retrieve('site_name', author)
-        lang = config.retrieve('lang', 'en')
-        locale = config.retrieve('locale', 'en_US')
-        encoding = config.retrieve('encoding', 'utf-8')
+        author_email = config.retrieve('author_email', "")
         base_uri = config.retrieve('base_uri', '').strip('/')
-        max_entries = config.retrieve('max_entries', 1)
-        datefmt_long = config.retrieve('datefmt_long', '%c')
-        datefmt_short = config.retrieve('datefmt_short', '%Y-%m-%d')
-        datefmt_mini  = config.retrieve('datefmt_mini', '%Y-%m-%d')
-        disqus = True if config.retrieve('disqus') else False
         canonical_uri = config.retrieve('canonical_uri').rstrip('/')
+        datefmt_long = config.retrieve('datefmt_long', '%c')
+        datefmt_mini  = config.retrieve('datefmt_mini', '%Y-%m-%d')
+        datefmt_short = config.retrieve('datefmt_short', '%Y-%m-%d')
+        default_category = config.retrieve('default_category', "Miscellaneous")
+        disqus = True if config.retrieve('disqus') else False
+        encoding = config.retrieve('encoding', 'utf-8')
         extra_dirs = config.retrieve('extra_dirs')
         feed_format = config.retrieve('feed_format')
+        locale = config.retrieve('locale', 'en_US.UTF-8')
+        max_entries = config.retrieve('max_entries', 1)
+        site_copyright = config.retrieve('site_copyright', '')
         site_description = config.retrieve('site_description')
+        site_language = config.retrieve('site_language', 'en')
+        site_name = config.retrieve('site_name', author)
 
         # Prepare builder
-        template_values = { 'blog': { 'lang': lang, 'encoding': encoding,
+        template_values = { 'blog': { 'lang': site_language, 'encoding': encoding,
             'site_name' : site_name, 'base_uri': base_uri,
             'author': author, 'disqus': disqus } }
         deploy_dir = '_build'
@@ -85,10 +87,11 @@ def main():
         # Build
         b = Builder(canonical_uri, base_uri, deploy_dir,
                 template_values, locale, encoding, max_entries,
-                datefmt_long, datefmt_short, datefmt_mini,
-                extra_dirs, site_name=site_name,
-                site_description=site_description, site_author=author,
-                feed_format=feed_format,
+                datefmt_long, datefmt_short, datefmt_mini, extra_dirs,
+                site_name=site_name, site_description=site_description,
+                site_author=author, site_author_email=author_email,
+                site_language=site_language, site_copyright=site_copyright,
+                default_category=default_category, feed_format=feed_format,
                 infile_ext=default_post_extension, verbose=True)
         b.gen_site()
 

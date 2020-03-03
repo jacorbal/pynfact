@@ -12,10 +12,10 @@
     <section class="page hyphenate prettify">
         {%- if archive %}
         <ul>
-            {%- for year in archive | dictsort %}
+            {%- for year in archive | dictsort | reverse %}
             <li>{{ year[0] }}
                 <ul>
-                {%- for month in year[1] | dictsort %}
+                {%- for month in year[1] | dictsort | reverse %}
                     <!--
                     <li>{{ month[0] | striptags }}
                         <ul>

@@ -1,5 +1,4 @@
-# vim: ft=python:fenc=utf-8:tw=72:fdm=indent:nowrap
-# -*- coding: utf-8 -*-
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
     pynfact.meta
     ~~~~~~~~~~~~
@@ -13,13 +12,13 @@
     There may be accents in field values (UTF-8 by default) but not in
     field names.
 
-    :copyright: (c) 2012-2019, J. A. Corbal
+    :copyright: (c) 2012-2020, J. A. Corbal
     :license: 3-clause license ("Modified BSD License")
 """
 from dateutil.parser import parse
-import re
 import datetime
-import markdown #only for summary in safe mode
+import markdown# only for summary in safe mode
+import re
 
 
 class Meta:
@@ -37,14 +36,14 @@ class Meta:
         self.meta = meta
 
 
-    def category(self):
+    def category(self, default_category='Miscellaneous'):
         """Gets category as a string from post meta information.
 
         :return: Category field
         :rtype: str
         """
         category = self.meta.get('category') or self.meta.get('categoria')
-        return ', '.join(category) if category else 'sin categorizar'
+        return ' '.join(category) if category else default_category
 
 
     def author(self):
@@ -57,6 +56,31 @@ class Meta:
                   self.meta.get('autores') or self.meta.get('autors') or \
                   self.meta.get('autor')
         return ', '.join(authors) if authors else ''
+
+
+    def email(self):
+        """Gets the author's email as a string from post meta information.
+
+        :return: Email field
+        :rtype: str
+        """
+        emails = self.meta.get('email') or self.meta.get('e-mail') or \
+                 self.meta.get('correo electronico') or \
+                 self.meta.get('correo') or self.meta.get('correu') or \
+                 self.meta.get('e-correo')
+        return ', '.join(emails) if emails else ''
+
+
+    def language(self):
+        """Gets the author's email as a string from post meta information.
+
+        :return: Language field
+        :rtype: str
+        """
+        language = self.meta.get('language') or self.meta.get('idioma') or \
+                   self.meta.get('lengua') or self.meta.get('lingua') or \
+                   self.meta.get('llengua')
+        return language if language else 'en'
 
 
     def title(self):
@@ -87,6 +111,21 @@ class Meta:
         return re.sub(r'</*(p|br)[^>]*?>', '', fmtsummary)
 
 
+    def copyright(self):
+        """Gets post copyright as a string from post meta information.
+
+        :return: Copyright field
+        :rtype: str
+        """
+        copyright = self.meta.get('copyright') or self.meta.get('license') or \
+                    self.meta.get('licencia') or self.meta.get('licenza') or \
+                    self.meta.get('llicencia') or self.meta.get('(c)')
+        fmtcopyright = markdown.markdown(' '.join(copyright) if copyright \
+                                                             else '',
+                safe_mode=False) #use this carefully
+        return re.sub(r'</*(p|br)[^>]*?>', '', fmtcopyright)
+
+
     def date_info(self):
         """Gets post date as a datetime object.
 
@@ -108,6 +147,30 @@ class Meta:
         """
         return self.date_info().strftime(date_format) \
                if self.date_info() else ''
+
+
+    def up_date_info(self):
+        """Gets updated post date as a datetime object.
+
+        :return: Date field
+        :rtype: datetime
+        """
+        up_date = self.meta.get('updated') or \
+                        self.meta.get('actualizado') or \
+                        self.meta.get('actualitzat')
+        return parse(''.join(up_date)) if up_date else ''
+
+
+    def up_date(self, date_format='%c'):
+        """Gets updated post date as a string.
+
+        :param date_format: Date locale
+        :type date_format: str
+        :return: Date field
+        :rtype: str
+        """
+        return self.up_date_info().strftime(date_format) \
+               if self.up_date_info() else ''
 
 
     def comments(self):

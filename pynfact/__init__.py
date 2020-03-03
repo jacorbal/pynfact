@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+# vim: set ft=python fileencoding=utf-8 tw=72:
 """
     Py'nFact
     ~~~~~~~~
@@ -7,7 +8,7 @@
     and Jinja2 templates.
 
     :author: J. A. Corbal
-    :copyright: (c) 2012-2019, J. A. Corbal
+    :copyright: (c) 2012-2020, J. A. Corbal
     :license: 3-clause license ("Modified BSD License")
 """
 

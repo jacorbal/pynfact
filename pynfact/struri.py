@@ -1,12 +1,11 @@
-# vim: ft=python:fenc=utf-8:tw=72:fdm=indent:nowrap
-# -*- coding: utf-8 -*-
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
     pynfact.struri
     ~~~~~~~~~~~~~~
 
     URI strings manipulation functions.
 
-    :copyright: (c) 2012-2019, J. A. Corbal
+    :copyright: (c) 2012-2020, J. A. Corbal
     :license: 3-clause license ("Modified BSD License")
 """
 import unidecode
@@ -28,7 +27,7 @@ def slugify(unslugged, separator='-'):
                   unidecode.unidecode(unslugged).strip().lower())
 
 
-def link_to(name, prefix='', makedirs=True, justdir=False):
+def link_to(name, prefix='', makedirs=True, justdir=False, index='index.html'):
     """Makes a link relative path in terms of the build.
 
     :param name: Filename with slugified name (extension will be removed)
@@ -39,11 +38,13 @@ def link_to(name, prefix='', makedirs=True, justdir=False):
     :type makedirs: bool
     :param justdir: If true return only the link dir
     :type justdir: bool
+    :param index: Default name of file
+    :type index: str
     :return: Link path to a 'index.html' page
     :rtype: str
     """
     dirname = os.path.splitext(name)[0]
-    path = os.path.join(prefix, slugify(dirname), 'index.html')
+    path = os.path.join(prefix, slugify(dirname), index)
     if makedirs:
         if not os.path.exists(os.path.dirname(path)):
             os.makedirs(os.path.dirname(path))

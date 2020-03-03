@@ -1,16 +1,16 @@
-# vim: ft=python:fenc=utf-8:tw=72:fdm=indent:nowrap
-# -*- coding: utf-8 -*-
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
     pynfact.mulang
     ~~~~~~~~~~~~~~
 
     Markdown translation to HTML and metadata "getter".
 
-    :copyright: (c) 2012-2019, J. A. Corbal
+    :copyright: (c) 2012-2020, J. A. Corbal
     :license: 3-clause license ("Modified BSD License")
 """
-import codecs
 import markdown
+import textwrap
+
 
 class Mulang:
     """Generates HTML code from MarkUp LANGuage (mulang) source."""
@@ -46,14 +46,14 @@ class Mulang:
         :param verbose: Tells what this is doing
         :type verbose: bool
         """
-        input_file = codecs.open(self.input_data, mode="r", \
-                encoding=self.encoding)
+        input_file = open(self.input_data, mode="r", \
+                          encoding=self.encoding)
         text = input_file.read()
         input_file.close()
         html = self.md.convert(text)
 
         if verbose:
-            print('Parsed', self.input_data)
+            print("Parsed", textwrap.shorten(self.input_data, 70))
 
         return html
 
@@ -63,8 +63,8 @@ class Mulang:
 
         .. todo: Get the meta without generating HTML again
         """
-        input_file = codecs.open(self.input_data, mode="r", \
-                encoding=self.encoding)
+        input_file = open(self.input_data, mode="r", \
+                          encoding=self.encoding)
         text = input_file.read()
         input_file.close()
         html = self.md.convert(text)

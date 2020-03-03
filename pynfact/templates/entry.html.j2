@@ -10,7 +10,14 @@
             {{ entry.title }}
             {% if entry.private %}<span class="private">[PRIV]</span>{%- endif -%}
         </h1>
-        {% if entry.date %}
+        {% if entry.up_date %}
+        <p class=date>
+            {% trans %}published for first time on{% endtrans %}
+            <time datetime="{{ entry.datehtml }}">{{ entry.date }}</time>
+            <br>
+            {% trans %}updated on{% endtrans %}
+            <time datetime="{{ entry.up_datehtml }}">{{ entry.up_date }}</time>
+        {% else %}
         <p class="date">
             {% trans %}published on{% endtrans %}
             <time datetime="{{ entry.datehtml }}">{{ entry.date }}</time>

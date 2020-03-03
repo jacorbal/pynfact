@@ -8,7 +8,7 @@
     <head>
         <meta charset="{{ blog.encoding }}">
         <meta name="description" content="{{ blog.author }}{% block metadescription %}{% endblock %}">
-        <meta name="keywords" content="blog, personal, escritura, informática, filosofía, sociedad, opiniones, reflexiones, elucubraciones, divagaciones">
+        <meta name="keywords" content="blog, personal">
         <meta name="author" content="{{ blog.author }}">
         <meta name="generator" content="Py'nFact">
         {%- block index %}{% endblock %}
@@ -24,13 +24,12 @@
         <link rel="stylesheet" href="{{ base_uri }}static/css/pygments.css" type=text/css>
         <link rel="stylesheet" href="{{ base_uri }}static/css/style.css" type=text/css>
     {#- <link rel="alternate"  href="{{ base_uri }}feed.xml" title="{% trans %}Recent posts{% endtrans %}" type="application/rss+xml"> #}
-    {#- <link rel="alternate"  href="{{ base_uri }}atom.xml" title="{% trans %}Recent posts{% endtrans %}" type="application/atom+xml"> #}
-        <link rel="alternate"  href="http://feeds.feedburner.com/jacorbal" title="{% trans %}Recent posts{% endtrans %}" type="application/atom+xml">
+        <link rel="alternate"  href="{{ base_uri }}atom.xml" title="{% trans %}Recent posts{% endtrans %}" type="application/atom+xml">
         <link rel="shortcut icon" href="{{ base_uri }}media/favicon.ico" type="image/x-icon">
 
         <script src="{{ base_uri }}static/js/modernizr-1.7.min.js"></script>
-        <!-- <script src="{{ base_uri }}static/js/hyphenator-4.0.0.js"></script>
-        <script>/*Hyphenator.config({minwordlength : 6});*/ Hyphenator.run();</script> -->
+    {#- <!-- <script src="{{ base_uri }}static/js/hyphenator-4.0.0.js"></script>
+        <script>/*Hyphenator.config({minwordlength : 6});*/ Hyphenator.run();</script> --> #}
         <script src="{{ base_uri }}static/js/jsprettify-20100525.js"></script>
         <script>window.jsprettify.run();</script>
         <script src="{{ base_uri }}static/js/LaTeXMathML.js"></script>
@@ -57,12 +56,9 @@
                                title="{% trans %}Tags{% endtrans %}">{% trans %}Tags{% endtrans %}</a>
                         <li><a href="{{ base_uri }}projects/"
                                title="{% trans %}Projects{% endtrans %}">{% trans %}Projects{% endtrans %}</a>
-                    {#- <li><a href="{{ base_uri }}feed.xml" #}
-                    {#- <li><a href="{{ base_uri }}atom.xml" #}
-                        <li><a href="http://feeds.feedburner.com/jacorbal"
+                        <li><a href="{{ base_uri }}feed.xml"
                                rel="alternate"
                                title="{% trans %}Feed{% endtrans %}">{% trans %}Feed{% endtrans %}</a>
-
                     </ul>
                 </nav>
             </header>
@@ -83,34 +79,14 @@
                        rel="license">{% trans %}Content licensed under{% endtrans %}
                     Creative Commons Attribution-NonCommercial-ShareAlike 4.0 Intl.</a>
 
-<!--
-                <p>
-                    <a class="invisible"
-                       href="http://www.hispabloggers.com/index.php?a=in&amp;u=jacorbal">Vota este blog en HispaBloggers</a>
--->
-                <p>
-                    &copy;
+                <p> &copy;
                     <a class="invisible"
                        href="{{ base_uri }}about/"
                        title="{{ blog.author }}"
-                       rel="author">{{ blog.author }}</a>, 2012–2017
+                       rel="author">{{ blog.author }}</a>, 2012–2020
                 </aside>
             </footer>
         </div>
-
-        <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', '<Google Analytics Account ID>']);
-          _gaq.push(['_trackPageview']);
-
-          setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])", 15000);
-
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
-        </script>
     </body>
 
 {#- vim: set filetype=html fileencoding=utf-8 nowrap: -#}
