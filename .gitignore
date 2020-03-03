@@ -7,4 +7,5 @@ Session.vim
 *.pyc
 _tmp_
 *.nosync
+.hgignore
 
