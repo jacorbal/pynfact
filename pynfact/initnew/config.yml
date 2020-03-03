@@ -8,11 +8,11 @@ canonical_uri: "http://your-site-uri/"
 #base_uri: "blog/"
 
 feed_format: "atom"
-disqus: "yes"
+disqus: "no"
 
-locale: "en_US.UTF-8"
-encoding: "utf-8"
 site_language: "en"
+encoding: "utf-8"
+locale: "en_US.UTF-8"
 
 max_entries: 10
 default_category: "Miscellaneous"

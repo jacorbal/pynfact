@@ -1,6 +1,7 @@
 Title: First entry
-Summary: Just as an example.
+Summary: Just as an example explaining how to write new posts.
 Date: 2019-03-01 11:11 UTC
+Tags: example
 Comments: No
 Private: No
 
@@ -52,5 +53,5 @@ Example file:
       * Read the full documentation for more information.
 ```
 
-Feel free to send bugs to <https://github.com/jacorbal/pynfact>.
+Feel free to report bugs to <https://github.com/jacorbal/pynfact>.
 

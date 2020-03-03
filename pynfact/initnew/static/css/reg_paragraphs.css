@@ -130,7 +130,7 @@ p {
 /* *[lang|="en"] ul + p, *[lang|="en"] ul + dl, */
 *[lang|="en"] h3 + p, *[lang|="en"] h4 + p,
 *[lang|="en"] h5 + p, *[lang|="en"] h6 + p {
-    margin: 0;
+    margin-top: 1.5em;
     text-indent: 0;
 }
 

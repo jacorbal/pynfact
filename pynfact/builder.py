@@ -204,6 +204,8 @@ class Builder:
 
         values = self.template_values.copy()
         values['entry'] = { #append
+               'author': meta.author() if meta.author() \
+                                       else self.site_author,
                'title': meta.title(),
                'raw_title': strip_html_tags(meta.title()),
                'private': meta.private(),

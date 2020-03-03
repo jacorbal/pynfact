@@ -4,23 +4,30 @@
 
 {% block body %}
 
-<article class="entry">
+<article class="entry"
+         itemscope
+         itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="author" content="{{ entry.author }}">
     <header>
-        <h1 class="title">
+        <h1 class="title"
+            itemprop="headline">
             {{ entry.title }}
             {% if entry.private %}<span class="private">[PRIV]</span>{%- endif -%}
         </h1>
         {% if entry.up_date %}
-        <p class=date>
+        <p class="date">
             {% trans %}published for first time on{% endtrans %}
-            <time datetime="{{ entry.datehtml }}">{{ entry.date }}</time>
+            <time datetime="{{ entry.datehtml }}"
+                  itemprop="datePublished">{{ entry.date }}</time>
             <br>
             {% trans %}updated on{% endtrans %}
-            <time datetime="{{ entry.up_datehtml }}">{{ entry.up_date }}</time>
+            <time datetime="{{ entry.up_datehtml }}"
+                  itemprop="dateModified">{{ entry.up_date }}</time>
         {% else %}
         <p class="date">
             {% trans %}published on{% endtrans %}
-            <time datetime="{{ entry.datehtml }}">{{ entry.date }}</time>
+            <time datetime="{{ entry.datehtml }}"
+                  itemprop="datePublished">{{ entry.date }}</time>
         {% endif %}
     </header>
 
@@ -29,22 +36,9 @@
     </section>
 
     <footer>
-        <aside><div class="social">
-            {#- Google+ :: +1 button #}
-            <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-            <span class="g-plusone"></span>
-            <script type="text/javascript">
-              window.___gcfg = {lang: 'es'};
-              (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-              })();
-            </script>
-        </div></aside>
-
         {%- if entry.tags != [''] %}
-        <p class="tags">
+        <p class="tags"
+           itemprop="keywords">
             {% trans %}This entry is tagged{% endtrans %}
             {% for tag in entry.tags|sort(case_sensitive=true) %}
                 {%- if not loop.first and not loop.last %}, {% endif -%}

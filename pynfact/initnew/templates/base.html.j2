@@ -44,19 +44,24 @@
                        title="{{ blog.author }}">{{ blog.author }}</a>
                 </div>
 
-                <nav class="navigator" id="nav1">
+                <nav class="navigator" id="nav1"
+                     itemscope
+                     itemtype="http://schema.org/SiteNavigationElement">
                     <ul>
                         <li><a href="{{ base_uri }}"
+                               itemprop="name"
                                title="{% trans %}Blog{% endtrans %}">{% trans %}Blog{% endtrans %}</a>
                         <li><a href="{{ base_uri }}archive/"
+                               itemprop="name"
                                title="{% trans %}Archive{% endtrans %}">{% trans %}Archive{% endtrans %}</a>
                         <li><a href="{{ base_uri }}categories/"
+                               itemprop="name"
                                title="{% trans %}Categories{% endtrans %}">{% trans %}Categories{% endtrans %}</a>
                         <li><a href="{{ base_uri }}tags/"
+                               itemprop="name"
                                title="{% trans %}Tags{% endtrans %}">{% trans %}Tags{% endtrans %}</a>
-                        <li><a href="{{ base_uri }}projects/"
-                               title="{% trans %}Projects{% endtrans %}">{% trans %}Projects{% endtrans %}</a>
                         <li><a href="{{ base_uri }}feed.xml"
+                               itemprop="name"
                                rel="alternate"
                                title="{% trans %}Feed{% endtrans %}">{% trans %}Feed{% endtrans %}</a>
                     </ul>
@@ -74,10 +79,10 @@
                 <aside>
                 <p>
                     <a class="invisible"
-                       href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed"
+                       href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"
                        title="CC by-nc-sa 4.0"
                        rel="license">{% trans %}Content licensed under{% endtrans %}
-                    Creative Commons Attribution-NonCommercial-ShareAlike 4.0 Intl.</a>
+                    Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a>
 
                 <p> &copy;
                     <a class="invisible"
