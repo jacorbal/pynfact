@@ -153,6 +153,7 @@ sup.subsup {
     left: -0.4em;
     top: -2px;
 }
+
 /*}}}*/
 
 
@@ -226,6 +227,85 @@ h4 > div.definition {
     margin-top: 0;
 }
 
+span.center {
+    display: block;
+    text-align: center;
+}
+
+.equation, .math, .definition {
+    font-size: 0.938em;
+}
+
+em.equation,
+span.equation {
+    display: block;
+    font-family: 'Merriweather', 'Gilda Display', 'Rosarivo', serif;
+    font-style: italic;
+    margin: 0.5em auto;
+    text-align: center;
+    text-indent: 0;
+}
+
+.equation-number {
+    text-align: right;
+}
+
+em.math, span.math,
+em.var, span.var,
+em.variable, span.variable {
+    font-family: 'Merriweather', 'Gilda Display', 'Rosarivo', serif;
+    font-style: italic;
+    padding-right: -0.5ex;
+    white-space:nowrap;
+}
+
+span.highlight {
+    color: #c03;
+}
+
+.unem {
+    font-style: normal !important;
+}
+
+div.definition {
+    background-color: #f3f3f3;
+    border: 1px dotted #ccc;
+    display: block;
+    font-family: 'Merriweather', 'Gilda Display', 'Rosarivo', serif;
+    padding: 1em;
+    margin: 1em auto;
+    text-align: justify;
+}
+
+div.definition span.term {
+    font-style: italic;
+    font-weight: 300;
+}
+
+div.definition strong {
+    font-weight: 400;
+}
+
+div.definition ul li {
+    list-style-type: square;
+}
+
+h2 > div.definition,
+h3 > div.definition,
+h4 > div.definition {
+    margin-top: 0;
+}
+
+/*}}}*/
+
+
+/* Greek text {{{*/
+*[lang|="el"] {
+    font-family: 'Alegreya Sans', 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 1.125em;
+}
+
 /*}}}*/
 
 
@@ -273,6 +353,7 @@ a.invisible:after {
 section.entry a {
     white-space: nowrap;
 }
+
 /* }}} */
 
 
@@ -389,18 +470,19 @@ h1, h2 {
 
 h1 {
     font-size: 2.625em;
-    line-height: 1.5em;
+    line-height: 1.25em;
 }
 
 h2 {
     font-size: 2em;
-    line-height: 1.5em;
+    line-height: 1.25em;
 }
 
 h3 {
-    font-size: 1.3em;
+    font-size: 1.25em;
     font-weight: 400;
 }
+
 /*}}}*/
 
 
@@ -465,12 +547,14 @@ section.entry h6 {
     margin-top: 1em; /* 16px = 1em */
     margin-bottom: 0.35em; /* 5px = ~1ex*/
 }
+
 /*}}}*/
 
 
 /* Blockquotes, lists and other Margins and stuff {{{*/
 /* Two break lines is an context change, i.e. 'asterism' */
 section.entry div.line-block:before {
+    color: #222;
     content: '\2042'; /* asterism (⁂) */
     /* content: '* * *' */
     display: block;
@@ -549,6 +633,7 @@ h1 + p.date {
 }
 h1 + p.date time.timeago:before { content: ', ' }
 h1 + p.date time.timeago:after { content: '' }
+
 /*}}}*/
 
 
@@ -642,6 +727,7 @@ table.empty td,
 table.undecorated td {
     border: none;
 }
+
 /*}}}*/
 
 
@@ -701,6 +787,7 @@ figcaption .math {
 article.entry div.social {
     float: left;
 }
+
 /*}}}*
 
 
@@ -778,6 +865,7 @@ div.sfootnote p,
 div.footnote p {
     text-indent: 0;
 }
+
 /*}}}*/
 
 
@@ -804,6 +892,7 @@ body > div#container > hr {
     margin-top: 2.8em;
     margin-bottom: 0.35em;
 }
+
 /*}}}*/
 
 
@@ -840,5 +929,6 @@ span.latex sup {
     margin-right: -0.15em;
     vertical-align: 0.28em;
 }
+
 /*}}}*/
 

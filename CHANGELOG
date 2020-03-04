@@ -1,7 +1,7 @@
 Py'nFact CHANGELOG
 ==================
 
-
+  - 2020-03-04: Enable/disable comments by option in config file
   - 2020-03-03: Converted into git repository instead of merurial^[*]
   - 2020-03-02: Existing parsed files updated only if they are different (0.3.2)
   - 2020-03-01: Categories support again (0.3.1)

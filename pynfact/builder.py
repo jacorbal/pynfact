@@ -60,8 +60,9 @@ class Builder:
             date_format_list='%Y-%m-%d', date_format_home='%Y-%m-%d',
             extra_dirs=None, site_name='', site_description='Feed',
             site_author='', site_author_email='', site_language='en',
-            site_copyright='', default_category='Miscellaneous',
-            feed_format='atom', infile_ext='.md', verbose=True):
+            site_copyright='', site_comments=True,
+            default_category='Miscellaneous', feed_format='atom',
+            infile_ext='.md', verbose=True):
         """Constructor.
 
         :param template_values: Common values in all templates
@@ -84,6 +85,7 @@ class Builder:
         self.site_author_email = site_author_email
         self.site_author = site_author
         self.site_copyright = site_copyright
+        self.site_comments = site_comments
         self.site_description = site_description
         self.site_language = site_language
         self.site_name = site_name
@@ -210,6 +212,7 @@ class Builder:
                'raw_title': strip_html_tags(meta.title()),
                'private': meta.private(),
                'comments': meta.comments(),
+               'site_comments': self.site_comments,
                'category': meta.category(self.default_category),
                'category_uri': \
                    link_to(slugify(strip_html_tags(meta.category(self.default_category))),

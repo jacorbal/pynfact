@@ -63,11 +63,11 @@ def main():
         author_email = config.retrieve('author_email', "")
         base_uri = config.retrieve('base_uri', '').strip('/')
         canonical_uri = config.retrieve('canonical_uri').rstrip('/')
+        comments = config.retrieve('comments').lower() == "yes"
         datefmt_long = config.retrieve('datefmt_long', '%c')
         datefmt_mini  = config.retrieve('datefmt_mini', '%Y-%m-%d')
         datefmt_short = config.retrieve('datefmt_short', '%Y-%m-%d')
         default_category = config.retrieve('default_category', "Miscellaneous")
-        disqus = True if config.retrieve('disqus') else False
         encoding = config.retrieve('encoding', 'utf-8')
         extra_dirs = config.retrieve('extra_dirs')
         feed_format = config.retrieve('feed_format')
@@ -79,9 +79,9 @@ def main():
         site_name = config.retrieve('site_name', author)
 
         # Prepare builder
-        template_values = { 'blog': { 'lang': site_language, 'encoding': encoding,
-            'site_name' : site_name, 'base_uri': base_uri,
-            'author': author, 'disqus': disqus } }
+        template_values = { 'blog': { 'lang': site_language,
+            'encoding': encoding, 'site_name' : site_name,
+            'base_uri': base_uri, 'author': author } }
         deploy_dir = '_build'
 
         # Build
@@ -90,8 +90,10 @@ def main():
                 datefmt_long, datefmt_short, datefmt_mini, extra_dirs,
                 site_name=site_name, site_description=site_description,
                 site_author=author, site_author_email=author_email,
-                site_language=site_language, site_copyright=site_copyright,
-                default_category=default_category, feed_format=feed_format,
+                site_comments=comments, site_language=site_language,
+                site_copyright=site_copyright,
+                default_category=default_category,
+                feed_format=feed_format,
                 infile_ext=default_post_extension, verbose=True)
         b.gen_site()
 

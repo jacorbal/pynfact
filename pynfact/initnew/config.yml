@@ -8,7 +8,7 @@ canonical_uri: "http://your-site-uri/"
 #base_uri: "blog/"
 
 feed_format: "atom"
-disqus: "no"
+comments: "no"
 
 site_language: "en"
 encoding: "utf-8"
