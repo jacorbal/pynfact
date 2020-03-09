@@ -8,7 +8,7 @@ setup(name='pynfact',
       description='Blog-oriented static web generator',
       long_description=open('README').read(),
       keywords = ['blog', 'static', 'web', 'generator'],
-      license='BSD 3-Clause',
+      license='MIT',
       py_modules=find_packages(),
       scripts = ['bin/run-pynfact'],
       entry_points = { 'console_scripts': [ 'main = pynfact.cli:main' ] } )

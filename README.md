@@ -1,3 +1,4 @@
+
 PynFact
 =======
 
@@ -10,7 +11,7 @@ Features
 --------
 
   * Input format: Markdown
-  * Output format: HTML 5
+  * Output format: HTML&nbsp;5
   * Jinja2 templates
   * Locale support (`gettext`)
 
@@ -41,8 +42,8 @@ You can specify any port in the `Makefile`, and you can move the folder
 `myblog` to any place in your system.
 
 
-Last changes
-------------
+Recent changes
+--------------
 
   * Added Esperanto locale (`eo`)
   * Builder class constructor simplified, now takes a configuration
