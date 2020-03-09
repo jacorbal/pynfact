@@ -53,6 +53,11 @@ def link_to(name, prefix='', makedirs=True, justdir=False, index='index.html'):
 
 def strip_html_tags(text):
     """Strips HTML tags in string.
+
+    :param text: String containing HTML code
+    :type text: str
+    :return: String without HTML tags
+    :rtype:str
     """
     return re.sub('<[^<]+?>', '', text)
 

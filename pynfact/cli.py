@@ -71,8 +71,8 @@ def main():
             },
             'date_format': {
                 'entry': config.retrieve('datefmt_long', "%c"),
-                'home': config.retrieve('datefmt_short', "%b %_d, %Y"),
-                'list': config.retrieve('datefmt_mini', "%Y-%m-%d"),
+                'home': config.retrieve('datefmt_mini', "%b %_d, %Y"),
+                'list': config.retrieve('datefmt_short', "%Y-%m-%d"),
             },
             'info': {
                 'author': config.retrieve('author', "Nameless"),
@@ -99,6 +99,7 @@ def main():
             'author': site_config['info']['author'],
             'base_uri': site_config['uri']['base'],
             'encoding': site_config['wlocale']['encoding'],
+            'feed_format': site_config['presentation']['feed_format']
             'lang': site_config['wlocale']['language'],
             'site_name': site_config['info']['site_name'],
         } }

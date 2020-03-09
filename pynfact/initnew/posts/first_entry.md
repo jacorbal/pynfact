@@ -1,6 +1,6 @@
 Title: First entry
 Summary: Just as an example explaining how to write new posts.
-Date: 2019-03-01 11:11 UTC
+Date: 2020-03-09 11:11 UTC
 Tags: example
 Comments: No
 Private: No
@@ -15,10 +15,10 @@ Example file:
 
     Title: Post title
     Summary: A _small_ summary for this *Py'nFact* entry. This summary
-             is way too long, but it doesn't matter.
+             is way two lines long, but it doesn't matter.
     Category: Miscellaneous
     Tags: tag1, tagtwo, tag three, Four
-    Date: 2012-12-21 21:55
+    Date: 2020-03-09 21:55
     Comments: No
     Private: No
 
@@ -30,7 +30,7 @@ Example file:
     Second level header
     -------------------
 
-    Or use the short version (`## Second level header`). It's also
+    Or use the short version (`## Second level header`). It's also a
     valid Markdown syntax.
 
     There is **at least** one blank line between the metadata and the
@@ -41,14 +41,14 @@ Example file:
 
       * Only the "Title" and the "Date" are requiered fileds.
 
-      * If you don't want comments for any post, turn off the *Disqus*
-        engine by setting "disqus: no" in the `config.yml` file.
+      * If you don't want comments for any post, turn off the comments
+        engine by setting `comments: "no"` in the `config.yml` file.
 
-      * The extension of each post **must** be `.md` or `.mkdn`, or else
-        the file will be ignored
+      * The extension of each post **must** be `.md`, or else the file
+        will be ignored.
 
-      * A post set as "Private" it will be generated, but it's not
-        referenced by any link
+      * A post set as "Private" still will be generated, but will not
+        be referenced by any link.
 
       * Read the full documentation for more information.
 ```

@@ -3,26 +3,27 @@
     pynfact.meta
     ~~~~~~~~~~~~
 
-    Meta information retrival from markdown post file.
+    Meta information retrieval from markdown post file.
 
-    Meta fields are set in English, Catalan, Galician, Spanish and
-    Portuguese although there cannot be any accent in the field names,
-    so "título" has to be "titulo" in order to work properly.
+    Meta fields are set in English, Portuguese, Spanish, Catalan,
+    Galician and Esperanto (using the X-system), although there cannot
+    be any accent in the field names, so "título" has to be "titulo" in
+    order to work properly.
 
-    There may be accents in field values (UTF-8 by default) but not in
-    field names.
+    There may be diacritics in field values (UTF-8 by default) but not
+    in field names.
 
     :copyright: (c) 2012-2020, J. A. Corbal
     :license: MIT
 """
 from dateutil.parser import parse
 import datetime
-import markdown# only for summary in safe mode
+import markdown
 import re
 
 
 class Meta:
-    """Meta information retriver.
+    """Meta information retriever.
 
     .. todo: Use a more Pythonic code
     """
@@ -42,11 +43,12 @@ class Meta:
         :return: Category field
         :rtype: str
         """
-        category = self.meta.get('category') or self.meta.get('categoria')
+        category = self.meta.get('category') or \
+                   self.meta.get('categoria') or self.meta.get('kategorio')
         return ' '.join(category) if category else default_category
 
 
-    def author(self):
+    def author(self, default_author='Nobody'):
         """Gets the author as a string from post meta information.
 
         :return: Author field
@@ -54,8 +56,9 @@ class Meta:
         """
         authors = self.meta.get('authors') or self.meta.get('author') or \
                   self.meta.get('autores') or self.meta.get('autors') or \
-                  self.meta.get('autor')
-        return ', '.join(authors) if authors else ''
+                  self.meta.get('autor') or self.meta.get('autoro') or \
+                  self.meta.get('auxtoro')
+        return ', '.join(authors) if authors else default_author
 
 
     def email(self):
@@ -67,11 +70,12 @@ class Meta:
         emails = self.meta.get('email') or self.meta.get('e-mail') or \
                  self.meta.get('correo electronico') or \
                  self.meta.get('correo') or self.meta.get('correu') or \
-                 self.meta.get('e-correo')
+                 self.meta.get('e-correo') or \
+                 self.meta.get('retposto') or self.meta.get('retposxto')
         return ', '.join(emails) if emails else ''
 
 
-    def language(self):
+    def language(self, default_language="en"):
         """Gets the author's email as a string from post meta information.
 
         :return: Language field
@@ -79,8 +83,8 @@ class Meta:
         """
         language = self.meta.get('language') or self.meta.get('idioma') or \
                    self.meta.get('lengua') or self.meta.get('lingua') or \
-                   self.meta.get('llengua')
-        return language if language else 'en'
+                   self.meta.get('llengua') or self.meta.get('lingvo')
+        return language if language else default_language
 
 
     def title(self):
@@ -91,10 +95,10 @@ class Meta:
         """
         title = self.meta.get('title') or self.meta.get('titulo')  or \
                 self.meta.get('entry') or self.meta.get('entrada') or \
-                self.meta.get('titol') or self.meta.get('post')
+                self.meta.get('titol') or self.meta.get('post') or \
+                self.meta.get('titolo')
         #return ''.join(title) if title else ''
-        fmttitle = markdown.markdown(' '.join(title) if title else '',
-                safe_mode=False) #use this carefully
+        fmttitle = markdown.markdown(' '.join(title) if title else '')
         return re.sub(r'</*(p|br)[^>]*?>', '', fmttitle)
 
 
@@ -106,8 +110,7 @@ class Meta:
         """
         summary = self.meta.get('summary') or self.meta.get('resumo') or \
                   self.meta.get('resumen') or self.meta.get('resum')
-        fmtsummary = markdown.markdown(' '.join(summary) if summary else '',
-                safe_mode=False) #use this carefully
+        fmtsummary = markdown.markdown(' '.join(summary) if summary else '')
         return re.sub(r'</*(p|br)[^>]*?>', '', fmtsummary)
 
 
@@ -117,12 +120,16 @@ class Meta:
         :return: Copyright field
         :rtype: str
         """
-        copyright = self.meta.get('copyright') or self.meta.get('license') or \
-                    self.meta.get('licencia') or self.meta.get('licenza') or \
-                    self.meta.get('llicencia') or self.meta.get('(c)')
+        copyright = self.meta.get('copyright') or \
+                    self.meta.get('license')   or \
+                    self.meta.get('licencia')  or \
+                    self.meta.get('licenza')   or \
+                    self.meta.get('llicencia') or \
+                    self.meta.get('permesilo') or \
+                    self.meta.get('kopirajto') or \
+                    self.meta.get('(c)')
         fmtcopyright = markdown.markdown(' '.join(copyright) if copyright \
-                                                             else '',
-                safe_mode=False) #use this carefully
+                                                             else '')
         return re.sub(r'</*(p|br)[^>]*?>', '', fmtcopyright)
 
 
@@ -133,7 +140,7 @@ class Meta:
         :rtype: datetime
         """
         date = self.meta.get('date') or self.meta.get('data') or \
-               self.meta.get('fecha')
+               self.meta.get('fecha') or self.meta.get('dato')
         return parse(''.join(date)) if date else ''
 
 
@@ -157,7 +164,9 @@ class Meta:
         """
         up_date = self.meta.get('updated') or \
                         self.meta.get('actualizado') or \
-                        self.meta.get('actualitzat')
+                        self.meta.get('actualitzat') or \
+                        self.meta.get('gisdatigita') or \
+                        self.meta.get('gxisdatigita')
         return parse(''.join(up_date)) if up_date else ''
 
 
@@ -181,10 +190,12 @@ class Meta:
         """
         comments = self.meta.get('comments')    or \
                    self.meta.get('comentarios') or \
-                   self.meta.get('comentaris')  or ['']
-        com_bool = False if comments[0].lower() == "no" or \
-                            comments[0].lower() == "non"  or \
-                            comments[0].lower() == "não"    \
+                   self.meta.get('comentaris')  or \
+                   self.meta.get('komentoj') or ['']
+        com_bool = False if comments[0].lower() == "no"  or \
+                            comments[0].lower() == "non" or \
+                            comments[0].lower() == "não" or \
+                            comments[0].lower() == "ne"     \
                          else True
         return com_bool
 
@@ -201,7 +212,8 @@ class Meta:
         piv_bool = True if private[0].lower() == "yes" or \
                            private[0].lower() == "si"  or \
                            private[0].lower() == "sí"  or \
-                           private[0].lower() == "sim"    \
+                           private[0].lower() == "sim" or \
+                           private[0].lower() == "jes"    \
                         else False
         return piv_bool
 
@@ -212,8 +224,10 @@ class Meta:
         :return: List of tags
         :rtype: list
         """
-        tag_list = self.meta.get('tags') or self.meta.get('etiquetas') or \
-                   self.meta.get('etiquetes') or ['']
+        tag_list = self.meta.get('tags') or self.meta.get('labels') or \
+                   self.meta.get('etiquetas') or \
+                   self.meta.get('etiquetes') or \
+                   self.meta.get('etikedoj') or ['']
         tag_list = [x.strip() for x in tag_list[0].split(',') if x.strip()]
         return tag_list if tag_list else []
 
