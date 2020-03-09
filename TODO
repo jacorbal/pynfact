@@ -12,7 +12,6 @@ Code
   * In `builder.py`:
     * Remove redundant code using a universal method for gathering posts
     * Check RSS generation, and do it without changing locale
-    * Too much params. in the constructor
     * Modularize: classes within classes?
 
   * In `mulang.py`:

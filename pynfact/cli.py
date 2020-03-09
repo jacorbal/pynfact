@@ -96,11 +96,12 @@ def main():
 
         # Prepare builder
         template_values = { 'blog': {
-            'lang': site_config['wlocale']['language'],
-            'encoding': site_config['wlocale']['encoding'],
-            'site_name' : site_config['info']['site_name'],
             'author': site_config['info']['author'],
-            'base_uri': site_config['uri']['base'] } }
+            'base_uri': site_config['uri']['base'],
+            'encoding': site_config['wlocale']['encoding'],
+            'lang': site_config['wlocale']['language'],
+            'site_name': site_config['info']['site_name'],
+        } }
 
         # Build
         b = Builder(site_config, template_values,

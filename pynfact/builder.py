@@ -86,8 +86,7 @@ class Builder:
     def __del__(self):
         """Destructor."""
         # Restores locale
-        #return locale.setlocale(locale.LC_ALL, self.old_locale)
-        pass
+        return locale.setlocale(locale.LC_ALL, self.old_locale)
 
 
     def render_template(self, template, output_data, values):
