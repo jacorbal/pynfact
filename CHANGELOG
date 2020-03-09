@@ -1,5 +1,5 @@
-Py'nFact CHANGELOG
-==================
+PynFact CHANGELOG
+=================
 
   - 2020-03-09: Esperanto tags, removed deprecated `safe_mode`, & bugs (0.3.6)
   - 2020-03-09: Builder class constructor simplified: config. array (0.3.5)

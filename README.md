@@ -1,10 +1,10 @@
-Py'nFact
-========
+PynFact
+=======
 
   * **Description:** A blog-oriented static website generator.
-  * **Current version:** 0.3.6 (2020-03-09)
+  * **Current version:** 0.4.0 (2020-03-10)
 
-![Py'nFact Logo][pynfact_logo]
+![PynFact Logo][pynfact_logo]
 
 Features
 --------
@@ -21,13 +21,15 @@ Requirements
   * **Python 3**
   * **Markdown**: Python implementation of Markdown
   * **Unidecode**: ASCII transliterations of Unicode text
-  * **feedgen**: Feed Generator (ATOM, RSS, Podcasts)
+  * **feedgen**: Feed Generator (Atom, RSS, Podcasts)
   * **Jinja2**: A small but fast and easy to use stand-alone template
    engine written in pure Python
 
 
 Installation
 ------------
+
+In the future, this process will be more automatic and simpler:
 
   1. Go to the downloaded source, and then to the `pynfact` directory
   2. Type: `$ python3 pynfact init myblog` (or any name you want for your blog)
@@ -38,30 +40,41 @@ Installation
 You can specify any port in the `Makefile`, and you can move the folder
 `myblog` to any place in your system.
 
-In the future the process will be more automatic.
+
+Last changes
+------------
+
+  * Builder class constructor simplified, now takes a configuration
+    dictionary, sorted semantically
+  * Added Esperanto support for tags (not yet the `gettext`
+    translation)
+  * Using `feedgen` instead of `pyatom` to generate RSS/Atom syndication
+    feeds
+
 
 Why this name?
 --------------
 
 Granted it will be used on the "web", the word "log" in Latin may be
-translated as *INdicem FACTorum*, hence *InFact* or **'nFact** to be
-more easily pronounceable when prepending the prefix *py-*.
+translated as *INdicem FACTorum*, hence *InFact* or **-nFact** to be
+more easily pronounceable when prepending the prefix *py-*, an indicator
+of the programming language where it has been developed.
 
 Also, *pyblog*, *pyblic*, *pyweblog* and many other cool names were
-taken either in GitHub or Google Code.
+taken. `:(`
 
 
-Notes
------
+Bugs
+----
 
-This project is in development, so there are some bugs that need to be
-fixed and it needs to be deployed as a package.
+This project is still in development, so there are probably a lot of
+bugs that need to be fixed and it needs to be deployed as a package.
 
 
 License
 -------
 
-*Py'nFact* is distributed under the MIT license.
+*PynFact* is distributed under the MIT license.
 More information in `LICENSE` file.
 
 (c) 2012-2020, J. A. Corbal.
