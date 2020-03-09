@@ -25,7 +25,7 @@ except ImportError:
 
 
 def main():
-    default_post_extension = '.md'  # .mkdn, .markdown,...
+    default_post_ext = '.md'  # .mkdn, .markdown,...
 
     if len(sys.argv) >= 2:
         action = sys.argv[1]
@@ -59,42 +59,52 @@ def main():
         config = Yamler(config_file)
 
         # Get config
-        author = config.retrieve('author', "Nobody")
-        author_email = config.retrieve('author_email', "")
-        base_uri = config.retrieve('base_uri', '').strip('/')
-        canonical_uri = config.retrieve('canonical_uri').rstrip('/')
-        comments = config.retrieve('comments').lower() == "yes"
-        datefmt_long = config.retrieve('datefmt_long', '%c')
-        datefmt_mini  = config.retrieve('datefmt_mini', '%Y-%m-%d')
-        datefmt_short = config.retrieve('datefmt_short', '%Y-%m-%d')
-        default_category = config.retrieve('default_category', "Miscellaneous")
-        encoding = config.retrieve('encoding', 'utf-8')
-        extra_dirs = config.retrieve('extra_dirs')
-        feed_format = config.retrieve('feed_format')
-        locale = config.retrieve('locale', 'en_US.UTF-8')
-        max_entries = config.retrieve('max_entries', 10)
-        site_copyright = config.retrieve('site_copyright', '')
-        site_description = config.retrieve('site_description')
-        site_language = config.retrieve('site_language', 'en')
-        site_name = config.retrieve('site_name', author)
+        site_config = {
+            'uri': {
+                'base': config.retrieve('base_uri', '').strip('/'),
+                'canonical': config.retrieve('canonical_uri', '').rstrip('/'),
+            },
+            'wlocale': {
+                'encoding': config.retrieve('encoding', 'utf-8'),
+                'locale': config.retrieve('locale', 'en_US.UTF-8'),
+                'language': config.retrieve('site_language', 'en'),
+            },
+            'date_format': {
+                'entry': config.retrieve('datefmt_long', "%c"),
+                'home': config.retrieve('datefmt_short', "%b %_d, %Y"),
+                'list': config.retrieve('datefmt_mini', "%Y-%m-%d"),
+            },
+            'info': {
+                'author': config.retrieve('author', "Nameless"),
+                'email': config.retrieve('author_email', ''),
+                'copyright': config.retrieve('site_copyright'),
+                'site_name': config.retrieve('site_name', "My Blog"),
+                'site_description': config.retrieve('site_description'),
+            },
+            'presentation': {
+                'comments': config.retrieve('comments').lower() == "yes",
+                'default_category':
+                    config.retrieve('default_category', "Miscellaneous"),
+                'feed_format': config.retrieve('feed_format', "atom"),
+                'max_entries': config.retrieve('max_entries', 10),
+            },
+            'dirs': {
+                'deploy': "_build",
+                'extra': config.retrieve('extra_dirs')
+            }
+        }
 
         # Prepare builder
-        template_values = { 'blog': { 'lang': site_language,
-            'encoding': encoding, 'site_name' : site_name,
-            'base_uri': base_uri, 'author': author } }
-        deploy_dir = '_build'
+        template_values = { 'blog': {
+            'lang': site_config['wlocale']['language'],
+            'encoding': site_config['wlocale']['encoding'],
+            'site_name' : site_config['info']['site_name'],
+            'author': site_config['info']['author'],
+            'base_uri': site_config['uri']['base'] } }
 
         # Build
-        b = Builder(canonical_uri, base_uri, deploy_dir,
-                template_values, locale, encoding, max_entries,
-                datefmt_long, datefmt_short, datefmt_mini, extra_dirs,
-                site_name=site_name, site_description=site_description,
-                site_author=author, site_author_email=author_email,
-                site_comments=comments, site_language=site_language,
-                site_copyright=site_copyright,
-                default_category=default_category,
-                feed_format=feed_format,
-                infile_ext=default_post_extension, verbose=True)
+        b = Builder(site_config, template_values,
+                infile_ext=default_post_ext, verbose=True)
         b.gen_site()
 
 

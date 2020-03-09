@@ -36,67 +36,33 @@ class Builder:
     .. todo:: Manage better with timezones. Make sure if there is no
               timezone the default is always UTC, for posts info, and
               both feeds pub. dates.
-
-    .. todo:: Fix the way the variables are passed on the init. Grouping
-              by lists or dictionaries could simplify much the
-              constructor.
-
-              i.e.:
-
-              uri [ 'canonical': 'http://where.my_site.is/', 'base': '' ]
-              wlocale = [ 'locale': "utf-8", 'encoding': "en_US" ]
-              date_fmts = [ 'long': "%c", 'short': '%Y-%M-%D', 'mini': "%B, %Y",
-              site = [ 'name': "My Blog", 'description': "Nice description.",
-                       'author': "Me", 'max_entries': "10", 'feed_fmt': "atom"]
-
-              def __init__(self, uri, wlocale, site, date_fmts,
-                           template_values, extra_dirs, infile_ext,
-                           verbose=True):
     """
 
-    def __init__(self, canonical_uri, base_uri='', deploy_dir='_build',
-            template_values=dict(), wlocale='en_US.UTF-8',
-            encoding='utf-8', max_entries=10, date_format_entries='%c',
-            date_format_list='%Y-%m-%d', date_format_home='%Y-%m-%d',
-            extra_dirs=None, site_name='', site_description='Feed',
-            site_author='', site_author_email='', site_language='en',
-            site_copyright='', site_comments=True,
-            default_category='Miscellaneous', feed_format='atom',
+    def __init__(self, site_config, template_values=dict(),
             infile_ext='.md', verbose=True):
         """Constructor.
 
+        :param config: Site configuration as multidimensional dictionary
+        :type config: dict
         :param template_values: Common values in all templates
         :type template_values: dict
-        :param wlocale: Working locale; locale of the generated site
-        :type wlocale: str
+        :param infile_ext: Posts files extension
+        :type infile_ext: str
+        :param vebose: Print progress in verbose mode
+        :type verbose: bool
         """
-        self.base_uri = base_uri
-        self.canonical_uri = canonical_uri
-        self.date_format_entries = date_format_entries
-        self.date_format_home = date_format_home
-        self.date_format_list = date_format_list
-        self.default_category = default_category
-        self.deploy_dir = os.path.join(deploy_dir, base_uri)
-        self.encoding = encoding
-        self.extra_dirs = extra_dirs
-        self.feed_format = feed_format
-        self.infile_ext = infile_ext.lower()
-        self.max_entries = max_entries
-        self.site_author_email = site_author_email
-        self.site_author = site_author
-        self.site_copyright = site_copyright
-        self.site_comments = site_comments
-        self.site_description = site_description
-        self.site_language = site_language
-        self.site_name = site_name
+        self.site_config = site_config
         self.template_values = template_values
+        self.infile_ext = infile_ext.lower()
         self.verbose = verbose
-        self.wlocale = wlocale
+        self.site_config['dirs']['deploy'] = \
+            os.path.join(self.site_config['dirs']['deploy'],
+                self.site_config['uri']['base'])
 
         # Set locale for the site.
         self.old_locale = locale.getlocale()
         self.current_locale = locale.setlocale(locale.LC_ALL,
-                self.wlocale)
+                self.site_config['wlocale']['locale'])
 
         # Constants-like (I don't like this approach)
         #source dirs.
@@ -120,7 +86,8 @@ class Builder:
     def __del__(self):
         """Destructor."""
         # Restores locale
-        return locale.setlocale(locale.LC_ALL, self.old_locale)
+        #return locale.setlocale(locale.LC_ALL, self.old_locale)
+        pass
 
 
     def render_template(self, template, output_data, values):
@@ -147,13 +114,15 @@ class Builder:
         # Update only those files that are different in content
         # comparing with a cache file
         with open(output_data + '~', mode="w",
-                  encoding=self.encoding) as cache_file:
+                encoding=self.site_config['wlocale']['encoding']) \
+                         as cache_file:
             cache_file.write(html)
 
         if not os.path.exists(output_data) or \
            not filecmp.cmp(output_data + '~', output_data):
             with open(output_data, mode="w",
-                      encoding=self.encoding) as output_file:
+                    encoding=self.site_config['wlocale']['encoding']) \
+                             as output_file:
                 output_file.write(html)
                 if self.verbose:
                     print("Updated: ", textwrap.shorten(output_data, 70))
@@ -168,8 +137,9 @@ class Builder:
     def entry_link_prefix(self, entry):
         """Compute entrie final path."""
         meta = Meta(Mulang(os.path.join(self.entries_dir, entry),
-            self.encoding).metadata())
-        category = meta.category(self.default_category)
+                    self.site_config['wlocale']['encoding']).metadata())
+        category = \
+            meta.category(self.site_config['presentation']['default_category'])
         date = meta.date('%Y-%m-%d')
         date_arr = date.split('-')
         path = os.path.join(str(self.entries_dir),
@@ -191,7 +161,7 @@ class Builder:
         :rtype: str
         """
         inpath = os.path.join(self.entries_dir, infile)
-        ml = Mulang(inpath, self.encoding)
+        ml = Mulang(inpath, self.site_config['wlocale']['encoding'])
         meta = Meta(ml.metadata())
         content_html = ml.html(verbose=self.verbose)
 
@@ -207,16 +177,21 @@ class Builder:
         values = self.template_values.copy()
         values['entry'] = {  # append
                'author': meta.author() if meta.author() \
-                                       else self.site_author,
+                                       else self.site_config['info']['author'],
                'title': meta.title(),
                'raw_title': strip_html_tags(meta.title()),
                'private': meta.private(),
                'comments': meta.comments(),
-               'site_comments': self.site_comments,
-               'category': meta.category(self.default_category),
+               'site_comments': self.site_config['presentation']['comments'],
+               'category': meta.category(
+                       self.site_config['presentation']['default_category']),
                'category_uri': \
-                   link_to(slugify(strip_html_tags(meta.category(self.default_category))),
-                           os.path.join('/', self.base_uri, self.categories_dir),
+                   link_to(slugify(
+                           strip_html_tags(
+                               meta.category(
+                                   self.site_config['presentation']['default_category']))),
+                           os.path.join('/', self.site_config['uri']['base'],
+                               self.categories_dir),
                            makedirs=False, justdir=True),
                'date': meta.date(date_format),
                'datehtml': datehtml,
@@ -230,7 +205,7 @@ class Builder:
                       'up_datehtml': up_datehtml })
 
         outfile = link_to(slugify(strip_html_tags(meta.title())),
-                os.path.join(self.deploy_dir,
+                os.path.join(self.site_config['dirs']['deploy'],
                     self.entry_link_prefix(infile)))
         return self.render_template('entry.html.j2', outfile, values)
 
@@ -259,20 +234,26 @@ class Builder:
         for filename in os.listdir(self.entries_dir):
             if os.path.splitext(filename)[1] == self.infile_ext:
                 inpath = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(inpath, self.encoding).metadata())
+                meta = Meta(Mulang(inpath,
+                            self.site_config['wlocale']['encoding']).metadata())
 
                 private = meta.private()
                 title = meta.title()
                 summary = meta.summary()
-                category = meta.category(self.default_category)
+                category = meta.category(
+                        self.site_config['presentation']['default_category'])
                 category_uri = \
-                    link_to(slugify(strip_html_tags(meta.category(self.default_category))),
-                        os.path.join('/', self.base_uri, self.categories_dir),
+                    link_to(slugify(
+                            strip_html_tags(
+                                meta.category(
+                                    self.site_config['presentation']['default_category']))),
+                        os.path.join('/', self.site_config['uri']['base'],
+                            self.categories_dir),
                         makedirs=False, justdir=True)
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d %H:%M:%S')
                 uri = link_to(slugify(strip_html_tags(title)),
-                        os.path.join('/', self.base_uri,
+                        os.path.join('/', self.site_config['uri']['base'],
                             self.entry_link_prefix(filename)),
                         makedirs=False, justdir=True)
 
@@ -295,7 +276,7 @@ class Builder:
         # FIXME :: Merge this scenario with the following loop
         #Generate 'index.html' even when there are no posts
         if total_entries == 0:
-            outfile = link_to('', self.deploy_dir)
+            outfile = link_to('', self.site_config['dirs']['deploy'])
             self.render_template('entries.html.j2', outfile, values)
 
         # Home page (and subsequent ones)
@@ -304,15 +285,16 @@ class Builder:
             max_page = cur_page * max_entries_per_page
 
             values['entries'] = entries[min_page:max_page]
-            values['cur_page'], values['total_pages'] = cur_page, total_pages
+            values['cur_page'], values['total_pages'] = \
+                cur_page, total_pages
 
             if cur_page == 1:
                 # the home page, the "index.html" of the site
-                outfile = link_to('', self.deploy_dir)
+                outfile = link_to('', self.site_config['dirs']['deploy'])
             else:
                 # subsequent pages other that the first
                 outfile = link_to(str(cur_page),
-                        os.path.join(self.deploy_dir,
+                        os.path.join(self.site_config['dirs']['deploy'],
                             self.home_cont_dir))
             self.render_template('entries.html.j2', outfile, values)
             values['entries'] = {} # reset the entries dict.
@@ -328,12 +310,14 @@ class Builder:
         for filename in os.listdir(self.entries_dir):
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post, self.encoding).metadata())
+                meta = Meta(Mulang(post,
+                            self.site_config['wlocale']['encoding']).metadata())
 
                 private = meta.private()
                 title = meta.title()
                 #summary = meta.summary()
-                category = meta.category(self.default_category)
+                category = meta.category(
+                        self.site_config['presentation']['default_category'])
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d')
                 uri = link_to(slugify(strip_html_tags(title)),
@@ -363,7 +347,7 @@ class Builder:
 
         values = self.template_values.copy()
         values['archive'] = archive
-        outfile = link_to('', os.path.join(self.deploy_dir,
+        outfile = link_to('', os.path.join(self.site_config['dirs']['deploy'],
                     self.archive_dir))
         return self.render_template('archive.html.j2', outfile, values)
 
@@ -378,12 +362,14 @@ class Builder:
         for filename in os.listdir(self.entries_dir):
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post, self.encoding).metadata())
+                meta = Meta(Mulang(post,
+                            self.site_config['wlocale']['encoding']).metadata())
 
                 private = meta.private()
                 title = meta.title()
                 #summary = meta.summary()
-                category = meta.category(self.default_category)
+                category = meta.category(
+                        self.site_config['presentation']['default_category'])
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d')
                 comments = meta.comments()
@@ -407,7 +393,7 @@ class Builder:
 
         values = self.template_values.copy()
         values['archive'] = archive
-        outfile = link_to('', os.path.join(self.deploy_dir,
+        outfile = link_to('', os.path.join(self.site_config['dirs']['deploy'],
                     self.categories_dir))
         return self.render_template('catlist.html.j2', outfile, values)
 
@@ -422,12 +408,14 @@ class Builder:
         for filename in os.listdir(self.entries_dir):
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post, self.encoding).metadata())
+                meta = Meta(Mulang(post,
+                            self.site_config['wlocale']['encoding']).metadata())
 
                 private = meta.private()
                 title = meta.title()
                 #summary = meta.summary()
-                category = meta.category(self.default_category)
+                category = meta.category(
+                        self.site_config['presentation']['default_category'])
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d')
                 uri = link_to(slugify(strip_html_tags(title)),
@@ -452,7 +440,8 @@ class Builder:
             #sort entries
             values['entries'] = sorted(values['entries'], key=lambda k:
                     k['date_idx'], reverse=True)
-            outfile = link_to(category, os.path.join(self.deploy_dir,
+            outfile = link_to(category,
+                    os.path.join(self.site_config['dirs']['deploy'],
                         self.categories_dir))
             self.render_template('cat.html.j2', outfile, values)
 
@@ -467,12 +456,14 @@ class Builder:
         for filename in os.listdir(self.entries_dir):
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post, self.encoding).metadata())
+                meta = Meta(Mulang(post,
+                            self.site_config['wlocale']['encoding']).metadata())
 
                 private = meta.private()
                 title = meta.title()
                 #summary = meta.summary()
-                category = meta.category(self.default_category)
+                category = meta.category(
+                        self.site_config['presentation']['default_category'])
                 tag_list = meta.tag_list()
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d')
@@ -498,7 +489,8 @@ class Builder:
             #sort entries
             values['entries'] = sorted(values['entries'], key=lambda k:
                     k['date_idx'], reverse=True)
-            outfile = link_to(tag, os.path.join(self.deploy_dir,
+            outfile = link_to(tag,
+                    os.path.join(self.site_config['dirs']['deploy'],
                         self.tags_dir))
             self.render_template('tag.html.j2', outfile, values)
 
@@ -509,7 +501,8 @@ class Builder:
         for filename in os.listdir(self.entries_dir):
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post, self.encoding).metadata())
+                meta = Meta(Mulang(post,
+                            self.site_config['wlocale']['encoding']).metadata())
                 private = meta.private()
                 title = meta.title()
                 tag_list = meta.tag_list()
@@ -537,7 +530,9 @@ class Builder:
                         else tagcloud_seq[tagfreq - 1])
                 values['tags'].append({ tagname: mult })
 
-        outfile = link_to('', os.path.join(self.deploy_dir, self.tags_dir))
+        outfile = link_to('',
+                os.path.join(self.site_config['dirs']['deploy'],
+                    self.tags_dir))
         self.render_template('tagcloud.html.j2', outfile, values)
 
 
@@ -550,7 +545,7 @@ class Builder:
         :rtype: str
         """
         inpath = os.path.join(self.pages_dir, infile)
-        ml = Mulang(inpath, self.encoding)
+        ml = Mulang(inpath, self.site_config['wlocale']['encoding'])
         meta = Meta(ml.metadata())
         content_html = ml.html(verbose=self.verbose)
         values = self.template_values.copy()
@@ -559,8 +554,9 @@ class Builder:
                'raw_title': strip_html_tags(meta.title()),
                'content': content_html }
 
-        outfile = link_to(infile, os.path.join(self.deploy_dir,
-            self.pages_dir))
+        outfile = link_to(infile,
+                os.path.join(self.site_config['dirs']['deploy'],
+                    self.pages_dir))
         return self.render_template('page.html.j2', outfile, values)
 
 
@@ -576,31 +572,40 @@ class Builder:
         """
         feed = FeedGenerator()
         #feed.logo()
-        feed.id(self.site_name if self.site_name \
-                               else self.canonical_uri)
-        feed.title(self.site_name if self.site_name \
-                                  else self.canonical_uri)
-        feed.subtitle(self.site_description if self.site_description \
-                                            else 'Feed')
-        feed.author({'name':self.site_author, 'email':self.site_author_email})
-        feed.description(self.site_description)
-        feed.link(href=os.path.join(self.canonical_uri, self.base_uri),
-            rel='alternate')
-        feed.link(href=os.path.join(self.canonical_uri, self.base_uri,
-                    outfile), rel='self')
-        feed.language(self.site_language)
-        feed.copyright(self.site_copyright)
+        feed.id(self.site_config['info']['site_name'] \
+                if self.site_config['info']['site_name'] \
+                else self.site_config['uri']['canonical'])
+        feed.title(self.site_config['info']['site_name'] \
+                if self.site_config['info']['site_name'] \
+                else self.site_config['uri']['canonical'])
+        feed.subtitle(self.site_config['info']['site_description'] \
+                if self.site_config['info']['site_description'] \
+                else 'Feed')
+        feed.author({'name':self.site_config['info']['author'],
+                     'email':self.site_config['info']['email']})
+        feed.description(self.site_config['info']['site_description'])
+        feed.link(href=os.path.join(self.site_config['uri']['canonical'],
+                                    self.site_config['uri']['base']),
+                                    rel='alternate')
+        feed.link(href=os.path.join(self.site_config['uri']['canonical'],
+                                    self.site_config['uri']['base'],
+                                    outfile), rel='self')
+        feed.language(self.site_config['wlocale']['language'])
+        feed.copyright(self.site_config['info']['copyright'])
 
         entries = list()
         for filename in os.listdir(self.entries_dir):
             if os.path.splitext(filename)[1] == self.infile_ext:
                 infile = os.path.join(self.entries_dir, filename)
-                ml = Mulang(infile, self.encoding)
+                ml = Mulang(infile,
+                        self.site_config['wlocale']['encoding'])
                 meta = Meta(ml.metadata())
-                author = self.site_name if not meta.author() \
-                                        else meta.author()
-                email = self.site_author_email if not meta.email() \
-                                               else meta.email()
+                author = self.site_config['info']['site_name'] \
+                        if not meta.author() \
+                        else meta.author()
+                email = self.site_config['info']['email'] \
+                        if not meta.email() \
+                        else meta.email()
                 content_html = ml.html(verbose=False)
                 private = meta.private()
                 title = meta.title()
@@ -610,8 +615,8 @@ class Builder:
                 timezone = 'UTC' if not meta.date('%Z') else meta.date('%Z')
                 date_iso8601 = meta.date('%Y-%m-%dT%H:%M') + timezone
                 up_date_iso8601 = meta.up_date('%Y-%m-%dT%H:%M') + \
-                                      timezone if meta.up_date('%Y-%m-%dT%H:%M') \
-                                               else None
+                                  timezone if meta.up_date('%Y-%m-%dT%H:%M') \
+                                           else None
                 pub_date = date_iso8601
                 up_date = up_date_iso8601
 
@@ -619,8 +624,8 @@ class Builder:
                 uri = link_to(slugify(title),
                         self.entry_link_prefix(filename),
                         makedirs=False, justdir=True)
-                full_uri = os.path.join(self.canonical_uri,
-                        self.base_uri, uri)
+                full_uri = os.path.join(self.site_config['uri']['canonical'],
+                        self.site_config['uri']['base'], uri)
 
                 if not private:
                     val = { 'title': strip_html_tags(title),
@@ -649,15 +654,18 @@ class Builder:
             fnew.link(href=entry['full_uri'], rel='alternate')
 
         if feed_format == "rss":
-            feed.rss_file(os.path.join(self.deploy_dir, outfile))
+            feed.rss_file(os.path.join(self.site_config['dirs']['deploy'],
+                        outfile))
         else:
-            feed.atom_file(os.path.join(self.deploy_dir, outfile))
+            feed.atom_file(os.path.join(self.site_config['dirs']['deploy'],
+                        outfile))
 
 
     def gen_static(self):
         """Generates (copies) static directory."""
         src = self.static_dir
-        dst = os.path.join(self.deploy_dir, self.static_dir)
+        dst = os.path.join(self.site_config['dirs']['deploy'],
+                self.static_dir)
         if os.path.exists(src):
             distutils.dir_util.copy_tree(src, dst, update=True,
                                          verbose=self.verbose)
@@ -665,10 +673,11 @@ class Builder:
 
     def gen_extra_dirs(self):
         """Generates extra directories if they exist."""
-        if self.extra_dirs:
-            for extra_dir in self.extra_dirs:
+        if self.site_config['dirs']['extra']:
+            for extra_dir in self.site_config['dirs']['extra']:
                 src = extra_dir
-                dst = os.path.join(self.deploy_dir, extra_dir)
+                dst = os.path.join(self.site_config['dirs']['deploy'],
+                        extra_dir)
                 if os.path.exists(src):
                     distutils.dir_util.copy_tree(src, dst, update=True,
                                                  verbose=self.verbose)
@@ -677,15 +686,16 @@ class Builder:
     def gen_site(self):
         """Generate all content!.
         """
-        self.gen_entries(self.date_format_entries)
+        self.gen_entries(self.site_config['date_format']['entry'])
         self.gen_pages()
-        self.gen_archive(self.date_format_list)
-        self.gen_categories(self.date_format_list)
-        self.gen_category_list(self.date_format_list)
-        self.gen_tags(self.date_format_list)
+        self.gen_archive(self.site_config['date_format']['list'])
+        self.gen_categories(self.site_config['date_format']['list'])
+        self.gen_category_list(self.site_config['date_format']['list'])
+        self.gen_tags(self.site_config['date_format']['list'])
         self.gen_tag_cloud()
-        self.gen_home(self.max_entries, self.date_format_home)
-        self.gen_feed(self.feed_format)
+        self.gen_home(self.site_config['presentation']['max_entries'],
+                      self.site_config['date_format']['home'])
+        self.gen_feed(self.site_config['presentation']['feed_format'])
         self.gen_static()
         self.gen_extra_dirs()
 
