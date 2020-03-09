@@ -7,7 +7,7 @@
     The Command line interface.
 
     :copyright: (c) 2012-2020, J. A. Corbal
-    :license: 3-clause license ("Modified BSD License")
+    :license: MIT
 """
 from builder import Builder#
 from server import Server#

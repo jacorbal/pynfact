@@ -6,7 +6,7 @@
     Simple server for testing purposes.
 
     :copyright: (c) 2012-2020, J. A. Corbal
-    :license: 3-clause license ("Modified BSD License")
+    :license: MIT
 """
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import os

@@ -12,3 +12,9 @@
     :license: MIT
 """
 
+from cli import main
+
+## Main entry
+if __name__ == "__main__":
+    main()
+

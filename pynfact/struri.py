@@ -6,7 +6,7 @@
     URI strings manipulation functions.
 
     :copyright: (c) 2012-2020, J. A. Corbal
-    :license: 3-clause license ("Modified BSD License")
+    :license: MIT
 """
 import unidecode
 import re

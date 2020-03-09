@@ -10,7 +10,7 @@
     ``.md`` (but it may be specified in ``infile_ext`` argument).
 
     :copyright: (c) 2012-2020, J. A. Corbal
-    :license: 3-clause license ("Modified BSD License")
+    :license: MIT
 """
 from datetime import datetime
 from feedgen.feed import FeedGenerator

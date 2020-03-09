@@ -1,6 +1,6 @@
 /* vim:ft=css:fenc=utf-8:fdm=marker:
  *
- * Default style for Py'nFact static web generator, based on
+ * Default light style for Py'nFact static web generator, based on
  * A. Ronacher's personal blog style (BSD 3-cl.)
  *
  * Keywords: simple, minimalistic, light, one column, white, sans-serif
@@ -86,7 +86,7 @@ body, input, select, textarea {
 
 /* Private notice */
 .private {
-    color: #c03;
+    color: #36c;
     font-variant: small-caps;
     text-transform: lowercase;
 }
@@ -193,7 +193,7 @@ em.variable, span.variable {
 }
 
 span.highlight {
-    color: #c03;
+    color: #36c;
 }
 
 .unem {
@@ -262,7 +262,7 @@ em.variable, span.variable {
 }
 
 span.highlight {
-    color: #c03;
+    color: #36c;
 }
 
 .unem {
@@ -296,7 +296,7 @@ a.invisible {
 }
 
 a:hover {
-    color: #c03;
+    color: #36c;
 }
 
 /*a.external:after,*/
@@ -367,7 +367,7 @@ div.entry-overview div.no-summary {
 }
 
 div.entry-overview div.info span.date {
-    color: #c03;
+    color: #36c;
 }
 
 div.entry-overview div.info span.category {

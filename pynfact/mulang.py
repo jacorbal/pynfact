@@ -6,7 +6,7 @@
     Markdown translation to HTML and metadata "getter".
 
     :copyright: (c) 2012-2020, J. A. Corbal
-    :license: 3-clause license ("Modified BSD License")
+    :license: MIT
 """
 import markdown
 import textwrap
