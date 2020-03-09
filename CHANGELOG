@@ -1,7 +1,8 @@
 Py'nFact CHANGELOG
 ==================
 
-  - 2020-03-04: Enable/disable comments by option in config file
+  - 2020-03-09: Removed Javascript and added light/dark CSS styles (0.3.4)
+  - 2020-03-04: Enable/disable comments by option in config file (0.3.3)
   - 2020-03-03: Converted into git repository instead of merurial^[*]
   - 2020-03-02: Existing parsed files updated only if they are different (0.3.2)
   - 2020-03-01: Categories support again (0.3.1)
@@ -53,5 +54,5 @@ Hg simplified log^[*] (without changeset, author, etc.):
     summary:     Released as v. 0.2.0 and repository regenerated
 
 
-J. A. Corbal
+--J. A. Corbal
 

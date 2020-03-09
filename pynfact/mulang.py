@@ -30,9 +30,11 @@ class Mulang:
         self.input_data = input_data
         self.encoding = encoding
         self.md = markdown.Markdown(
-#               extensions=['extra', 'toc', 'codehilite', 'html_tidy', 'meta'],
                 extensions=['markdown.extensions.extra',
                             'markdown.extensions.toc',
+                            'markdown.extensions.abbr',
+                            'markdown.extensions.def_list',
+                            'markdown.extensions.footnotes',
                             'markdown.extensions.codehilite',
                             'markdown.extensions.meta'],
                 encoding=encoding,

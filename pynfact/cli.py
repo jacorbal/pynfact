@@ -41,7 +41,7 @@ def main():
         try:
             shutil.copytree(src, dst)
         except OSError as exc:
-            sys.stderr.write("Py'nFact: Tsk, tsk! Blog structure already exists.\n")
+            sys.stderr.write("Py'nFact: Blog structure already exists.\n")
 
     elif action == "help":
         print("  $ pynfact init [<site>]. Creates new empty site")
@@ -72,7 +72,7 @@ def main():
         extra_dirs = config.retrieve('extra_dirs')
         feed_format = config.retrieve('feed_format')
         locale = config.retrieve('locale', 'en_US.UTF-8')
-        max_entries = config.retrieve('max_entries', 1)
+        max_entries = config.retrieve('max_entries', 10)
         site_copyright = config.retrieve('site_copyright', '')
         site_description = config.retrieve('site_description')
         site_language = config.retrieve('site_language', 'en')
@@ -98,7 +98,7 @@ def main():
         b.gen_site()
 
 
-## MAIN?
+## Main entry
 if __name__ == "__main__":
     main()
 

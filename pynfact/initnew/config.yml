@@ -17,9 +17,9 @@ locale: "en_US.UTF-8"
 max_entries: 10
 default_category: "Miscellaneous"
 
-datefmt_long: "%c"
-datefmt_short: "%d-%b-%Y"
 datefmt_mini: "%F"
+datefmt_long: "%c"
+datefmt_short: "%b %_d, %Y"
 
 extra_dirs: ['media']
 ...

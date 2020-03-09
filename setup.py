@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(name='pynfact',
       packages=['pynfact'],
-      version='0.3.3',
+      version='0.3.4',
       author='J. A. Corbal',
       author_email='jacorbal@gmail.com',
       description='Blog-oriented static web generator',

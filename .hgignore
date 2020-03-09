@@ -6,4 +6,6 @@ _tmp_
 .*.sw?
 *.un~
 *.~
+.git
+.gitignore
 

@@ -1,26 +1,28 @@
 Py'nFact
 ========
 
-A blog-oriented static website generator.
+  * **Description:** A blog-oriented static website generator.
+  * **Current version:** 0.3.4 (2020-03-09)
 
 ![Py'nFact Logo][pynfact_logo]
 
-Features:
+Features
+--------
 
   * Input format: Markdown
   * Output format: HTML 5
   * Jinja2 templates
   * Locale support (`gettext`)
 
-Requirements:
+Requirements
+------------
 
-  * _Python 3_
-  * _Markdown_: Python implementation of Markdown
-  * _feedgen_: Feed Generator (ATOM, RSS, Podcasts)
-  * _Unidecode_: ASCII transliterations of Unicode text
-  * _Jinja2_: A small but fast and easy to use stand-alone template
-              engine written in pure python
-
+  * **Python 3**
+  * **Markdown**: Python implementation of Markdown
+  * **Unidecode**: ASCII transliterations of Unicode text
+  * **feedgen**: Feed Generator (ATOM, RSS, Podcasts)
+  * **Jinja2**: A small but fast and easy to use stand-alone template
+   engine written in pure Python
 
 Why this name?
 --------------
@@ -33,8 +35,8 @@ Also, *pyblog*, *pyblic*, *pyweblog* and many other cool names were
 taken either in GitHub or Google Code.
 
 
-First notes
------------
+Notes
+-----
 
 This project is in development, so there are some bugs that need to be
 fixed and it needs to be deployed as a package.
@@ -43,7 +45,7 @@ fixed and it needs to be deployed as a package.
 License
 -------
 
-*Py'nFact* is distributed under 3-Clause BSD (New BSD License).
+*Py'nFact* is distributed under the MIT license.
 More information in `LICENSE` file.
 
 (c) 2012-2020, J. A. Corbal.

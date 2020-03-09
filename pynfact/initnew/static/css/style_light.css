@@ -1,11 +1,13 @@
 /* vim:ft=css:fenc=utf-8:fdm=marker:
  *
- * Default style for PyBLIC static web generator, based on
+ * Default style for Py'nFact static web generator, based on
  * A. Ronacher's personal blog style (BSD 3-cl.)
  *
- * Keywords: simple, one column, light, minimalistic, white, soft, tagcloud
+ * Keywords: simple, minimalistic, light, one column, white, sans-serif
  *
- * J. A. Corbal, 2012-2020 <http://jacorbal.es> (blog)
+ * Author: J. A. Corbal, <http://jacorbal.es> (blog)
+ *
+ * 2012-2020
  */
 
 /* @import("reset.css"); */
@@ -60,11 +62,11 @@ body, input, select, textarea {
 
 /* Highlight references */
 :target {
-    background-color: #ffd;
+    background-color: #ffc;
 }
 
 /* Small caps. */
-.sc  { font-variant: small-caps; } /*color: #000 !important; }*/
+.sc  { font-variant: small-caps; }
 .lsc, .century, .chapter, .property, .acronym {
     font-variant: small-caps;
     text-transform: lowercase;
@@ -267,35 +269,6 @@ span.highlight {
     font-style: normal !important;
 }
 
-div.definition {
-    background-color: #f3f3f3;
-    border: 1px dotted #ccc;
-    display: block;
-    font-family: 'Merriweather', 'Gilda Display', 'Rosarivo', serif;
-    padding: 1em;
-    margin: 1em auto;
-    text-align: justify;
-}
-
-div.definition span.term {
-    font-style: italic;
-    font-weight: 300;
-}
-
-div.definition strong {
-    font-weight: 400;
-}
-
-div.definition ul li {
-    list-style-type: square;
-}
-
-h2 > div.definition,
-h3 > div.definition,
-h4 > div.definition {
-    margin-top: 0;
-}
-
 /*}}}*/
 
 
@@ -442,7 +415,7 @@ div.paginator .disabled {
 
 /* Headlines {{{*/
 h1, h2, h3, h4, h5, h6 {
-    color: #222;
+    color: #333;
  /* font-family: 'Open Sans Condensed', 'Open Sans', Helvetica, sans-serif; */
     font-family: 'Lato', 'Open Sans', Helvetica, Arial, sans-serif;
     font-weight: 300;
@@ -528,7 +501,7 @@ div#container > section.body  {
 }
 
 div#container > footer {
-    color: #555;
+    color: #666;
     font-size: 1em;
     text-align: center;
 }
@@ -554,7 +527,7 @@ section.entry h6 {
 /* Blockquotes, lists and other Margins and stuff {{{*/
 /* Two break lines is an context change, i.e. 'asterism' */
 section.entry div.line-block:before {
-    color: #222;
+    color: #333;
     content: '\2042'; /* asterism (⁂) */
     /* content: '* * *' */
     display: block;
@@ -647,12 +620,12 @@ pre, code, tt {
     font-size: 1.05em;
 }
 
-.underline { border-bottom: 1px solid #555; }
-.overline {  border-top:    1px solid #555; }
+.underline { border-bottom: 1px solid #666; }
+.overline {  border-top:    1px solid #666; }
 
 
 span.color-box {
-    border: 1px solid #444;
+    border: 1px solid #333;
     padding: 0 1px;
 }
 
@@ -701,14 +674,14 @@ div.flairs a:after {
 /* Tables {{{*/
 table {
     background-color: #fafafa;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-collapse: collapse;
     caption-side: bottom;
     font-size: 0.85em;
     margin: 0.5em auto;
 }
 td, th {
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     padding: 0.125em 0.750em;
 }
 
@@ -842,6 +815,14 @@ div.sfootnote a[href^="#sfnref"] {
     text-decoration: none;
 }
 
+/* FIXME/NOTE
+ * Fixes the bug of the double reference in the Python Markdown plugin,
+ * although it can make some backreferences invisible when not desired,
+ * in very few cases. */
+div.footnote a[href^="#fnref:"]{
+   display: none; 
+}
+
 div.footnote a:after,
 div.sfootnote a:after {
     content: '';
@@ -884,7 +865,7 @@ section.entry hr:after {
 */
 
 hr {
-    border-color: #555;
+    border-color: #333;
     border-width: 1px 0 0 0;
 }
 

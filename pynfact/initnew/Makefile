@@ -2,8 +2,12 @@
 #
 # Modify this file to your convenience
 
+SHELL = /bin/bash
+
 BIN = /usr/bin/env python3 ./pynfact/cli.py
 PORT = 4000 # test port when serving on local machine.
+
+.PHONY: build serve test
 
 
 all:

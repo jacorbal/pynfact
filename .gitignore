@@ -8,4 +8,5 @@ Session.vim
 _tmp_
 *.nosync
 .hgignore
+.hg
 

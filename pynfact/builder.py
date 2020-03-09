@@ -106,7 +106,7 @@ class Builder:
 
         #dest. dirs.
         self.home_cont_dir = 'page'        # home paginator
-        self.archive_dir = 'archive'
+        self.archive_dir = 'archive'       # archive list page
         self.categories_dir = 'categories' # one dir. per category
         self.tags_dir = 'tags'             # one dir. per tag
 
@@ -205,7 +205,7 @@ class Builder:
                                        else None
 
         values = self.template_values.copy()
-        values['entry'] = { #append
+        values['entry'] = {  # append
                'author': meta.author() if meta.author() \
                                        else self.site_author,
                'title': meta.title(),
@@ -346,7 +346,7 @@ class Builder:
                             'date_idx': date_idx, 'category': category}
                     d = datetime.strptime(meta.date('%Y-%m-%d'), '%Y-%m-%d')
                     idx_year  = d.strftime('%Y')
-                    idx_month = d.strftime('<%m> %B')#%m is to sort chronologically
+                    idx_month = d.strftime('<%m> %B')# %m to sort chronologically
                     if idx_year in archive:
                         if idx_month in archive[idx_year]:
                             archive[idx_year][idx_month].append(val)
@@ -554,7 +554,7 @@ class Builder:
         meta = Meta(ml.metadata())
         content_html = ml.html(verbose=self.verbose)
         values = self.template_values.copy()
-        values['page'] = { #append
+        values['page'] = {# append
                'title': meta.title(),
                'raw_title': strip_html_tags(meta.title()),
                'content': content_html }
@@ -663,8 +663,8 @@ class Builder:
                                          verbose=self.verbose)
 
 
-    def gen_media(self):
-        """Generates media directories if they exist."""
+    def gen_extra_dirs(self):
+        """Generates extra directories if they exist."""
         if self.extra_dirs:
             for extra_dir in self.extra_dirs:
                 src = extra_dir
@@ -687,5 +687,5 @@ class Builder:
         self.gen_home(self.max_entries, self.date_format_home)
         self.gen_feed(self.feed_format)
         self.gen_static()
-        self.gen_media()
+        self.gen_extra_dirs()
 
