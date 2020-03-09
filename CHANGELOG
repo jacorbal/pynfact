@@ -1,6 +1,7 @@
 PynFact CHANGELOG
 =================
 
+  - 2020-03-10: Esperanto locale added (`eo`) (v. 0.4.0)
   - 2020-03-09: Esperanto tags, removed deprecated `safe_mode`, & bugs (0.3.6)
   - 2020-03-09: Builder class constructor simplified: config. array (0.3.5)
   - 2020-03-09: Removed Javascript and added light/dark CSS styles (0.3.4)

@@ -44,12 +44,11 @@ You can specify any port in the `Makefile`, and you can move the folder
 Last changes
 ------------
 
+  * Added Esperanto locale (`eo`)
   * Builder class constructor simplified, now takes a configuration
-    dictionary, sorted semantically
-  * Added Esperanto support for tags (not yet the `gettext`
-    translation)
+   dictionary, sorted semantically
   * Using `feedgen` instead of `pyatom` to generate RSS/Atom syndication
-    feeds
+   feeds
 
 
 Why this name?
