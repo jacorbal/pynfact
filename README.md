@@ -67,8 +67,8 @@ taken. `:(`
 Bugs
 ----
 
-This project is still in development, so there are probably a lot of
-bugs that need to be fixed and it needs to be deployed as a package.
+Lots!  This project is still in development, so there are probably a
+lot of bugs that need to be fixed before is deployed as a package.
 
 
 License
