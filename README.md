@@ -2,7 +2,7 @@ Py'nFact
 ========
 
   * **Description:** A blog-oriented static website generator.
-  * **Current version:** 0.3.5 (2020-03-09)
+  * **Current version:** 0.3.6 (2020-03-09)
 
 ![Py'nFact Logo][pynfact_logo]
 

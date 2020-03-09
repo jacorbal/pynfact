@@ -1,16 +1,17 @@
 Py'nFact CHANGELOG
 ==================
 
+  - 2020-03-09: Esperanto tags, removed deprecated `safe_mode`, & bugs (0.3.6)
   - 2020-03-09: Builder class constructor simplified: config. array (0.3.5)
   - 2020-03-09: Removed Javascript and added light/dark CSS styles (0.3.4)
   - 2020-03-04: Enable/disable comments by option in config file (0.3.3)
-  - 2020-03-03: Converted into git repository instead of merurial^[*]
+  - 2020-03-03: Converted into git repository instead of mercurial^[*]
   - 2020-03-02: Existing parsed files updated only if they are different (0.3.2)
   - 2020-03-01: Categories support again (0.3.1)
-  - 2020-02-29: Changed `pyatom' for `feedgen', & removed categories (0.3.0)
+  - 2020-02-29: Changed `pyatom` for `feedgen`, & removed categories (0.3.0)
   - 2016-12-18: Released as v. 0.2.0 and repository regenerated
   - 2016-12-18: Categories support
-  - 2015-10-22: Routine control, "cli.py" review and author updated
+  - 2015-10-22: Routine control, `cli.py` review and author updated
   - 2014-02-22: Routine control
   - 2013-06-02: Bugs fixed.
   - 2012-10-22: Initial release (v. 0.1.0)

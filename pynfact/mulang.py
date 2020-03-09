@@ -38,7 +38,6 @@ class Mulang:
                             'markdown.extensions.codehilite',
                             'markdown.extensions.meta'],
                 encoding=encoding,
-                safe_mode=False,
                 output_format=output_format)
 
 
