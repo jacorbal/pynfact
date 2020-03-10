@@ -5,6 +5,8 @@
 
 First tests finished, released as 1.0.0-alpha and first steps into
 package developing.  Rebranded as _Pynfact!_ (without the apostrophe).
+Also, moved all templates to user space, so the user has full control
+over the presentation.
 
 ### Tue 10 Mar 2020 16:44:33 +0100
 
