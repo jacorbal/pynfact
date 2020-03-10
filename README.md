@@ -4,9 +4,6 @@ PynFact
   * **Description:** A blog-oriented static website generator.
   * **Current version:** 1.0.0.dev1 (2020-03-12)
 
-![PynFact Logo][pynfact_logo]
-
-
 Pynfact is a simple static website generator oriented to chronological
 content, like blogs or websites with historic and sequential content.
 It allows integration with external scripts, comment engines such as
@@ -17,9 +14,12 @@ The interaction is done by command line.  Only three commands are
 required:
 
   * `pynfact init <myblog>`: Create a folder with all needed content
+  * Configure settings in `config.yml`, title, name, language...
   * `pynfact build`: Generates the static content
   * `pynfact serve`: Serves locally to test the results
    (by default at `localhost:4000`)
+
+![PynFact Logo][pynfact_logo]
 
 
 Features
@@ -64,7 +64,7 @@ more easily pronounceable when prepending the prefix *py-*, an indicator
 of the programming language where it has been developed.
 
 Also, *pyblog*, *pyblic*, *pyweblog* and many other cool names were
-taken. `:(`
+already taken.
 
 
 Bugs
