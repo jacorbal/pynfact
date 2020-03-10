@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # vim: set ft=python fileencoding=utf-8 tw=72:
 """
-    Py'nFact
-    ~~~~~~~~
+    PynFact
+    ~~~~~~~
 
     A blog-oriented static web content generator that uses Markdown
     and Jinja2 templates.
@@ -11,10 +11,10 @@
     :copyright: (c) 2012-2020, J. A. Corbal
     :license: MIT
 """
+import cli
 
-from cli import main
 
 ## Main entry
 if __name__ == "__main__":
-    main()
+    cli.main()
 

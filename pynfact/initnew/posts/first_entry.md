@@ -14,7 +14,7 @@ Example file:
 ```
 
     Title: Post title
-    Summary: A _small_ summary for this *Py'nFact* entry. This summary
+    Summary: A _small_ summary for this *PynFact* entry. This summary
              is way two lines long, but it doesn't matter.
     Category: Miscellaneous
     Tags: tag1, tagtwo, tag three, Four

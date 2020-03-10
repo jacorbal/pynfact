@@ -1,7 +1,7 @@
 # vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
-    pyblic.yamler
-    ~~~~~~~~~~~~~
+    pynfact.yamler
+    ~~~~~~~~~~~~~~
 
     Handles a YAML file by setting a default value when variable
     is not set.
@@ -27,7 +27,7 @@ class Yamler:
             self.fd = open(self.filename, 'r')
             self.config = yaml.load(self.fd)
         except IOError:
-            sys.stderr.write("Error: config file is aready open")
+            sys.exit("pynfact.Yamler: config file is aready open")
 
 
     def __del__(self):
@@ -39,7 +39,7 @@ class Yamler:
         try:
             value = self.config[key]
         except KeyError:
-            sys.stderr.write("Error: key not found")
+            sys.exit("pynfact.Yamler: key not found")
         else:
             return value
 

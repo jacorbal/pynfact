@@ -9,9 +9,9 @@
     :copyright: (c) 2012-2020, J. A. Corbal
     :license: MIT
 """
-from builder import Builder#
-from server import Server#
-from yamler import Yamler#
+from pynfact.builder import Builder
+from pynfact.server import Server
+from pynfact.yamler import Yamler
 import os
 import shutil
 import sys
@@ -41,7 +41,7 @@ def main():
         try:
             shutil.copytree(src, dst)
         except OSError as exc:
-            sys.stderr.write("Py'nFact: Blog structure already exists.\n")
+            sys.exit("pynfact.cli: Blog structure already exists.")
 
     elif action == "help":
         print("  $ pynfact init [<site>]. Creates new empty site")
@@ -70,9 +70,9 @@ def main():
                 'language': config.retrieve('site_language', 'en'),
             },
             'date_format': {
-                'entry': config.retrieve('datefmt_long', "%c"),
-                'home': config.retrieve('datefmt_mini', "%b %_d, %Y"),
-                'list': config.retrieve('datefmt_short', "%Y-%m-%d"),
+                'entry': config.retrieve('datefmt_entry', "%c"),
+                'home': config.retrieve('datefmt_home', "%b %_d, %Y"),
+                'list': config.retrieve('datefmt_list', "%Y-%m-%d"),
             },
             'info': {
                 'author': config.retrieve('author', "Nameless"),
@@ -99,7 +99,7 @@ def main():
             'author': site_config['info']['author'],
             'base_uri': site_config['uri']['base'],
             'encoding': site_config['wlocale']['encoding'],
-            'feed_format': site_config['presentation']['feed_format']
+            'feed_format': site_config['presentation']['feed_format'],
             'lang': site_config['wlocale']['language'],
             'site_name': site_config['info']['site_name'],
         } }

@@ -29,8 +29,13 @@ class Server:
         """Serves in a specific directory and waits until keyboard
            interrupt.
         """
-        os.chdir(self.path)
-        httpd = HTTPServer((self.host, self.port), SimpleHTTPRequestHandler)
+        try:
+            os.chdir(self.path)
+        except FileNotFoundError:
+            sys.exit("Error: directory", self.path, "not found")
+
+        httpd = HTTPServer((self.host, self.port),
+                    SimpleHTTPRequestHandler)
         if self.verbose:
             print("Serving", self.host, self.port, "at", self.path)
 

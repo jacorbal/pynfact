@@ -16,14 +16,15 @@ from datetime import datetime
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader, Markup
 from math import ceil
-from meta import Meta#
-from mulang import Mulang#
-from struri import slugify, link_to, strip_html_tags#
+from pynfact.meta import Meta
+from pynfact.mulang import Mulang
+from pynfact.struri import slugify, link_to, strip_html_tags
 import distutils.dir_util
 import filecmp
 import gettext
 import locale
 import os
+import sys
 import textwrap
 
 
@@ -61,14 +62,20 @@ class Builder:
 
         # Set locale for the site.
         self.old_locale = locale.getlocale()
-        self.current_locale = locale.setlocale(locale.LC_ALL,
-                self.site_config['wlocale']['locale'])
+        try:
+            self.current_locale = locale.setlocale(locale.LC_ALL,
+                    self.site_config['wlocale']['locale'])
+        except locale.Error:
+            sys.exit("pynfact.Builder: unsupported locale setting");
 
         # Constants-like (I don't like this approach)
         #source dirs.
         self_dir = os.path.dirname(os.path.realpath(__file__))
         self.locale_dir = os.path.join(self_dir, 'locale')
-        self.builtin_templates_dir = os.path.join(self_dir, 'templates')
+        self.templates_dir = 'templates'
+        self.builtin_templates_dir = \
+             os.path.join(self.site_config['dirs']['deploy'],
+             self.templates_dir)
 
         #dest. dirs.
         self.home_cont_dir = 'page'        # home paginator
@@ -80,7 +87,6 @@ class Builder:
         self.pages_dir = '.'               # other pages such as 'About'...
         self.entries_dir = 'posts'         # where posts are
         self.static_dir = 'static'         # CSS and JS
-        self.templates_dir = 'templates'   # Layout base template
 
 
     def __del__(self):

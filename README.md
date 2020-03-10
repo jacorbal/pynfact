@@ -1,19 +1,36 @@
-
 PynFact
 =======
 
   * **Description:** A blog-oriented static website generator.
-  * **Current version:** 0.4.0 (2020-03-10)
+  * **Current version:** 1.0.0-a (2020-03-12)
 
 ![PynFact Logo][pynfact_logo]
+
+
+Pynfact is a simple static website generator oriented to chronological
+content, like blogs or websites with historic and sequential content.
+It allows integration with external scripts, comment engines such as
+Disqus, TalkYard, etc., or Google Analytics...  Theming and
+configuration is possible by editing Jinja2 templates.
+
+The interaction is done by command line.  Only three commands are
+required:
+
+  * `pynfact init <myblog>`: Create a folder with all needed content
+  * `pynfact build`: Generates the static content
+  * `pynfact serve`: Serves locally to test the results
+   (by default at `localhost:4000`)
+
 
 Features
 --------
 
   * Input format: Markdown
   * Output format: HTML&nbsp;5
-  * Jinja2 templates
+  * Configuration: Jinja2 templates
   * Locale support (`gettext`)
+  * Code syntax highlighting (`Pygments`)
+  * Atom/RSS feed generation
 
 
 Requirements
@@ -27,24 +44,10 @@ Requirements
    engine written in pure Python
 
 
-Installation
-------------
-
-In the future, this process will be more automatic and simpler:
-
-  1. Go to the downloaded source, and then to the `pynfact` directory
-  2. Type: `$ python3 pynfact init myblog` (or any name you want for your blog)
-  3. Copy the binaries into the blog: `$ cp -r pynfact myblog`
-  4. Go to your blog and test: `cd myblog; make test`
-  5. Test in any browser: `localhost:4000`
-
-You can specify any port in the `Makefile`, and you can move the folder
-`myblog` to any place in your system.
-
-
 Recent changes
 --------------
 
+  * Deployed as Python package
   * Added Esperanto locale (`eo`)
   * Builder class constructor simplified, now takes a configuration
    dictionary, sorted semantically

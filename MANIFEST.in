@@ -1,0 +1,6 @@
+global-exclude *.py[cod] *.~ .*~
+recursive_exclude _tmp_
+include logo.png
+include LICENSE.txt CHANGELOG.txt
+recursive-include pynfact *
+
