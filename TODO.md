@@ -13,20 +13,27 @@ Code
   * In *all* of the above and the rest:
     * Use a much more *pythonic* code
 
+  * Single-sourcing the package version in an efficient way:
+    <https://packaging.python.org/guides/single-sourcing-package-version/>
+
   * Deploy as package
 
 
 Future fetures
 --------------
 
+  * Logging, instead of using `stdout` when generating the static site,
+    available by the user in `blog/logs/` folder
+
   * Add themes (template changing system):
     * `pynfact loadtheme <theme-1>`: replace user templates with new theme
     * `pynfact savetheme <mytheme>`: save as `mytheme` in folder `themes`
 
 
-  * Userspace:
+  * Intended userspace:
 
         myblog/
+            logs/
             posts/
                 [...].md
             static/

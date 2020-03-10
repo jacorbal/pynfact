@@ -11,10 +11,10 @@
     :copyright: (c) 2012-2020, J. A. Corbal
     :license: MIT
 """
+
 import cli
 
 
-## Main entry
-if __name__ == "__main__":
+if __name__ == '__main__':
     cli.main()
 

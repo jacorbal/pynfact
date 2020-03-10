@@ -32,7 +32,7 @@ class Server:
         try:
             os.chdir(self.path)
         except FileNotFoundError:
-            sys.exit("Error: directory", self.path, "not found")
+            sys.exit("pynfact.server: deploy directory not found")
 
         httpd = HTTPServer((self.host, self.port),
                     SimpleHTTPRequestHandler)

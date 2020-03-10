@@ -5,13 +5,13 @@ PynFact
   * **Current version:** 1.0.0.dev1 (2020-03-12)
 
 Pynfact is a simple static website generator oriented to chronological
-content, like blogs or websites with historic and sequential content.
-It allows integration with external scripts, comment engines such as
+content, like blogs or websites with historic and sequential data.  It
+allows integration with external scripts, comment engines such as
 Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
-The interaction is done by command line.  Only three commands are
-required:
+The interaction is done by command line.  Only a few commands are
+needed:
 
   * `pynfact init <myblog>`: Create a folder with all needed content
   * Configure settings in `config.yml`, title, name, language...
