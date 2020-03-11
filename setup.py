@@ -6,25 +6,8 @@ from setuptools import setup, find_packages
 
 version = '1.0.1.dev1'
 
-#with open("README.md", "r") as fh:
-#    long_description = fh.read()
-
-long_description = '''Pynfact is a simple static website generator
-oriented to chronological content, like blogs or websites with historic
-and sequential data.  It allows integration with external scripts,
-comment engines such as Disqus, TalkYard, etc., or Google Analytics...
-Theming and configuration is possible by editing Jinja2 templates.
-
-The interaction is done by command line.  Only a few commands are
-needed:
-
-  * `pynfact init <myblog>`: Create a folder with all needed content
-  * Configure settings in `config.yml`, title, name, language...
-  * `pynfact build`: Generates the static content
-  * `pynfact serve`: Serves locally to test the results
-   (by default at `localhost:4000`)
-
-'''
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 
 setup(name='pynfact',
@@ -32,7 +15,7 @@ setup(name='pynfact',
       author='J. A. Corbal',
       author_email='jacorbal@gmail.com',
       url='https://github.com/jacorbal/pynfact/wiki',
-      download_url = 'https://github.com/jacorbal/pynfact',
+      download_url='https://github.com/jacorbal/pynfact',
       project_urls={
           'Documentation': 'https://github.com/jacorbal/pynfact/wiki',
           'Funding': 'https://jacorbal.es/pynfact',
@@ -45,7 +28,7 @@ setup(name='pynfact',
       keywords=['blog', 'markdown', 'static', 'web', 'site', 'generator'],
       py_modules=find_packages(),
       packages=['pynfact'],
-      entry_points={ 'console_scripts': [ 'main = pynfact.cli:main' ] },
+      entry_points={'console_scripts': ['pynfact = pynfact.__main__:main']},
       classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console'
@@ -65,10 +48,10 @@ setup(name='pynfact',
       ],
       install_requires=[
         'feedgen >= 0.9.0',
-        'jinja2 >= 2.10',
+        'jinja2 >= 2.7',
         'markdown >= 3.0.0',
-        'pygments >= 2.3.0',
-        'unidecode >= 1.0.0',
+        'pygments',
+        'unidecode',
       ],
       python_requires='>=3.6',
   )
