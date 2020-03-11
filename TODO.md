@@ -4,6 +4,8 @@ TODO LIST
 Code
 ----
 
+  * Break `Builder` into more classes and functions, redundant code!
+
   * In `struri.py`:
     * Apply `re.sub` to all members of the list
 

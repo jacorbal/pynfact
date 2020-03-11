@@ -2,22 +2,13 @@ PynFact
 =======
 
   * **Description:** A blog-oriented static website generator.
-  * **Current version:** 1.0.0.dev1 (2020-03-12)
+  * **Current version:** 1.0.2.dev4 (2020-03-12)
 
 Pynfact is a simple static website generator oriented to chronological
 content, like blogs or websites with historic and sequential data.  It
 allows integration with external scripts, comment engines such as
 Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
-
-The interaction is done by command line.  Only a few commands are
-needed:
-
-  * `pynfact init <myblog>`: Create a folder with all needed content
-  * Configure settings in `config.yml`, title, name, language...
-  * `pynfact build`: Generates the static content
-  * `pynfact serve`: Serves locally to test the results
-   (by default at `localhost:4000`)
 
 ![PynFact Logo][pynfact_logo]
 
@@ -42,6 +33,33 @@ Requirements
   * **feedgen**: Feed Generator (Atom, RSS, Podcasts)
   * **Jinja2**: A small but fast and easy to use stand-alone template
    engine written in pure Python
+
+
+Installation
+------------
+
+Run:
+
+    $ pip install pynfact
+
+(If your default version of Python is 2.x, maybe you need to type `pip3`
+instead of `pip`)
+
+
+Usage
+-----
+
+The interaction is done by command line.  Only a few commands are
+needed:
+
+  1. `pynfact init <myblog>`: Create a folder with all needed content
+  2. Go to that directory: `cd <myblog>`
+  3. Configure settings in `config.yml`, title, name, language...
+  4. `pynfact build`: Generates the static content
+  5. `pynfact serve`: Serves locally to test the results
+   (by default at `localhost:4000`)
+
+More details at: <https://github.com/getpelican/pelican/wiki> (soon).
 
 
 Recent changes

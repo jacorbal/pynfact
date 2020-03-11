@@ -4,7 +4,7 @@
     pynfact.cli
     ~~~~~~~~~~~
 
-    The Command line interface.
+    Command line interface.
 
     :copyright: (c) 2012-2020, J. A. Corbal
     :license: MIT
@@ -41,7 +41,7 @@ def main():
         try:
             shutil.copytree(src, dst)
         except OSError as exc:
-            sys.exit("pynfact.cli: Blog structure already exists.")
+            sys.exit("pynfact.cli.main: cannot make blog structure")
 
     elif action == "help":
         print("  $ pynfact init [<site>]. Creates new empty site")

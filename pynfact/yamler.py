@@ -23,16 +23,18 @@ class Yamler:
         :type filename: str
         """
         self.filename = filename
+        self.fd = None
         try:
-            self.fd = open(self.filename, 'r')
-            self.config = yaml.load(self.fd)
+            with open(self.filename, 'r') as self.fd:
+                self.config = yaml.load(self.fd)
         except IOError:
-            sys.exit("pynfact.Yamler: config file is aready open")
+            sys.exit("pynfact.Yamler: cannot read configuration file")
 
 
     def __del__(self):
         """Destructor."""
-        self.fd.close()
+        if (self.fd):
+            self.fd.close()
 
 
     def __getitem__(self, key):

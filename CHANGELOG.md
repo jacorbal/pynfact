@@ -4,7 +4,11 @@ Changelog: *PynFact!*
 Release history
 ---------------
 
-### 1.0.0.dev1 -- Wed 12 Mar 2020 03:21:35 +0100
+## 1.0.2.dev4 -- Wed 12 Mar 2020 02:24:35 +0100
+
+  * Fixed tarball in PIP repository
+
+### 1.0.0.dev1 -- Wed 11 Mar 2020 03:21:35 +0100
 
   * First tests finished, released as 1.0.0-alpha and first steps into
     package developing
