@@ -52,7 +52,6 @@ could be:
 And for a page,
 
     Title: Post title
-    Date: 2020-03-11 11:11 PM
 
 
     Here begins the *post*, in Markdown until the end of the file.

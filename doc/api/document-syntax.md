@@ -49,9 +49,9 @@ Tags are case insensitive.
 | `tags`      | Tag list, comma separated                | Yes  | No   |
 | `author[s]` | Author or authors                        | Yes  | No   |
 | `date`      | Date of publication                      | Yes† | No   |
-| `updated`   | Modified date                            | Yes  | No   |
+| `updated`   | Post last modification date              | Yes  | No   |
 | `comments`  | If comment engine is setup, allow them   | Yes  | No   |
-| `private`   | Build the post/page but not reference it | Yes  | No   |
+| `private`   | Build the post but not reference it      | Yes  | No   |
 
   * †: mandatory fields
 
@@ -76,15 +76,17 @@ The `category` tag is another way of sorting the content, besides using
 tags.  Tags a good for doing a keyword search, but not for categorizing
 all entries under one only subject.  There could be many posts in the
 category of "Computers", each one of the with a different set of tags.
-A post can belong to only one category
+A post can belong only to one category.
 
-A post and page can be `private`.  This means that the post will be
-generated, but will not be referenced in any index in the website.
+Posts can be `private`.  This means that the post will be generated, but
+will not be referenced in any index in the website.
 
-**NOTE.**  In future versions, more tags will be included:
+**NOTE.**  In future versions, some tags will be expanded to pages, and
+more tags will be included:
 
 | Meta tag    | Description                              | Post | Page |
 |:-----------:|:---------------------------------------- |:----:|:----:|
+| `private`   | Build post/page but do not reference it  | Yes  | Yes  |
 | `language`  | Language for this particular content     | Yes  | Yes  |
 
 
@@ -95,15 +97,15 @@ very specific, just with a format 'YYYY-MM-DD' is enough, although it
 also takes a more complex form.  General valid examples are:
 
   * `YYYY/MM/DD [HH[:MM[:SS]]] [TIMEZONE]`
-  * `YYYY/MM/DD [HH[:MM[:SS]]] [TIMEZONE]`
+  * `YYYY/DD/MM [HH[:MM[:SS]]] [TIMEZONE]`
   * `YYYY-MM-DD [HH[:MM[:SS]]] [TIMEZONE]`
-  * `YYYY-MM-DD [HH[:MM[:SS]]] [TIMEZONE]`
+  * `YYYY-DD-MM [HH[:MM[:SS]]] [TIMEZONE]`
 
 Take into consideration that the day/month fields depend on the locale
-setting. Entering `2020-03-11` will be understood as:
+setting. For example, entering `2020-03-11` will be understood as:
 
-  * Nov 03, 2020: `YYYY-DD-MM` in American locales; and
-  * Mar 11, 2020: `YYYY-MM-DD` in European locales
+  * Nov  3, 2020: `YYYY-DD-MM` in American locales; and
+  * Mar 11, 2020: `YYYY-MM-DD` in European locales.
 
 But you could use the date, time, and timezone fields in any order.  The
 following are also some valid formats:
