@@ -48,7 +48,7 @@ class Meta:
         return ' '.join(category) if category else default_category
 
 
-    def author(self, default_author='Nobody'):
+    def author(self, default_author=''):
         """Gets the author as a string from post meta information.
 
         :return: Author field
@@ -76,7 +76,7 @@ class Meta:
 
 
     def language(self, default_language="en"):
-        """Gets the author's email as a string from post meta information.
+        """Gets the post language as a string from post meta information.
 
         :return: Language field
         :rtype: str

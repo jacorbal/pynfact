@@ -17,7 +17,7 @@ Features
 --------
 
   * Input format: Markdown
-  * Output format: HTML&nbsp;5
+  * Output format: HTML5
   * Configuration: Jinja2 templates
   * Locale support (`gettext`)
   * Code syntax highlighting (`Pygments`)

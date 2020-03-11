@@ -29,19 +29,23 @@ class Server:
         """Serves in a specific directory and waits until keyboard
            interrupt.
         """
-        try:
+        try:  # Find the deploy directory
             os.chdir(self.path)
         except FileNotFoundError:
-            sys.exit("pynfact.server: deploy directory not found")
+            sys.exit("pynfact.Server: deploy directory not found")
 
-        httpd = HTTPServer((self.host, self.port),
-                    SimpleHTTPRequestHandler)
+        try:  # Initialize the serve
+            httpd = HTTPServer((self.host, self.port),
+                        SimpleHTTPRequestHandler)
+        except OSError:
+            sys.exit("pynfact.Server:: address already in use")
+
         if self.verbose:
             print("Serving", self.host, self.port, "at", self.path)
 
-        try:
+        try:  # Listen until a keyboard interruption
             httpd.serve_forever()
         except KeyboardInterrupt:
             if self.verbose:
-                sys.stderr.write("Interrupted")
+                sys.stderr.write("Interrupted!")
 

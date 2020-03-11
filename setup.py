@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# vim: set ft=python fileencoding=utf-8:
+# vim: set ft=python fileencoding=utf-8 tw=72 nowrap:
 
 from setuptools import setup, find_packages
 
@@ -21,7 +21,7 @@ setup(name='pynfact',
         'Funding': 'https://jacorbal.es/pynfact', 'Source':
         'https://github.com/jacorbal/pynfact', 'Tracker':
         'https://github.com/jacorbal/pynfact/issues'},
-    description='Blog-oriented static web generator using Jinja2 templates.',
+    description='Blog-oriented static website generator by Jinja2 templates and Markdown source.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT',
