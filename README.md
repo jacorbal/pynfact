@@ -1,7 +1,7 @@
 PynFact
 =======
 
-  * **Description:** A blog-oriented static website generator.
+  * **Description:** A blog-oriented static website generator
   * **Current version:** 1.0.2.dev4 (2020-03-12)
 
 Pynfact is a simple static website generator oriented to chronological
@@ -59,13 +59,13 @@ needed:
   5. `pynfact serve`: Serves locally to test the results
    (by default at `localhost:4000`)
 
-More details at: <https://github.com/getpelican/pelican/wiki> (soon).
+More details at: <https://github.com/jacorbal/pynfact/wiki> (soon).
 
 
 Recent changes
 --------------
 
-  * Deployed as Python package
+  * Deployed as Python package at PyPI: <https://pypi.org/project/pynfact/>
   * Added Esperanto locale (`eo`)
   * Builder class constructor simplified, now takes a configuration
    dictionary, sorted semantically
