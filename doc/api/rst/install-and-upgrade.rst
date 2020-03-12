@@ -33,11 +33,11 @@ Downloading the source
 Pynfact require some dependencies in order to work, so make sure that
 the following packages are on your system:
 
-   * ``markdown``: Python implementation of Markdown
-   * ``unidecode``: ASCII transliterations of Unicode text
-   * ``feedgen``: Feed Generator (Atom, RSS, Podcasts)
-   * ``Jinja2`` : A small but fast and easy to use stand-alone template
-      engine written in pure Python
+* ``markdown``: Python implementation of Markdown
+* ``unidecode``: ASCII transliterations of Unicode text
+* ``feedgen``: Feed Generator (Atom, RSS, Podcasts)
+* ``Jinja2`` : A small but fast and easy to use stand-alone template
+  engine written in pure Python
 
 Download the project source, either from `GitHub`_ or from `PyPI`_.
 Once you have uncompressed the tarball, you may run::

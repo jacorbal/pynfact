@@ -14,9 +14,9 @@ PynFact API Documentation
 
 Project links:
 
-  * Current version: **1.0.2.dev4**
-  * `GitHub project page`_
-  * `The Python Package Index (PyPI) repository`_
+* Current version: **1.0.2.dev4**
+* `GitHub project page`_
+* `The Python Package Index (PyPI) repository`_
 
 .. contents:: Table of Contents
     :depth: 2

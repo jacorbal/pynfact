@@ -115,31 +115,31 @@ The date accepts a very wide list of variants.  It doesn't need to be
 very specific, just with a format ``MM-DD-YYYY`` is enough, although it
 also takes a more complex form.  General valid examples are:
 
-  * ``MM/DD/YYYY [HH[:MM[:SS]]] [TIMEZONE]``
-  * ``DD/MM/YYYY [HH[:MM[:SS]]] [TIMEZONE]``
-  * ``MM-DD-YYYY [HH[:MM[:SS]]] [TIMEZONE]``
-  * ``DD-MM-YYYY [HH[:MM[:SS]]] [TIMEZONE]``
+* ``MM/DD/YYYY [HH[:MM[:SS]]] [TIMEZONE]``
+* ``DD/MM/YYYY [HH[:MM[:SS]]] [TIMEZONE]``
+* ``MM-DD-YYYY [HH[:MM[:SS]]] [TIMEZONE]``
+* ``DD-MM-YYYY [HH[:MM[:SS]]] [TIMEZONE]``
 
 Take into consideration that the day/month fields depend on the locale
 setting. For example, entering ``03-11-2020`` will be understood as:
 
-  * Nov  3, 2020: ``DD-MM-YYYY`` in American locales; and
-  * Mar 11, 2020: ``MM-DD-YYYY`` in European locales.
+* Nov  3, 2020: ``DD-MM-YYYY`` in American locales; and
+* Mar 11, 2020: ``MM-DD-YYYY`` in European locales.
 
 For this, it's recommended to use the ISO 8601 standard: ``YYYY-MM-DD``,
 that eliminates all ambiguity.  Or, you may use another ways of
 specifying the date, such as:
 
-  * ``2020 11 Mar``
-  * ``11 Mar 2020``
-  * ``Mar 11 2020``
+* ``2020 11 Mar``
+* ``11 Mar 2020``
+* ``Mar 11 2020``
 
 You could use the date, time, and timezone fields in any order.  The
 following are also some valid formats:
 
-  * ``[HH[:MM[:SS]]] YYYY/MM/DD [TIMEZONE]``
-  * ``[HH[:MM[:SS]]] [TIMEZONE] YYYY/MM/DD``
-  * ``[TIMEZONE] YYYY-MM-DD [HH[:MM[:SS]]]``
+* ``[HH[:MM[:SS]]] YYYY/MM/DD [TIMEZONE]``
+* ``[HH[:MM[:SS]]] [TIMEZONE] YYYY/MM/DD``
+* ``[TIMEZONE] YYYY-MM-DD [HH[:MM[:SS]]]``
 
 Text body
 ---------
@@ -150,8 +150,8 @@ highlighting when writing snippets of source code.
 
 To learn about Markdown syntax elements, see:
 
-  * `Markdown Syntax Guide`_
-  * `Markdown Cheat Sheet`_
+* `Markdown Syntax Guide`_
+* `Markdown Cheat Sheet`_
 
 Internal links
 --------------
