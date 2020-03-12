@@ -85,14 +85,20 @@ Also, *pyblog*, *pyblic*, *pyweblog* and many other cool names were
 already taken.
 
 
-Bugs
-----
+Contributing
+------------
+
+### Bugs
 
 Lots!  This project is still in development, so there are probably a
 lot of bugs that need to be fixed before deploying a stable release.
 If you find a bug, please, report it at the GitHub [issue
 tracker][bugs].
 
+### Getting help, suggesting, asking questions
+
+There's the subreddit [r/PynFact][reddit], or via the classic email (see
+profile)
 
 License
 -------
@@ -105,4 +111,5 @@ More information in `LICENSE` file.
 
 [pynfact_logo]: logo.png
 [bugs]: https://github.com/jacorbal/pynfact/issues
+[reddit]: https://www.reddit.com/r/PynFact/
 
