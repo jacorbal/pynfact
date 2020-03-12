@@ -27,8 +27,12 @@ def slugify(unslugged, separator='-'):
                   unidecode.unidecode(unslugged).strip().lower())
 
 
-def link_to(name, prefix='', makedirs=True, justdir=False, index='index.html'):
+def link_to(name, prefix='', makedirs=True, justdir=False,
+        index='index.html'):
     """Makes a link relative path in terms of the build.
+
+    It may return a string to the destination, and also create that path
+    if it doesn't exist. 
 
     :param name: Filename with slugified name (extension will be removed)
     :type name: str
@@ -36,12 +40,25 @@ def link_to(name, prefix='', makedirs=True, justdir=False, index='index.html'):
     :type prefix: str
     :param makedirs: If true make all needed directories
     :type makedirs: bool
-    :param justdir: If true return only the link dir
+    :param justdir: If true return only the link dir., not the full path
     :type justdir: bool
-    :param index: Default name of file
+    :param index: Default name of file contained in the path
     :type index: str
-    :return: Link path to a 'index.html' page
+    :return: Link path to a  ``index.html`` page
     :rtype: str
+
+    :Example:
+
+    >>> struri.link_to('destination', 'a/b/c', makedirs=False)
+    'a/b/c/destination/index.html'
+
+    >>> struri.link_to('destination', 'a/b/c', makedirs=False,
+    ...  justdir=True)
+    'a/b/c/destination'
+
+    .. todo:: Add a verbose argument, default to ``False`` (for
+              compatibility), that prints status on creating the path if
+              ``makedirs=True``.
     """
     dirname = os.path.splitext(name)[0]
     path = os.path.join(prefix, slugify(dirname), index)
@@ -52,7 +69,7 @@ def link_to(name, prefix='', makedirs=True, justdir=False, index='index.html'):
 
 
 def strip_html_tags(text):
-    """Strips HTML tags in string.
+    """Strips HTML tags in a string.
 
     :param text: String containing HTML code
     :type text: str

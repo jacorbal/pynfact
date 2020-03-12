@@ -31,12 +31,17 @@ import textwrap
 class Builder:
     """Site building process manager.
 
+    .. todo:: Manage better with timezones. Make sure if there is no
+              timezone, the default is always UTC, for posts info, and
+              both feeds publication and modification dates.
+
     .. todo:: Remove redundant code using a universal method for
               retrieve and gather the data; and use subclasses.
+    .. todo:: Remove all redundant code to `func:entry_link_path`
+              (search for: ``:/outfile``)
 
-    .. todo:: Manage better with timezones. Make sure if there is no
-              timezone the default is always UTC, for posts info, and
-              both feeds pub. dates.
+    .. todo:: Unlink all file management from this class and build
+              andother module to deal with that
     """
 
     def __init__(self, site_config, template_values=dict(),
@@ -51,6 +56,7 @@ class Builder:
         :type infile_ext: str
         :param vebose: Print progress in verbose mode
         :type verbose: bool
+        :raise localeError: Locale is unsupported
         """
         self.site_config = site_config
         self.template_values = template_values
@@ -91,7 +97,7 @@ class Builder:
 
     def __del__(self):
         """Destructor."""
-        # Restores locale
+        # Restore locale
         return locale.setlocale(locale.LC_ALL, self.old_locale)
 
 
@@ -140,7 +146,19 @@ class Builder:
 
 
     def entry_link_prefix(self, entry):
-        """Compute entrie final path."""
+        """Compute entrie final path.
+
+        To compute the final path, it's required to take the meta
+        information of that entry concerning to title and publication
+        date.
+        Let's suppose the title is "My entry", and the date is
+        "2020-04-01".  The output will be: `posts/2020/04/01/my-entry`
+
+        :param: Entry filename
+        :type: str
+        :return: Path to this entry relative to root (slugified)
+        :rtype: str
+        """
         meta = Meta(Mulang(os.path.join(self.entries_dir, entry),
                     self.site_config['wlocale']['encoding']).metadata())
         category = \
@@ -575,6 +593,12 @@ class Builder:
 
     def gen_feed(self, feed_format="atom", outfile='feed.xml'):
         """Generate blog feed.
+
+        :param feed_format: Feed format string ('rss' or 'atom')
+                            If invalid value, will default to 'atom'
+        :type feed_format: str
+        :param outfile: Output filename
+        :type outfile: str
         """
         feed = FeedGenerator()
         #feed.logo()

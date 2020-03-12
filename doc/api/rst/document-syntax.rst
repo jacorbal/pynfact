@@ -172,25 +172,25 @@ year, month, date, and slug.  In that case you can add the link::
 
     This is [my other post](/posts/2020/03/11/my-other-post)
 
-Future versions improvements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In future versions, there will be an easy way to reference other
-internal posts and pages by writing:
-
-  * ``this { linkpost file_name_of_post }{alt name}``
-  * ``this { linkpage file_name_of_post }{alt name}``
-
-or, links to categories or tags:
-
-  * ``this tag: { linktag tag_name }{alt name}``
-  * ``this cat: { linkcat cat-name }{alt name}``
-
-As well of including text from other files using:
-
-  * ``{ source media/files/lipsum.txt }``
-  * ``{ source media/files/data.c }``
-
++-------------------------------------------------------------------+
+| **Future versions improvements**                                  |
+|                                                                   |
+| In future versions, there will be an easy way to reference other  |
+| internal posts and pages by writing:                              |
+|                                                                   |
+| * ``this { linkpost file_name_of_post }{alt name}``               |
+| * ``this { linkpage file_name_of_post }{alt name}``               |
+|                                                                   |
+| or, links to categories or tags:                                  |
+|                                                                   |
+| * ``this tag: { linktag tag_name }{alt name}``                    |
+| * ``this cat: { linkcat cat-name }{alt name}``                    |
+|                                                                   |
+| As well of including text from other files using:                 |
+|                                                                   |
+| * ``{ source media/files/lipsum.txt }``                           |
+| * ``{ source media/files/data.c }``                               |
++-------------------------------------------------------------------+
 
 .. _`Markdown Syntax Guide`:
     https://sourceforge.net/p/digitalsign/wiki/markdown_syntax/

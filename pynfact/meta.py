@@ -25,7 +25,35 @@ import re
 class Meta:
     """Meta information retriever.
 
-    .. todo: Use a more Pythonic code
+    .. todo: Use a general function retriever, instead of one function
+             for each meta key.
+
+    .. code-block:
+
+        def retrieve(self, array_of_valid_keys,
+                type=[str, list, joined, date],
+                date_format[if_type is date]):
+
+    * ``type`` is ``date``, use the `date_format`
+    * ``type`` is ``str``, return the trimmed string as it comes
+    * ``type`` is ``joined``, return the list after splitting commas
+
+    Code example::
+
+        >>> m = Meta(meta_information)
+
+        >>> title_valid_keys = ['title', 'titulo', 'titolo', 'titol' ]
+        >>> def m.retrieve(title_valid_keys, type='str')
+        'The title to this Post'
+
+        >>> date_valid_keys = ['date', 'data', 'dato', 'fecha' ]
+        >>> def m.retrieve(date_valid_keys, type='date', '%c')
+        'Thu 12 Mar 2020 06:47:43 PM UTC'
+
+        >>> tags_valid_keys = ['tags', 'labels', 'etiquetas', 'etikedoj']
+        >>> def m.retrieve(tags_valid_keys, type='join')
+        ['tag1', 'tag2', 'tag3', 'tag4']
+
     """
 
     def __init__(self, meta):
@@ -50,6 +78,8 @@ class Meta:
 
     def author(self, default_author=''):
         """Gets the author as a string from post meta information.
+
+        .. todo:: If more than one author, return list, instead of str
 
         :return: Author field
         :rtype: str

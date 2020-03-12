@@ -28,6 +28,10 @@ class Server:
     def serve(self):
         """Serves in a specific directory and waits until keyboard
            interrupt.
+
+        :raise FileNotFoundError: The deploy directory wasn't found
+        :raise OSError: The server tries to connect to an address in use
+        :raise KeyboardInterrupt: Listeingn interruption by user
         """
         try:  # Find the deploy directory
             os.chdir(self.path)

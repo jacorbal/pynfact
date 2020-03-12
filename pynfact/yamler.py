@@ -21,6 +21,7 @@ class Yamler:
 
         :param filename: YAML filename where to look for the config.
         :type filename: str
+        :raise IOError: Cannot read the YAML configuration file
         """
         self.filename = filename
         self.fd = None
@@ -38,6 +39,13 @@ class Yamler:
 
 
     def __getitem__(self, key):
+        """Get the value from a specific key in the configuration file.
+
+        :param key: Key to look for
+        :type key: str
+        :return: The value associated to that key
+        :raise KeyError: The key wasn't found
+        """
         try:
             value = self.config[key]
         except KeyError:
@@ -47,7 +55,13 @@ class Yamler:
 
 
     def retrieve(self, key, default_value=None):
-        """Gets a value from a key or sets a default value."""
+        """Get a value from a key or sets a default value.
+        
+        :param key: Key to look for
+        :type key: str
+        :param default_value: Default value if key is not found
+        :return: The value associated to that key, or the default value
+        """
 #        try:
 #            value = self.config[key]
 #        except KeyError:
