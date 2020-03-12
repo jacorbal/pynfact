@@ -7,36 +7,35 @@ License: MIT
 Latest version: 1.0.2.dev4
 
 
-`index.md`
+`intro.md`
 ----------
 
 Home page of help, intentions, goals, objectives,...
-
-
-`configuration.md`
-------------------
-
-How the configuration file works.
-
-`document-syntax.md`
---------------------
-
-How to format documents of posts and pages.
-
-`install-and-upgrade.md`
-------------------------
-
-How to install and upgrade PynFact.
 
 `quickstart.md`
 ---------------
 
 A quick guide for the lazy ones.
 
+`install-and-upgrade.md`
+------------------------
+
+How to install and upgrade PynFact.
+
+`configuration.md`
+------------------
+
+How the configuration file works.
+
 `site-content.md`
 -----------------
 
 How the site content is managed.
+
+`document-syntax.md`
+--------------------
+
+How to format documents of posts and pages.
 
 `versioning.md`
 ---------------

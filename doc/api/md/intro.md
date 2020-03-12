@@ -1,14 +1,6 @@
 <!-- vim: set ft=markdown fenc=utf-8 tw=72 nowrap: -->
 <!-- Version: pynfact-1.0.2.dev4 -->
 
-Home
-====
-
-Welcome to PynFact wiki!
-
-![PynFact Logo][logo]
-
-
 Information
 -----------
 
@@ -38,18 +30,17 @@ developed in an active way.  Contributors are very much appreciated and
 always welcome.
 
 If you find a bug (there are currently lots, since this is a early stage
-version), feel free to report it using the GitHub [issue tracker for
-this project][bugs].
+version), feel free to report it using the GitHub [issue tracker][bugs]
+for this project.
 
 Check the `TODO.md` list to see if some of your suggestions are already
 there, or bring that suggestion to my attention.
 
 
---
+---
+
 J. A. Corbal <jacorbal@gmail.com>
 
 
-
-[logo]: https://github.com/jacorbal/pynfact/blob/master/logo.png
 [bugs]: https://github.com/jacorbal/pynfact/issues
 

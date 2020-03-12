@@ -18,8 +18,8 @@ Code
   * **[3]** In *all* of the above and the rest:
       * Use a much more *pythonic* code
 
-  * **[2]** Single-sourcing the package version in an efficient way:
-    <https://packaging.python.org/guides/single-sourcing-package-version/>
+  * **[2]** [Single-sourcing][single-sourcing] the package version in an
+    efficient way:
 
   * **[4]** Use `argparse` in `cli.py`
 
@@ -120,6 +120,9 @@ Templates
   * **[1]** `base.html.j2` should not have there those four Jinja2 lines
     since that's the file the user will be dealing with (?)
 
+
+[single-sourcing]:
+    <https://packaging.python.org/guides/single-sourcing-package-version/
 
 -- 
 J. A. Corbal

@@ -8,7 +8,6 @@ It is recommended to read all documentation files, or to ask questions
 via the typical communication methods, but, for the impatient ones, here
 are the summary instructions to get your static blog generated.
 
-
 Installation
 ------------
 
@@ -18,9 +17,8 @@ following command in any terminal:
     pip install pynfact
 
 In some systems where Python 2 is the default version, it's possible
-that the installer for Python 3 is called `pip3`.
-
-Either way, you may run `pip` by invoking `python` directly.
+that the installer for Python 3 is called `pip3`.  Either way, you may
+run `pip` by invoking `python` directly:
 
     python3 -m pip install pynfact
 
@@ -29,7 +27,6 @@ This will install `pynfact` to your local system.  In case of wanting
 `sudo`:
 
     sudo pip install pynfact
-
 
 Starting a new blog
 -------------------
@@ -43,7 +40,6 @@ A new folder named `myblog` will be created with the basic structure for
 the website.  Switch to it:
 
     cd myblog
-
 
 Testing the site
 ----------------
@@ -74,7 +70,6 @@ it, but also recommended to keep it as a template.  Just change the
 extension to something that is not `.md` so it won't be generated in
 future builds.
 
-
-**NOTE:** The command line interface will change in future versions by the
-use of `argparse`.
+**NOTE.**  The command line interface will change in future versions by
+the use of `argparse`.
 

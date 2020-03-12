@@ -17,7 +17,7 @@ following command in any terminal:
 In some systems where Python 2 is the default version, it's possible
 that the installed for Python 3 is called `pip3`.
 
-Either way, you may run `pip` by invoking `python` directly.
+Either way, you may run `pip` by invoking `python` directly:
 
     python3 -m pip install pynfact
 
@@ -26,7 +26,6 @@ This will install `pynfact` to your local system.  In case of wanting
 `root` or use `sudo`:
 
     sudo pip install pynfact
-
 
 ### Downloading the source
 
@@ -45,7 +44,6 @@ may run:
 
     python setup.py install
 
-
 Upgrading
 ---------
 
@@ -53,7 +51,7 @@ Upgrading
 
 If you have installed PynFact by using `pip` and want to upgrade to
 the latest stable release, you may do it by using the option `--upgrade`
-in the `pip` command.
+in the `pip` command:
 
     pip install --upgrade pynfact
 

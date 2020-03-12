@@ -2,8 +2,9 @@
 site_name: "WEBSITE name"
 site_description: "This website is awesome."
 site_copyright: "CC BY-NC-ND 4.0"
-author: "Nameless Author"
-author_email: "author@email.com"
+site_author: "Nameless Author"
+site_author_email: "author@email.com"
+
 canonical_uri: "http://your-site-uri/"
 #base_uri: "blog/"
 

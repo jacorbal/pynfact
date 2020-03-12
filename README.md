@@ -89,7 +89,9 @@ Bugs
 ----
 
 Lots!  This project is still in development, so there are probably a
-lot of bugs that need to be fixed before is deployed as a package.
+lot of bugs that need to be fixed before deploying a stable release.
+If you find a bug, please, report it at the GitHub [issue
+tracker][bugs].
 
 
 License
@@ -102,4 +104,5 @@ More information in `LICENSE` file.
 
 
 [pynfact_logo]: logo.png
+[bugs]: https://github.com/jacorbal/pynfact/issues
 

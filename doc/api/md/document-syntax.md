@@ -18,11 +18,11 @@ for the tree structure of the website depends on the date.
 A simple example of meta information could be:
 
     Title: Interesting post in English
-    Summary: Here I can type diacritics such as _naïve_
+    Summary: Here I can type diacritics such as *naïve*
     Date: Wed 11 Mar 2020 11:11:11 AM UTC
 
 
-The tags may be in English, Esperanto (using the _x_-system), Spanish,
+The tags may be in English, Esperanto (using the *X*-system), Spanish,
 Catalan, Galician, and Portuguese, but they cannot have any diacritics,
 e.g.:
 
@@ -33,27 +33,26 @@ e.g.:
 or,
 
     Titulo: Entrada interesante en español
-    Resumen: Aquí sí puedo escribir tildes y acentos
+    Resumen: ¡Aquí sí puedo escribir tildes!
     Fecha: 2020-03-11 23:11:11 CEST
-
 
 #### List of meta tags
 
 Tags are case insensitive.
 
-| Meta tag    | Description                              | Post | Page |
-|:-----------:|:---------------------------------------- |:----:|:----:|
-| `title`     | Title of the post                        | Yes† | Yes† |
-| `summary`   | A brief summary for this post            | Yes  | No   |
-| `category`  | Category where this post belongs (only 1)| Yes  | No   |
-| `tags`      | Tag list, comma separated                | Yes  | No   |
-| `author[s]` | Author or authors                        | Yes  | No   |
-| `date`      | Date of publication                      | Yes† | No   |
-| `updated`   | Post last modification date              | Yes  | No   |
-| `comments`  | If comment engine is setup, allow them   | Yes  | No   |
-| `private`   | Build the post but not reference it      | Yes  | No   |
+| Meta tag    | Description                            | Post | Page |
+|:-----------:|:---------------------------------------|:----:|:----:|
+| `title`     | Title of the post                      | Yes† | Yes† |
+| `summary`   | A brief summary for this post          | Yes  | No   |
+| `category`  | Category for this post (only 1)        | Yes  | No   |
+| `tags`      | Tag list, comma separated              | Yes  | No   |
+| `author[s]` | Author or authors                      | Yes  | No   |
+| `date`      | Date of publication                    | Yes† | No   |
+| `updated`   | Post last modification date            | Yes  | No   |
+| `comments`  | If comment engine is setup, allow them | Yes  | No   |
+| `private`   | Build the post but do not reference it | Yes  | No   |
 
-  * †: mandatory fields
+  * †: Mandatory fields
 
 Not all the tags work on individual pages, as they do not require the
 chronological order, nor they have any comments, or tags, or they do not
@@ -64,7 +63,7 @@ The `author` represents the original author for a post.  If not used,
 it will default to the website author.
 
 If you choose an external service for comments, such as Disqus or
-TalkYard, you may enter the required script code in the `entry.html.js`
+TalkYard, you may enter the required script code in the `entry.html.j2`
 template.  This code goes at the end of the page.  The `comments` tag
 allow to load that code for a particular entry or to ignore it.
 
@@ -89,31 +88,37 @@ more tags will be included:
 | `private`   | Build post/page but do not reference it  | Yes  | Yes  |
 | `language`  | Language for this particular content     | Yes  | Yes  |
 
-
 ### On the date format
 
 The date accepts a very wide list of variants.  It doesn't need to be
-very specific, just with a format 'YYYY-MM-DD' is enough, although it
+very specific, just with a format `MM-DD-YYYY` is enough, although it
 also takes a more complex form.  General valid examples are:
 
-  * `YYYY/MM/DD [HH[:MM[:SS]]] [TIMEZONE]`
-  * `YYYY/DD/MM [HH[:MM[:SS]]] [TIMEZONE]`
-  * `YYYY-MM-DD [HH[:MM[:SS]]] [TIMEZONE]`
-  * `YYYY-DD-MM [HH[:MM[:SS]]] [TIMEZONE]`
+  * `MM/DD/YYYY [HH[:MM[:SS]]] [TIMEZONE]`
+  * `DD/MM/YYYY [HH[:MM[:SS]]] [TIMEZONE]`
+  * `MM-DD-YYYY [HH[:MM[:SS]]] [TIMEZONE]`
+  * `DD-MM-YYYY [HH[:MM[:SS]]] [TIMEZONE]`
 
 Take into consideration that the day/month fields depend on the locale
-setting. For example, entering `2020-03-11` will be understood as:
+setting. For example, entering `03-11-2020` will be understood as:
 
-  * Nov  3, 2020: `YYYY-DD-MM` in American locales; and
-  * Mar 11, 2020: `YYYY-MM-DD` in European locales.
+  * Nov  3, 2020: `DD-MM-YYYY` in American locales; and
+  * Mar 11, 2020: `MM-DD-YYYY` in European locales.
 
-But you could use the date, time, and timezone fields in any order.  The
+For this, it's recommended to use the ISO 8601 standard: `YYYY-MM-DD`,
+that eliminates all ambiguity.  Or, you may use another ways of
+specifying the date, such as:
+
+  * `2020 11 Mar`
+  * `11 Mar 2020`
+  * `Mar 11 2020`
+
+You could use the date, time, and timezone fields in any order.  The
 following are also some valid formats:
 
   * `[HH[:MM[:SS]]] YYYY/MM/DD [TIMEZONE]`
   * `[HH[:MM[:SS]]] [TIMEZONE] YYYY/MM/DD`
   * `[TIMEZONE] YYYY-MM-DD [HH[:MM[:SS]]]`
-
 
 ### Text body
 
@@ -125,7 +130,6 @@ To learn about Markdown syntax elements, see:
 
   * [Markdown Syntax Guide][mdownref1]
   * [Markdown Cheat Sheet][mdownref2]
-
 
 ### Internal links
 
@@ -144,19 +148,21 @@ year, month, date, and slug.  In that case you can add the link:
 
     This is [my other post](/posts/2020/03/11/my-other-post)
 
+#### Future versions improvements
 
+In future versions, there will be an easy way to reference other
+internal posts and pages by writing:
 
-**NOTE**.
-In future versions, there will be an easy way to reference
-other internal posts and pages by writing:
   * `this { linkpost file_name_of_post }{alt name}`
   * `this { linkpage file_name_of_post }{alt name}`
 
 or, links to categories or tags:
+
   * `this tag: { linktag tag_name }{alt name}`
   * `this cat: { linkcat cat-name }{alt name}`
 
 As well of including text from other files using:
+
   * `{ source media/files/lipsum.txt }`
   * `{ source media/files/data.c }`
 

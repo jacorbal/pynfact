@@ -16,8 +16,8 @@ This variables are:
 
   * `site_copyright`: License of your content
 
-  * `author`: The author of the website.  Articles without the `author`
-    meta tag will default to this value
+  * `site_author`: The author of the website.  Articles without the
+    `author` meta tag will default to this value
 
   * `canonical_uri`: The final address of your site in the WWW
 
@@ -30,7 +30,7 @@ This variables are:
     `base_uri: "blog/"`.
 
   * `feed_format`: Default format for syndication feed; valid values are
-    `rss` and `atom`.
+    `rss` and `atom`.  If invalid value, it defaults to `atom`.
 
   * `comments`: If you decide to add some code at the end of the
     `entry.html.j2` template concerning an external comments engine,
@@ -72,7 +72,8 @@ Default `config.yml` file:
     site_name: "WEBSITE name"
     site_description: "This website is awesome."
     site_copyright: "CC BY-NC-ND 4.0"
-    author: "Nameless Author"
+    site_author: "Nameless Author"
+
     canonical_uri: "http://your-site-uri/"
     #base_uri: "blog/"
 
@@ -93,4 +94,14 @@ Default `config.yml` file:
     extra_dirs: ['media']
     ...
 
+**NOTE**.  In future versions, more options will be added, such as:
+
+  * `input`: Input language, `markdown` or `md`; and `reStructuredText`
+    or `rst`, `rest`; case insensitive.  This will affect the default
+    input entry, but every entry could override its value by specifying
+    so in the meta tags.  (After `reStructuredText` is implemented).
+
+  * `site_author`: Right now is just a string, but it will allow to
+    enter a list of authors, comma separated.  Same for entries
+    `author` meta tag.
 

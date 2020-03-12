@@ -75,11 +75,11 @@ def main():
                 'list': config.retrieve('datefmt_list', "%Y-%m-%d"),
             },
             'info': {
-                'author': config.retrieve('author', "Nameless"),
-                'email': config.retrieve('author_email', ''),
                 'copyright': config.retrieve('site_copyright'),
-                'site_name': config.retrieve('site_name', "My Blog"),
+                'site_author': config.retrieve('site_author', "Nameless"),
+                'site_author_email': config.retrieve('site_author_email', ''),
                 'site_description': config.retrieve('site_description'),
+                'site_name': config.retrieve('site_name', "My Blog"),
             },
             'presentation': {
                 'comments': config.retrieve('comments').lower() == "yes",
@@ -96,7 +96,7 @@ def main():
 
         # Prepare builder
         template_values = { 'blog': {
-            'author': site_config['info']['author'],
+            'author': site_config['info']['site_author'],
             'base_uri': site_config['uri']['base'],
             'encoding': site_config['wlocale']['encoding'],
             'feed_format': site_config['presentation']['feed_format'],

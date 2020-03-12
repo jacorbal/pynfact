@@ -181,8 +181,9 @@ class Builder:
 
         values = self.template_values.copy()
         values['entry'] = {  # append
-               'author': meta.author() if meta.author() \
-                                       else self.site_config['info']['author'],
+               'author': meta.author() \
+                   if meta.author() \
+                   else self.site_config['info']['site_author'],
                'title': meta.title(),
                'raw_title': strip_html_tags(meta.title()),
                'private': meta.private(),
@@ -586,8 +587,8 @@ class Builder:
         feed.subtitle(self.site_config['info']['site_description'] \
                 if self.site_config['info']['site_description'] \
                 else 'Feed')
-        feed.author({'name':self.site_config['info']['author'],
-                     'email':self.site_config['info']['email']})
+        feed.author({'name':self.site_config['info']['site_author'],
+                     'email':self.site_config['info']['site_author_email']})
         feed.description(self.site_config['info']['site_description'])
         feed.link(href=os.path.join(self.site_config['uri']['canonical'],
                                     self.site_config['uri']['base']),
@@ -608,7 +609,7 @@ class Builder:
                 author = self.site_config['info']['site_name'] \
                         if not meta.author() \
                         else meta.author()
-                email = self.site_config['info']['email'] \
+                email = self.site_config['info']['site_author_email'] \
                         if not meta.email() \
                         else meta.email()
                 content_html = ml.html(verbose=False)
