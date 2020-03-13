@@ -8,9 +8,6 @@
     Only markdown files will be taken, but markdown files are
     identified by its extension, which for this application is
     ``.md`` (but it may be specified in ``infile_ext`` argument).
-
-    :copyright: (c) 2012-2020, J. A. Corbal
-    :license: MIT
 """
 from datetime import datetime
 from feedgen.feed import FeedGenerator
@@ -56,7 +53,7 @@ class Builder:
         :type infile_ext: str
         :param vebose: Print progress in verbose mode
         :type verbose: bool
-        :raise localeError: Locale is unsupported
+        :raise: localeError
         """
         self.site_config = site_config
         self.template_values = template_values

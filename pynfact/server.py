@@ -4,9 +4,6 @@
     ~~~~~~~~~~~~~~
 
     Simple server for testing purposes.
-
-    :copyright: (c) 2012-2020, J. A. Corbal
-    :license: MIT
 """
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import os
@@ -29,9 +26,7 @@ class Server:
         """Serves in a specific directory and waits until keyboard
            interrupt.
 
-        :raise FileNotFoundError: The deploy directory wasn't found
-        :raise OSError: The server tries to connect to an address in use
-        :raise KeyboardInterrupt: Listeingn interruption by user
+        :raise: FileNotFoundError, OSError, KeyboardInterrupt
         """
         try:  # Find the deploy directory
             os.chdir(self.path)

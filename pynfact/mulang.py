@@ -4,9 +4,6 @@
     ~~~~~~~~~~~~~~
 
     Markdown translation to HTML and metadata "getter".
-
-    :copyright: (c) 2012-2020, J. A. Corbal
-    :license: MIT
 """
 import markdown
 import textwrap

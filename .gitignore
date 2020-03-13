@@ -9,4 +9,5 @@ _tmp_
 *.nosync
 .hgignore
 .hg
+_build
 

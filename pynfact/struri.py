@@ -4,9 +4,6 @@
     ~~~~~~~~~~~~~~
 
     URI strings manipulation functions.
-
-    :copyright: (c) 2012-2020, J. A. Corbal
-    :license: MIT
 """
 import unidecode
 import re
@@ -74,7 +71,7 @@ def strip_html_tags(text):
     :param text: String containing HTML code
     :type text: str
     :return: String without HTML tags
-    :rtype:str
+    :rtype: str
     """
     return re.sub('<[^<]+?>', '', text)
 

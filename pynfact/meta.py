@@ -12,9 +12,6 @@
 
     There may be diacritics in field values (UTF-8 by default) but not
     in field names.
-
-    :copyright: (c) 2012-2020, J. A. Corbal
-    :license: MIT
 """
 from dateutil.parser import parse
 import datetime

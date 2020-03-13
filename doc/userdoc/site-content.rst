@@ -56,7 +56,7 @@ And for a page::
     Since the level-1 header `h1` is reserved for the title, all
     subsequent headers should begin in the second level.
 
-Refer to `Document syntax`_ to learn more about the document format.
+Refer to :ref:`document-syntax` to learn more about the document format.
 
 Other static resources
 ======================

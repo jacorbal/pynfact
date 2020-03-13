@@ -5,9 +5,6 @@
 
     Handles a YAML file by setting a default value when variable
     is not set.
-
-    :copyright: (c) 2012-2020, J. A. Corbal
-    :license: MIT
 """
 import sys
 import yaml
@@ -21,7 +18,7 @@ class Yamler:
 
         :param filename: YAML filename where to look for the config.
         :type filename: str
-        :raise IOError: Cannot read the YAML configuration file
+        :raise: IOError
         """
         self.filename = filename
         self.fd = None

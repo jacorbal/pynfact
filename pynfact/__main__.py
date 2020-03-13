@@ -7,8 +7,8 @@
     A blog-oriented static web content generator that uses Markdown
     and Jinja2 templates.
 
-    :author: J. A. Corbal
-    :copyright: (c) 2012-2020, J. A. Corbal
+    :author: \J. A. Corbal
+    :copyright: 2012-2020, J. A. Corbal
     :license: MIT
 """
 

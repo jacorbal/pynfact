@@ -5,9 +5,6 @@
     ~~~~~~~~~~~
 
     Command line interface.
-
-    :copyright: (c) 2012-2020, J. A. Corbal
-    :license: MIT
 """
 from pynfact.builder import Builder
 from pynfact.server import Server

@@ -1,5 +1,7 @@
 .. vim: set ft=rst fenc=utf-8 tw=72 nowrap:
 
+.. _document-syntax:
+
 ***************
 Document syntax
 ***************
