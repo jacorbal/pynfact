@@ -19,14 +19,12 @@ in future builds.
 Pages
 =====
 
-Pages are stored in the root structure, and also must have ``.md``
-extension in order to be recognized by the parser.  The syntax is
-identical to the one of articles.
-
-+---------------------------------------------------------------------+
-| **NOTE.** In future versions, pages will be stored in the directory |
-| ``pages`` to keep a simpler structure.                              |
-+---------------------------------------------------------------------+
+Pages are stored in the directory ``pages``, and also must have ``.md``
+extension in order to be recognized by the parser.  Everything with the
+pattern ``pages/*.md`` will be parsed; everything else will be ignored.
+The syntax is identical to the one of articles.  A link to a page will
+appear in the navigation bar by default, unless that feature is
+deactivated for that particular page.
 
 Format
 ======
@@ -49,14 +47,25 @@ could be::
 
 And for a page::
 
-    Title: Post title
+    Title: Page title
 
 
-    Here begins the *post*, in Markdown until the end of the file.
+    Here begins the *page*, in Markdown until the end of the file.
     Since the level-1 header `h1` is reserved for the title, all
     subsequent headers should begin in the second level.
 
-Refer to :ref:`document-syntax` to learn more about the document format.
+In case of not wanting a link to a page in the navigation bar, add the
+meta tag ``Nav: no``, or ``Navigation: no``::
+
+    Title: Page title
+    Navigation: no
+
+
+    Here begins the *post*, in Markdown until the end of the file.
+    This page **will not** appear in the navigation bar.
+
+Refer to :ref:`document-syntax` to learn more about the document format
+for pages and articles.
 
 Other static resources
 ======================

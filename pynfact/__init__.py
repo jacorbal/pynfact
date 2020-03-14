@@ -15,7 +15,7 @@
 __author__ = "J. A. Corbal"
 __copyright__ = "Copyright 2012-2020, J. A. Corbal"
 __license__ = "MIT"
-__version_info__ = ('1', '0', '2', 'dev4')
+__version_info__ = ('1', '1', '0a1')
 __version__ = '.'.join(__version_info__)
 __maintainer__ = "J. A. Corbal"
 __email__ = "jacorbal@gmail.com"

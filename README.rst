@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: 1.0.2.dev4 (2020-03-12)
+:Latest version: 1.1.0a1 (2020-03-12)
 
 Features
 ========
@@ -55,7 +55,7 @@ needed:
 #. ``pynfact serve``: Serves locally to test the results
    (by default at ``localhost:4000``)
 
-More details at: <https://github.com/jacorbal/pynfact/wiki> (soon).
+More details at: <https://github.com/jacorbal/pynfact/wiki>.
 
 Recent changes
 ==============

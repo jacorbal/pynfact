@@ -234,8 +234,9 @@ class Meta:
         :rtype: bool
         """
         private = self.meta.get('private') or \
-                  self.meta.get('privado') or self.meta.get('privat') \
-                  or ['']
+                  self.meta.get('privado') or \
+                  self.meta.get('privat')  or \
+                  self.meta.get('privata') or ['']
         piv_bool = True if private[0].lower() == "yes" or \
                            private[0].lower() == "si"  or \
                            private[0].lower() == "sí"  or \
@@ -243,6 +244,25 @@ class Meta:
                            private[0].lower() == "jes"    \
                         else False
         return piv_bool
+
+
+    def navigation(self):
+        """Gets navigation status.
+
+        :return: True if entry is navigable, or False otherwise
+        :rtype: bool
+        """
+        navigation = self.meta.get('nav') or \
+                     self.meta.get('navigation') or \
+                     self.meta.get('navegacion') or \
+                     self.meta.get('navegacio') or \
+                     self.meta.get('navigado') or ['']
+        nav_bool = False if navigation[0].lower() == "no"  or \
+                            navigation[0].lower() == "non" or \
+                            navigation[0].lower() == "não" or \
+                            navigation[0].lower() == "ne"     \
+                         else True
+        return nav_bool
 
 
     def tag_list(self):

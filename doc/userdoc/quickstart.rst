@@ -1,5 +1,4 @@
 .. vim: set ft=rst fenc=utf-8 tw=72 nowrap:
-.. Version: pynfact-1.0.2.dev4
 
 **********
 Quickstart

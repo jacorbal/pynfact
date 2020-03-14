@@ -87,7 +87,7 @@ class Builder:
         self.tags_dir = 'tags'             # one dir. per tag
 
         #src. & dest. dirs.
-        self.pages_dir = '.'               # other pages such as 'About'...
+        self.pages_dir = 'pages'           # other pages such as 'About'...
         self.entries_dir = 'posts'         # where posts are
         self.static_dir = 'static'         # CSS and JS
 
@@ -295,7 +295,7 @@ class Builder:
         values = self.template_values.copy()
 
         # FIXME :: Merge this scenario with the following loop
-        #Generate 'index.html' even when there are no posts
+        # Generate 'index.html' even when there are no posts
         if total_entries == 0:
             outfile = link_to('', self.site_config['dirs']['deploy'])
             self.render_template('entries.html.j2', outfile, values)
@@ -523,7 +523,7 @@ class Builder:
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
                 meta = Meta(Mulang(post,
-                            self.site_config['wlocale']['encoding']).metadata())
+                        self.site_config['wlocale']['encoding']).metadata())
                 private = meta.private()
                 title = meta.title()
                 tag_list = meta.tag_list()
@@ -557,6 +557,46 @@ class Builder:
         self.render_template('tagcloud.html.j2', outfile, values)
 
 
+    def gen_nav_pages(self):
+        """Updates the template data to contain also all pages
+
+        The navigation bar contains, not all links relevant to the site,
+        but also all pages without the meta descriptor ``Navigate`` set
+        to "no".
+        
+        .. note:: Since this add new data to the base template, it must
+                  be invoked first, before generating any other page.
+        """
+        for filename in os.listdir(self.pages_dir):
+            if os.path.splitext(filename)[1] == self.infile_ext:
+                inpath = os.path.join(self.pages_dir, filename)
+                ml = Mulang(inpath, self.site_config['wlocale']['encoding'])
+                meta = Meta(ml.metadata())
+
+                if meta.navigation():
+                    title = meta.title()
+                    slug = slugify(os.path.splitext(filename)[0])
+                    uri = link_to(slug,
+                        os.path.join('/', self.site_config['uri']['base']),
+                        makedirs=False, justdir=True)
+
+                    values = self.template_values.copy()
+                    values['page'] = {# append
+                           'title': title,
+                           'raw_title': strip_html_tags(title),
+                           'uri': uri }
+
+                    # Update base template values to get pages links in
+                    # nav. bar only if the page is set to be in the
+                    # navigation bar
+                    self.template_values['blog']['pages_links'].append(
+                            [ values['page']['title'],
+                              values['page']['uri'] ])
+                    if self.verbose:
+                        print("Added to nav.",
+                            textwrap.shorten(filename, 70))
+
+
     def gen_page(self, infile):
         """Generate a HTML page from its Mardkdown counterpart.
 
@@ -569,15 +609,21 @@ class Builder:
         ml = Mulang(inpath, self.site_config['wlocale']['encoding'])
         meta = Meta(ml.metadata())
         content_html = ml.html(verbose=self.verbose)
+
+        title = meta.title()
+        slug = slugify(infile[:-len(self.infile_ext)])
+        uri = link_to(slug,
+            os.path.join('/', self.site_config['uri']['base']),
+            makedirs=False, justdir=True)
+
         values = self.template_values.copy()
         values['page'] = {# append
-               'title': meta.title(),
-               'raw_title': strip_html_tags(meta.title()),
+               'title': title,
+               'raw_title': strip_html_tags(title),
+               'uri': uri,
                'content': content_html }
 
-        outfile = link_to(infile,
-                os.path.join(self.site_config['dirs']['deploy'],
-                    self.pages_dir))
+        outfile = link_to(infile, self.site_config['dirs']['deploy'])
         return self.render_template('page.html.j2', outfile, values)
 
 
@@ -713,6 +759,7 @@ class Builder:
     def gen_site(self):
         """Generate all content!.
         """
+        self.gen_nav_pages()
         self.gen_entries(self.site_config['date_format']['entry'])
         self.gen_pages()
         self.gen_archive(self.site_config['date_format']['list'])

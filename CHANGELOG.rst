@@ -5,6 +5,14 @@ Changelog
 Release history
 ===============
 
+1.1.0a -- Sat 14 Mar 2020 01:21:35 +0100
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Pages now are stored in the directory ``pages``
+* Links to pages will be generated in the navigation bar, unless
+  indicating the opposite.
+* Fixed bugs.
+
 1.0.2.dev4 -- Wed 12 Mar 2020 02:24:35 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -18,7 +26,7 @@ Release history
 * Moved all templates to user space, so the user has full
   control over the presentation, and prepares the system for future
   inclusion of themes
-* Rebranded as **Pynfact!** (without the apostrophe)
+* Rebranded as **PynFact!** (without the apostrophe)
 
 0.4.0 -- Tue 10 Mar 2020 16:44:33 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

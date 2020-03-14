@@ -1,5 +1,5 @@
 ##########
-TO-DO List
+To-Do List
 ##########
 
 .. rubric:: TO-DO LIST
@@ -33,8 +33,8 @@ Next features
 Structure
 ---------
 
-* **[5]** Pages stored in ``pages`` instead of root directory
 * **[5]** Pages allowed to be ``private``
+* **[5]** Slug in pages taken from title, not from filename
 
 Internal references
 -------------------
@@ -74,6 +74,7 @@ Meta information
 * **[5]** Author[s] taken as list, there could be more than one
 * **[1]** Author[s] meta tag for pages
 * **[5]** Insert date in current locale
+* **[5]** Allow user to define own slug instead of autogenerating it
 
 Input text
 ----------

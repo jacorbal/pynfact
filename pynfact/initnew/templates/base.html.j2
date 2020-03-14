@@ -52,6 +52,10 @@
                         <li><a href="{{ base_uri }}tags/"
                                itemprop="name"
                                title="{% trans %}Tags{% endtrans %}">{% trans %}Tags{% endtrans %}</a>
+                    {%- for page, uri in blog.pages_links %}
+                        <li><a href="{{ uri }}/"
+                               title="{{ page }}">{{ page }}</a>
+                    {%- endfor -%}
                         <li><a href="{{ base_uri }}feed.xml"
                                itemprop="name"
                                rel="alternate"

@@ -99,6 +99,7 @@ def main():
             'feed_format': site_config['presentation']['feed_format'],
             'lang': site_config['wlocale']['language'],
             'site_name': site_config['info']['site_name'],
+            'pages_links': [],
         } }
 
         # Build

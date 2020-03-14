@@ -66,6 +66,8 @@ Tags are case insensitive.
 +---------------+----------------------------------------+----------+----------+
 | ``private``   | Build the post but do not reference it | Yes      | No       |
 +---------------+----------------------------------------+----------+----------+
+| ``nav``       | Indicates if a page is on the nav. bar | No       | Yes      |
++---------------+----------------------------------------+----------+----------+
 
 .. [1] Mandatory fields
 
@@ -96,6 +98,15 @@ set of tags.  A post can belong only to one category.
 Posts can be ``private``.  This means that the post will be generated,
 but will not be referenced in any index in the website.
 
+By default, a page will be linked to the navigation bar, after the blog
+main features and before the feed link.  If you want a page not to be
+linked in such a way, set ``nav`` (or ``navigate``) to "no".  The name
+of the blog author is automatically a link to a page with filename
+``about.md``.  Because of that, it'll be a good idea to set the
+navigation of this page to "no".  There are many reasons for not wanting
+a page to appear at the navigation bar, for example, in case of
+referencing it from a blog post, and only from that post.
+
 +----------------------------------------------------------------------------+
 | **NOTE.**  In future versions, some tags will be expanded to pages,        |
 | and more tags will be included:                                            |
@@ -106,6 +117,8 @@ but will not be referenced in any index in the website.
 | | ``private``   | Build post/page but do not reference it  | Yes  | Yes  | |
 | +---------------+------------------------------------------+------+------+ |
 | | ``language``  | Language for this particular content     | Yes  | Yes  | |
+| +---------------+------------------------------------------+------+------+ |
+| | ``slug``      | Slug of the post/page defined by user    | Yes  | Yes  | |
 | +---------------+------------------------------------------+------+------+ |
 |                                                                            |
 +----------------------------------------------------------------------------+

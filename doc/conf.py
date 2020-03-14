@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = 'PynFact!'
-copyright = '2020, J. A. Corbal'
+copyright = '2012-2020, J. A. Corbal'
 author = 'J. A. Corbal'
 
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '1.0.2.dev4'
+release = '1.1.0a1'
 
 
 # -- General configuration ---------------------------------------------------
