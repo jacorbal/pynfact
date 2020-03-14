@@ -35,6 +35,7 @@ Structure
 
 * **[5]** Pages allowed to be ``private``
 * **[5]** Slug in pages taken from title, not from filename
+* **[3]** Tags (and categories) in bold and/or italics (accept MU lang)
 
 Internal references
 -------------------

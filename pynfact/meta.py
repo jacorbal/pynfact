@@ -6,12 +6,15 @@
     Meta information retrieval from markdown post file.
 
     Meta fields are set in English, Portuguese, Spanish, Catalan,
-    Galician and Esperanto (using the X-system), although there cannot
+    Galician and Esperanto (using the *X*-system), although there cannot
     be any accent in the field names, so "título" has to be "titulo" in
     order to work properly.
 
     There may be diacritics in field values (UTF-8 by default) but not
     in field names.
+
+    :copyright: © 2012-2020, J. A. Corbal
+    :license: MIT
 """
 from dateutil.parser import parse
 import datetime

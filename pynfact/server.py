@@ -4,6 +4,9 @@
     ~~~~~~~~~~~~~~
 
     Simple server for testing purposes.
+
+    :copyright: © 2012-2020, J. A. Corbal
+    :license: MIT
 """
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import os
@@ -24,7 +27,7 @@ class Server:
 
     def serve(self):
         """Serves in a specific directory and waits until keyboard
-           interrupt.
+        interrupt.
 
         :raise: FileNotFoundError, OSError, KeyboardInterrupt
         """

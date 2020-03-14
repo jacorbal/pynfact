@@ -7,7 +7,10 @@
 
     Only markdown files will be taken, but markdown files are
     identified by its extension, which for this application is
-    ``.md`` (but it may be specified in ``infile_ext`` argument).
+    ``.md`` (but it may be specified in ``infile_ext`` argument)
+
+    :copyright: © 2012-2020, J. A. Corbal
+    :license: MIT
 """
 from datetime import datetime
 from feedgen.feed import FeedGenerator
@@ -637,7 +640,7 @@ class Builder:
     def gen_feed(self, feed_format="atom", outfile='feed.xml'):
         """Generate blog feed.
 
-        :param feed_format: Feed format string ('rss' or 'atom')
+        :param feed_format: Feed format string ('rss' or 'atom').
                             If invalid value, will default to 'atom'
         :type feed_format: str
         :param outfile: Output filename

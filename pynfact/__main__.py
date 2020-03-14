@@ -8,7 +8,7 @@
     and Jinja2 templates.
 
     :author: \J. A. Corbal
-    :copyright: 2012-2020, J. A. Corbal
+    :copyright: © 2012-2020, J. A. Corbal
     :license: MIT
 """
 

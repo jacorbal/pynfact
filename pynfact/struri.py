@@ -4,6 +4,9 @@
     ~~~~~~~~~~~~~~
 
     URI strings manipulation functions.
+
+    :copyright: © 2012-2020, J. A. Corbal
+    :license: MIT
 """
 import unidecode
 import re
@@ -49,8 +52,7 @@ def link_to(name, prefix='', makedirs=True, justdir=False,
     >>> struri.link_to('destination', 'a/b/c', makedirs=False)
     'a/b/c/destination/index.html'
 
-    >>> struri.link_to('destination', 'a/b/c', makedirs=False,
-    ...  justdir=True)
+    >>> struri.link_to('destination', 'a/b/c', makedirs=False, justdir=True)
     'a/b/c/destination'
 
     .. todo:: Add a verbose argument, default to ``False`` (for

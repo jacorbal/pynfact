@@ -60,7 +60,7 @@ In order to preview the website::
 
     pynfact serve
 
-And use any browser at `<http://localhost:8000/>`_
+And use any browser at `<http://localhost:4000/>`_
 
 Send and keyboard interrupt (``^C``) to the terminal to finish the
 preview.

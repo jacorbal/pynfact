@@ -60,6 +60,7 @@ More details at: <https://github.com/jacorbal/pynfact/wiki>.
 Recent changes
 ==============
 
+* Every page in the samae directory: ``pages``
 * Deployed as Python package at PyPI:
   `<https://pypi.org/project/pynfact/>`_
 * Added Esperanto locale (``eo``)

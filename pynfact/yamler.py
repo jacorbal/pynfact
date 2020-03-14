@@ -5,6 +5,9 @@
 
     Handles a YAML file by setting a default value when variable
     is not set.
+
+    :copyright: © 2012-2020, J. A. Corbal
+    :license: MIT
 """
 import sys
 import yaml
