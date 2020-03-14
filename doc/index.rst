@@ -14,6 +14,7 @@ Welcome to PynFact!'s documentation!
    meta/CHANGELOG.rst
    meta/TODO.rst
    userdoc/index.rst
+   meta/LICENSE.rst
 
 
 Indices and tables

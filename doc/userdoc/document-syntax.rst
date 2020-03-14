@@ -138,8 +138,8 @@ also takes a more complex form.  General valid examples are:
 Take into consideration that the day/month fields depend on the locale
 setting. For example, entering ``03-11-2020`` will be understood as:
 
-* Nov  3, 2020: ``DD-MM-YYYY`` in American locales; and
-* Mar 11, 2020: ``MM-DD-YYYY`` in European locales.
+* Nov  3, 2020: ``DD-MM-YYYY`` in European locales; and
+* Mar 11, 2020: ``MM-DD-YYYY`` in English related locales.
 
 For this, it's recommended to use the ISO 8601 standard: ``YYYY-MM-DD``,
 that eliminates all ambiguity.  Or, you may use another ways of

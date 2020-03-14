@@ -11,6 +11,9 @@ configuration is possible by editing Jinja2 templates.
 :Purpose:        A blog-oriented static website generator
 :Latest version: 1.1.0a1 (2020-03-12)
 
+.. image:: https://badge.fury.io/py/pynfact.svg
+   :target: https://badge.fury.io/py/pynfact
+
 Features
 ========
 
@@ -100,7 +103,7 @@ offer tips, make sugestions, or ask questions; or via classic email.
 License
 =======
 
-*PynFact!* is distributed under the `MIT license`_.  Read the
+*PynFact!* is distributed under the :ref:`MIT-license`.  Read the
 ``LICENSE`` file embeeded in this project for more information.
 
 
