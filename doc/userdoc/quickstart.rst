@@ -46,7 +46,7 @@ Testing the site
 ================
 
 There's a dummy article with title "First Entry" in the folder
-``posts``.  Right now, it's the only posts.
+``posts``.  Right now, that's the only post.
 
 To generate the site, run::
 

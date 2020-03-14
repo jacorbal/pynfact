@@ -7,14 +7,15 @@ Welcome to PynFact!'s documentation!
 ====================================
 
 .. toctree::
-   :maxdepth: 1
-   :caption: Table of Contents:
+    :maxdepth: 1
+    :caption: Table of Contents:
 
-   meta/README.rst
-   meta/CHANGELOG.rst
-   meta/TODO.rst
-   userdoc/index.rst
-   meta/LICENSE.rst
+    meta/README.rst
+    meta/CHANGELOG.rst
+    meta/TODO.rst
+    userdoc/index.rst
+    meta/LICENSE.rst
+    src/modules.rst
 
 
 Indices and tables

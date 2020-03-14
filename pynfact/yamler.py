@@ -31,12 +31,10 @@ class Yamler:
         except IOError:
             sys.exit("pynfact.Yamler: cannot read configuration file")
 
-
     def __del__(self):
         """Destructor."""
         if (self.fd):
             self.fd.close()
-
 
     def __getitem__(self, key):
         """Get the value from a specific key in the configuration file.
@@ -44,7 +42,7 @@ class Yamler:
         :param key: Key to look for
         :type key: str
         :return: The value associated to that key
-        :raise KeyError: The key wasn't found
+        :raise: KeyError
         """
         try:
             value = self.config[key]
@@ -53,21 +51,16 @@ class Yamler:
         else:
             return value
 
-
     def retrieve(self, key, default_value=None):
         """Get a value from a key or sets a default value.
-        
+
         :param key: Key to look for
         :type key: str
         :param default_value: Default value if key is not found
         :return: The value associated to that key, or the default value
+
+        .. todo:: Use :func:`yamler.Yamler.__getitem__`?
         """
-#        try:
-#            value = self.config[key]
-#        except KeyError:
-#            value = default_value
-#        else:
-#            return value
         if key in self.config:
             value = self.config[key]
         else:

@@ -23,15 +23,15 @@ Contents
 ========
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
-   intro
-   quickstart
-   install-and-upgrade
-   configuration
-   site-content
-   document-syntax
-   versioning
+    intro
+    quickstart
+    install-and-upgrade
+    configuration
+    site-content
+    document-syntax
+    versioning
 
 
 .. _`GitHub project page`:

@@ -25,7 +25,7 @@ except ImportError:
 
 
 def main():
-    default_post_ext = '.md'  # .mkdn, .markdown,...
+    default_content_ext = '.md'  # .mkdn, .markdown,...
 
     if len(sys.argv) >= 2:
         action = sys.argv[1]
@@ -95,7 +95,7 @@ def main():
         }
 
         # Prepare builder
-        template_values = { 'blog': {
+        template_values = {'blog': {
             'author': site_config['info']['site_author'],
             'base_uri': site_config['uri']['base'],
             'encoding': site_config['wlocale']['encoding'],
@@ -103,15 +103,15 @@ def main():
             'lang': site_config['wlocale']['language'],
             'site_name': site_config['info']['site_name'],
             'pages_links': [],
-        } }
+        }}
 
         # Build
         b = Builder(site_config, template_values,
-                infile_ext=default_post_ext, verbose=True)
+                    infile_ext=default_content_ext, verbose=True)
         b.gen_site()
 
 
-## Main entry
+# Main entry
 if __name__ == "__main__":
     main()
 

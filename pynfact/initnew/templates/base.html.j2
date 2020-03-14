@@ -55,7 +55,7 @@
                     {%- for page, uri in blog.pages_links %}
                         <li><a href="{{ uri }}/"
                                title="{{ page }}">{{ page }}</a>
-                    {%- endfor -%}
+                    {%- endfor %}
                         <li><a href="{{ base_uri }}feed.xml"
                                itemprop="name"
                                rel="alternate"
@@ -84,7 +84,7 @@
                     <a class="invisible"
                        href="{{ base_uri }}about/"
                        title="{{ blog.author }}"
-                       rel="author">{{ blog.author }}</a>, 2020
+                       rel="author">{{ blog.author }}</a>, 2012&ndash;2020
                 </aside>
             </footer>
         </div>

@@ -28,7 +28,7 @@ def slugify(unslugged, separator='-'):
 
 
 def link_to(name, prefix='', makedirs=True, justdir=False,
-        index='index.html'):
+            index='index.html'):
     """Makes a link relative path in terms of the build.
 
     It may return a string to the destination, and also create that path

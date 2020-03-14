@@ -17,13 +17,12 @@ class Server:
     """Simple server."""
 
     def __init__(self, host='127.0.0.1', port=4000, path='_build',
-            verbose=True):
+                 verbose=True):
         """Constructor."""
         self.port = port
         self.host = host
         self.path = path
         self.verbose = verbose
-
 
     def serve(self):
         """Serves in a specific directory and waits until keyboard
@@ -38,7 +37,7 @@ class Server:
 
         try:  # Initialize the serve
             httpd = HTTPServer((self.host, self.port),
-                        SimpleHTTPRequestHandler)
+                               SimpleHTTPRequestHandler)
         except OSError:
             sys.exit("pynfact.Server:: address already in use")
 
