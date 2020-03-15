@@ -17,12 +17,22 @@ class Server:
     """Simple server."""
 
     def __init__(self, host='127.0.0.1', port=4000, path='_build',
-                 verbose=True):
-        """Constructor."""
+                 logger=None):
+        """Constructor.
+
+        :param host: Addres where the server will be listening
+        :type host: str
+        :param port: Port where the server will be listening
+        :type port: str
+        :param path: Where the static website will be generated
+        :type path: str
+        :param logger: Logger where to store activity in
+        :type logger: logging.Logger
+        """
         self.port = port
         self.host = host
         self.path = path
-        self.verbose = verbose
+        self.logger = logger
 
     def serve(self):
         """Serves in a specific directory and waits until keyboard
@@ -33,20 +43,23 @@ class Server:
         try:  # Find the deploy directory
             os.chdir(self.path)
         except FileNotFoundError:
-            sys.exit("pynfact.Server: deploy directory not found")
+            error_msg = "Deploy directory not found"
+            self.logger and self.logger.error(error_msg)
+            sys.exit(error_msg)
 
         try:  # Initialize the serve
             httpd = HTTPServer((self.host, self.port),
                                SimpleHTTPRequestHandler)
         except OSError:
-            sys.exit("pynfact.Server:: address already in use")
+            error_msg = "Address already in use"
+            self.logger and self.logger.error(error_msg)
+            sys.exit(error_msg)
 
-        if self.verbose:
-            print("Serving", self.host, self.port, "at", self.path)
+        self.logger and self.logger.info("Serving %s:%s at %s",
+                                         self.host, self.port, self.path)
 
         try:  # Listen until a keyboard interruption
             httpd.serve_forever()
         except KeyboardInterrupt:
-            if self.verbose:
-                sys.stderr.write("Interrupted!")
+            self.logger and self.logger.info("Interrupted!")
 

@@ -16,7 +16,7 @@ import yaml
 class Yamler:
     """Handles a YAML file."""
 
-    def __init__(self, filename):
+    def __init__(self, filename, logger=None):
         """Initializer.
 
         :param filename: YAML filename where to look for the config.
@@ -24,12 +24,15 @@ class Yamler:
         :raise: IOError
         """
         self.filename = filename
+        self.logger = logger
         self.fd = None
         try:
             with open(self.filename, 'r') as self.fd:
                 self.config = yaml.load(self.fd)
         except IOError:
-            sys.exit("pynfact.Yamler: cannot read configuration file")
+            error_msg = "Cannot read configuration file"
+            self.logger and self.logger.error(error_msg)
+            sys.exit(error_msg)
 
     def __del__(self):
         """Destructor."""
@@ -47,7 +50,10 @@ class Yamler:
         try:
             value = self.config[key]
         except KeyError:
-            sys.exit("pynfact.Yamler: key not found")
+            error_msg = "Key not found in configuration file"
+            self.logger and self.logger.error(error_msg)
+            sys.exit(error_msg)
+
         else:
             return value
 

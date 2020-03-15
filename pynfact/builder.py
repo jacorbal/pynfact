@@ -16,9 +16,10 @@ from datetime import datetime
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader, Markup
 from math import ceil
+from pynfact.fileman import link_to
 from pynfact.meta import Meta
 from pynfact.mulang import Mulang
-from pynfact.struri import slugify, link_to, strip_html_tags
+from pynfact.struri import slugify, strip_html_tags
 import distutils.dir_util
 import filecmp
 import gettext
@@ -42,10 +43,22 @@ class Builder:
 
     .. todo:: Unlink all file management from this class and build
               andother module to deal with that
+
+    .. versionchanged:: 1.0.1.dev1
+       Constructor takes a configuration dictionary instead of all
+       parameters individually
+
+    .. versionchanged:: 1.0.1a1
+       Input pages stored in ``pages`` directory instead of root
+
+    .. versionchanged:: 1.2.0a1
+       Implement ``logging`` instead of printing to ``stdout`` and
+       ``stderr``
+
     """
 
     def __init__(self, site_config, template_values=dict(),
-                 infile_ext='.md', verbose=True):
+                 infile_ext='.md', logger=None):
         """Constructor.
 
         :param config: Site configuration as multidimensional dictionary
@@ -54,17 +67,17 @@ class Builder:
         :type template_values: dict
         :param infile_ext: Posts files extension
         :type infile_ext: str
-        :param vebose: Print progress in verbose mode
-        :type verbose: bool
+        :param logger: Logger where to store activity in
+        :type logger: logging.Logger
         :raise: localeError
         """
         self.site_config = site_config
         self.template_values = template_values
         self.infile_ext = infile_ext.lower()
-        self.verbose = verbose
         self.site_config['dirs']['deploy'] = \
             os.path.join(self.site_config['dirs']['deploy'],
                          self.site_config['uri']['base'])
+        self.logger = logger
 
         # Set locale for the site.
         self.old_locale = locale.getlocale()
@@ -96,8 +109,7 @@ class Builder:
         self.static_dir = 'static'          # CSS and JS
 
     def __del__(self):
-        """Destructor."""
-        # Restore locale
+        """Destructor.  Restores the locale, if changed."""
         return locale.setlocale(locale.LC_ALL, self.old_locale)
 
     def render_template(self, template, output_data, values):
@@ -134,8 +146,8 @@ class Builder:
                       encoding=self.site_config['wlocale']['encoding']) \
                     as output_file:
                 output_file.write(html)
-                if self.verbose:
-                    print("Updated: ", textwrap.shorten(output_data, 70))
+            self.logger and self.logger.info(
+                'Updated content of: "%s"', output_data)
 
         # Clear cache, both in memory and space
         filecmp.clear_cache()
@@ -158,7 +170,8 @@ class Builder:
         :rtype: str
         """
         meta = Meta(Mulang(os.path.join(self.entries_dir, entry),
-                           self.site_config['wlocale']['encoding']).metadata())
+                           self.site_config['wlocale']['encoding'],
+                           logger=self.logger).metadata())
         category = \
             meta.category(self.site_config['presentation']['default_category'])
         date = meta.date('%Y-%m-%d')
@@ -181,9 +194,10 @@ class Builder:
         :rtype: str
         """
         inpath = os.path.join(self.entries_dir, infile)
-        ml = Mulang(inpath, self.site_config['wlocale']['encoding'])
+        ml = Mulang(inpath, self.site_config['wlocale']['encoding'],
+                    logger=self.logger)
         meta = Meta(ml.metadata())
-        content_html = ml.html(verbose=self.verbose)
+        content_html = ml.html()
 
         timezone = meta.date('%z')
         if timezone:
@@ -254,7 +268,8 @@ class Builder:
             if os.path.splitext(filename)[1] == self.infile_ext:
                 inpath = os.path.join(self.entries_dir, filename)
                 meta = Meta(Mulang(inpath,
-                                   self.site_config['wlocale']['encoding']).metadata())
+                                   self.site_config['wlocale']['encoding'],
+                                   logger=self.logger).metadata())
 
                 private = meta.private()
                 title = meta.title()
@@ -329,7 +344,8 @@ class Builder:
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
                 meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding']).metadata())
+                                   self.site_config['wlocale']['encoding'],
+                                   logger=self.logger).metadata())
 
                 private = meta.private()
                 title = meta.title()
@@ -381,7 +397,8 @@ class Builder:
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
                 meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding']).metadata())
+                                   self.site_config['wlocale']['encoding'],
+                                   logger=self.logger).metadata())
 
                 private = meta.private()
                 title = meta.title()
@@ -426,7 +443,8 @@ class Builder:
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
                 meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding']).metadata())
+                                   self.site_config['wlocale']['encoding'],
+                                   logger=self.logger).metadata())
 
                 private = meta.private()
                 title = meta.title()
@@ -472,7 +490,8 @@ class Builder:
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
                 meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding']).metadata())
+                                   self.site_config['wlocale']['encoding'],
+                                   logger=self.logger).metadata())
 
                 private = meta.private()
                 title = meta.title()
@@ -516,7 +535,8 @@ class Builder:
             if os.path.splitext(filename)[1] == self.infile_ext:
                 post = os.path.join(self.entries_dir, filename)
                 meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding']).metadata())
+                                   self.site_config['wlocale']['encoding'],
+                                   logger=self.logger).metadata())
                 private = meta.private()
                 title = meta.title()
                 tag_list = meta.tag_list()
@@ -549,8 +569,8 @@ class Builder:
                                        self.tags_dir))
         self.render_template('tagcloud.html.j2', outfile, values)
 
-    def gen_nav_pages(self):
-        """Updates the template data to contain also all pages
+    def gen_nav_page_links(self):
+        """Updates the template data to contain also all page links
 
         The navigation bar contains, not all links relevant to the site,
         but also all pages without the meta descriptor ``Navigate`` set
@@ -562,7 +582,9 @@ class Builder:
         for filename in os.listdir(self.pages_dir):
             if os.path.splitext(filename)[1] == self.infile_ext:
                 inpath = os.path.join(self.pages_dir, filename)
-                ml = Mulang(inpath, self.site_config['wlocale']['encoding'])
+                ml = Mulang(inpath,
+                            self.site_config['wlocale']['encoding'],
+                            logger=self.logger)
                 meta = Meta(ml.metadata())
 
                 if meta.navigation():
@@ -582,12 +604,11 @@ class Builder:
                     # Update base template values to get pages links in
                     # nav. bar only if the page is set to be in the
                     # navigation bar
-                    self.template_values['blog']['pages_links'].append(
+                    self.template_values['blog']['page_links'].append(
                         [values['page']['title'],
                          values['page']['uri']])
-                    if self.verbose:
-                        print("Added to nav.",
-                              textwrap.shorten(filename, 70))
+                    self.logger and self.logger.info(
+                            'Added page to navigation: "%s"', filename)
 
     def gen_page(self, infile):
         """Generate a HTML page from its Mardkdown counterpart.
@@ -598,9 +619,10 @@ class Builder:
         :rtype: str
         """
         inpath = os.path.join(self.pages_dir, infile)
-        ml = Mulang(inpath, self.site_config['wlocale']['encoding'])
+        ml = Mulang(inpath, self.site_config['wlocale']['encoding'],
+                    logger=self.logger)
         meta = Meta(ml.metadata())
-        content_html = ml.html(verbose=self.verbose)
+        content_html = ml.html()
 
         title = meta.title()
         slug = slugify(infile[:-len(self.infile_ext)])
@@ -661,7 +683,8 @@ class Builder:
             if os.path.splitext(filename)[1] == self.infile_ext:
                 infile = os.path.join(self.entries_dir, filename)
                 ml = Mulang(infile,
-                            self.site_config['wlocale']['encoding'])
+                            self.site_config['wlocale']['encoding'],
+                            logger=self.logger)
                 meta = Meta(ml.metadata())
                 author = self.site_config['info']['site_name'] \
                     if not meta.author() \
@@ -669,7 +692,7 @@ class Builder:
                 email = self.site_config['info']['site_author_email'] \
                     if not meta.email() \
                     else meta.email()
-                content_html = ml.html(verbose=False)
+                content_html = ml.html()
                 private = meta.private()
                 title = meta.title()
                 summary = meta.summary()
@@ -731,7 +754,7 @@ class Builder:
                            self.static_dir)
         if os.path.exists(src):
             distutils.dir_util.copy_tree(src, dst, update=True,
-                                         verbose=self.verbose)
+                                         verbose=True)
 
     def gen_extra_dirs(self):
         """Generates extra directories if they exist."""
@@ -742,12 +765,12 @@ class Builder:
                                    extra_dir)
                 if os.path.exists(src):
                     distutils.dir_util.copy_tree(src, dst, update=True,
-                                                 verbose=self.verbose)
+                                                 verbose=True)
 
     def gen_site(self):
         """Generate all content!.
         """
-        self.gen_nav_pages()
+        self.gen_nav_page_links()
         self.gen_entries(self.site_config['date_format']['entry'])
         self.gen_pages()
         self.gen_archive(self.site_config['date_format']['list'])
