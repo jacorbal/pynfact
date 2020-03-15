@@ -34,7 +34,7 @@ Structure
 ---------
 
 * **[5]** Pages allowed to be ``private``
-* **[5]** Slug in pages taken from title, not from filename
+* **[X]** Slug in pages taken from title, not from filename
 * **[3]** Tags (and categories) in bold and/or italics (accept MU lang)
 
 Internal references
@@ -74,24 +74,25 @@ Meta information
 
 * **[5]** Author[s] taken as list, there could be more than one
 * **[1]** Author[s] meta tag for pages
-* **[5]** Insert date in current locale
+* **[5]** Allow insert date in current locale
 * **[5]** Allow user to define own slug instead of autogenerating it
 
 Input text
 ----------
 
-* **[1]** Add reStructuredText as input format, bedides Markdown
-  Requires a new entry in ``config.yml``: ``input_format=["md"|"rst"]``,
-  **OR**, maybe, identify the document by the extension, depending on
-  which, theinterpreter parses Markdown or reStructuredText.
+* **[1]** Add reStructuredText as input format (``docutils``), bedides
+  Markdown.  Requires a new entry in ``config.yml``:
+  ``input_format=["md"|"rst"]``, **OR**, maybe, identify the document by the
+  extension, depending on which, theinterpreter parses Markdown or
+  reStructuredText.
 
 Functionality
 -------------
 
-* **[3]** Logging, instead of using ``stdout`` when generating the site,
-  available by the user in ``blog/logs/`` folder
+* **[X]** Logging, instead of using ``stdout`` when generating the site
+* **[4]** User can choose where to store the logs in ``config.yaml``.
 
-  * ``pynfact --log=stdout``
+  * ``pynfact --log=/dev/stdout``
   * ``pynfact --log=~/pynfact.log``
 
 * **[2]** Bugs report: allow the user to file a bug
@@ -119,7 +120,7 @@ Intended command line interface
 * Deploy dir: ``pynfact -d _deploy`` or ``pynfact --deploy-dir=_deploy``
 * Theme load: ``pynfact -L theme`` or ``pynfact --loadtheme=theme``
 * Theme save: ``pynfact -S theme`` or ``pynfact --savetheme=theme``
-* Logging: ``pynfact -w file`` or ``pynfact --write-log=file``
+* Logging: ``pynfact -l file`` or ``pynfact --log=file``
 
 Intended userspace
 ------------------

@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 # vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
-    pynfact.cli
-    ~~~~~~~~~~~
+Command line interface.
 
-    Command line interface.
-    
     :copyright: © 2012-2020, J. A. Corbal
     :license: MIT
 """
@@ -35,7 +32,7 @@ def show_help():
 
 def set_logger(default_level=logging.INFO, warning_log='pynfact.err',
                echo_log=sys.stdout):
-    """Setup the system logger.
+    """Set up the system logger.
 
     :param default_level: Log level for the default echo logger
     :type default_level: int, str
@@ -58,7 +55,9 @@ def set_logger(default_level=logging.INFO, warning_log='pynfact.err',
     specially useful when debugging, but it's intended value is just
     information, but less useful when set to a log level higher than
     ``loging.WARNING``, for the ``warning_log`` is already taking care
-    of those logs.
+    of those logs.  When an error occurs with an urgency status higher
+    than the one selected, it will be logged as well by the stream
+    handler.
 
     .. note:: The ``echo_log`` is a stream handler, so the file will not
               be closed at the end.
@@ -85,7 +84,14 @@ def set_logger(default_level=logging.INFO, warning_log='pynfact.err',
 
 
 def retrieve_config(config_file, logger=None):
-    """
+    """Retrieve configuration from YAML file.
+
+    :param config_file: YAML configuration filename
+    :type config_file: str
+    :param logger: Logger to pass it to the ``Yamler`` constructor
+    :type logger: logging.Logger
+    :return: Dictionary of configuration
+    :rtype: dict
     """
     config = Yamler(config_file, logger)
 
@@ -128,7 +134,7 @@ def retrieve_config(config_file, logger=None):
 
 
 def main():
-    """Main entry."""
+    """Parse command-line arguments."""
     # Logger setup (set parameter to ``None`` to deactivate all logging)
     logger = set_logger(logging.INFO)
 
@@ -149,11 +155,10 @@ def main():
         # create new blog structure with the default values
         try:
             shutil.copytree(src, dst)
-        except OSError as exc:
-            error_msg = "Cannot make blog structure"
-            if logger:
-                logger.error(error_msg)
-            sys.exit(error_msg)
+        except OSError:
+            logger and logger.error(
+                "Unable to initialize the website structure")
+            sys.exit(11)
 
     elif action == "help":
         show_help()
@@ -186,6 +191,6 @@ def main():
 
 
 # Main entry
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 

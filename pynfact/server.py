@@ -1,9 +1,6 @@
 # vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
-    pynfact.server
-    ~~~~~~~~~~~~~~
-
-    Simple server for testing purposes.
+Simple server for testing purposes.
 
     :copyright: © 2012-2020, J. A. Corbal
     :license: MIT
@@ -35,25 +32,22 @@ class Server:
         self.logger = logger
 
     def serve(self):
-        """Serves in a specific directory and waits until keyboard
-        interrupt.
+        """Serve a specific directory and waits for keyboard interrupt.
 
         :raise: FileNotFoundError, OSError, KeyboardInterrupt
         """
         try:  # Find the deploy directory
             os.chdir(self.path)
         except FileNotFoundError:
-            error_msg = "Deploy directory not found"
-            self.logger and self.logger.error(error_msg)
-            sys.exit(error_msg)
+            self.logger and self.logger.error("Deploy directory not found")
+            sys.exit(61)
 
         try:  # Initialize the serve
             httpd = HTTPServer((self.host, self.port),
                                SimpleHTTPRequestHandler)
         except OSError:
-            error_msg = "Address already in use"
-            self.logger and self.logger.error(error_msg)
-            sys.exit(error_msg)
+            self.logger and self.logger.error("Address already in use")
+            sys.exit(62)
 
         self.logger and self.logger.info("Serving %s:%s at %s",
                                          self.host, self.port, self.path)

@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 
-version = '1.1.0a1'
+version = '1.2.1a1'
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -30,7 +30,7 @@ setup(name='pynfact',
       packages=['pynfact'],
       entry_points={'console_scripts': ['pynfact = pynfact.__main__:main']},
       classifiers=[
-          'Development Status :: 4 - Beta',
+          'Development Status :: 3 - Alpha',
           'Environment :: Console',
           'Intended Audience :: Developers',
           'Intended Audience :: End Users/Desktop',

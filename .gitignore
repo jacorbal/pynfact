@@ -10,4 +10,5 @@ _tmp_
 .hgignore
 .hg
 _build
+*.err
 

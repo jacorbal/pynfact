@@ -1,5 +1,5 @@
 .. vim: set ft=rst fenc=utf-8 tw=72 nowrap:
-.. Version: pynfact-1.1.0a1
+.. Version: pynfact-1.2.1a1
 
 ##################
 User documentation
@@ -15,7 +15,7 @@ User documentation
 Project links
 =============
 
-* Current version: **1.1.0a1**
+* Current version: **1.2.1a1**
 * `GitHub project page`_
 * `The Python Package Index (PyPI) repository`_
 
@@ -31,6 +31,7 @@ Contents
     configuration
     site-content
     document-syntax
+    error-codes
     versioning
 
 

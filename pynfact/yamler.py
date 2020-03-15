@@ -1,10 +1,6 @@
 # vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
-    pynfact.yamler
-    ~~~~~~~~~~~~~~
-
-    Handles a YAML file by setting a default value when variable
-    is not set.
+Handles a YAML file by setting a default value when variable is not set.
 
     :copyright: © 2012-2020, J. A. Corbal
     :license: MIT
@@ -14,10 +10,10 @@ import yaml
 
 
 class Yamler:
-    """Handles a YAML file."""
+    """Handle a YAML file."""
 
     def __init__(self, filename, logger=None):
-        """Initializer.
+        """Constructor.
 
         :param filename: YAML filename where to look for the config.
         :type filename: str
@@ -30,12 +26,16 @@ class Yamler:
             with open(self.filename, 'r') as self.fd:
                 self.config = yaml.load(self.fd)
         except IOError:
-            error_msg = "Cannot read configuration file"
-            self.logger and self.logger.error(error_msg)
-            sys.exit(error_msg)
+            self.logger and self.logger.error(
+                "Cannot read the configuration file")
+            sys.exit(21)
 
     def __del__(self):
-        """Destructor."""
+        """Destructor.
+
+        Close all opened files, just to make sure, although those will
+        be automatically closed.
+        """
         if (self.fd):
             self.fd.close()
 
@@ -50,10 +50,9 @@ class Yamler:
         try:
             value = self.config[key]
         except KeyError:
-            error_msg = "Key not found in configuration file"
-            self.logger and self.logger.error(error_msg)
-            sys.exit(error_msg)
-
+            self.logger and self.logger.error(
+                "Key not found in configuration file")
+            sys.exit(22)
         else:
             return value
 

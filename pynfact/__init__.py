@@ -26,13 +26,9 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ########################################################################
 """
-    PynFact
-    ~~~~~~~
+A blog-oriented static web content generator from Markdown to HTML5.
 
-    A blog-oriented static web content generator that uses Markdown
-    and Jinja2 templates.
-
-    :author: \J. A. Corbal
+    :author: J A Corbal
     :copyright: © 2012-2020, J. A. Corbal
     :license: MIT
 """
@@ -42,6 +38,6 @@ __email__ = "jacorbal@gmail.com"
 __license__ = "MIT"
 __maintainer__ = "J. A. Corbal"
 __status__ = "Production"
-__version_info__ = ('1', '2', '0a1')
+__version_info__ = ('1', '2', '1a1')
 __version__ = '.'.join(__version_info__)
 

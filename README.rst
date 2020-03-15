@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: 1.1.0a1 (2020-03-12)
+:Latest version: **1.2.1a1** (2020-03-15)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
@@ -23,7 +23,6 @@ Features
 * Locale support (``gettext``)
 * Code syntax highlighting (``Pygments``)
 * Atom/RSS feed generation
-
 
 Requirements
 ============
@@ -63,14 +62,17 @@ More details at: <https://github.com/jacorbal/pynfact/wiki>.
 Recent changes
 ==============
 
-* Every page in the samae directory: ``pages``
-* Deployed as Python package at PyPI:
+* Improve code readability to comply with :PEP:`8` and :PEP:`257`
+* Generate pages slugs as posts, i.e, from the title, not the filename
+* Add logging support using ``logging``
+* Put every page in the same directory: ``pages``
+* Deploy as Python package at PyPI:
   `<https://pypi.org/project/pynfact/>`_
-* Added Esperanto locale (``eo``)
-* Builder class constructor simplified, now takes a configuration
+* Add Esperanto locale (``eo``)
+* Simplify ``Builder``  class constructor, now takes a configuration
   dictionary, sorted semantically
-* Using ``feedgen`` instead of ``pyatom`` to generate RSS/Atom
-  syndication feeds
+* Replace ``feedgen`` for ``pyatom`` to generate RSS/Atom syndication
+  feeds
 
 Why this name?
 ==============
@@ -103,7 +105,7 @@ offer tips, make sugestions, or ask questions; or via classic email.
 License
 =======
 
-*PynFact!* is distributed under the :ref:`MIT-license`.  Read the
+*PynFact!* is distributed under the `MIT License`_.  Read the
 ``LICENSE`` file embeeded in this project for more information.
 
 

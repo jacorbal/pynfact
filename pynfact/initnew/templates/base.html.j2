@@ -32,7 +32,7 @@
             <!-- HEADER -->
             <header role="banner">
                 <div class="main_title">
-                    <a rel="author" href="{{ base_uri }}about/"
+                    <a rel="author" href="{{ base_uri }}about-me/"
                        title="{{ blog.author }}">{{ blog.author }}</a>
                 </div>
 
@@ -52,7 +52,7 @@
                         <li><a href="{{ base_uri }}tags/"
                                itemprop="name"
                                title="{% trans %}Tags{% endtrans %}">{% trans %}Tags{% endtrans %}</a>
-                    {%- for page, uri in blog.pages_links %}
+                    {%- for page, uri in blog.page_links %}
                         <li><a href="{{ uri }}/"
                                title="{{ page }}">{{ page }}</a>
                     {%- endfor %}
@@ -82,7 +82,7 @@
 
                 <p> &copy;
                     <a class="invisible"
-                       href="{{ base_uri }}about/"
+                       href="{{ base_uri }}about-me/"
                        title="{{ blog.author }}"
                        rel="author">{{ blog.author }}</a>, 2012&ndash;2020
                 </aside>
