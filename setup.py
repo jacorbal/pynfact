@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 version = '1.3.1a1'
 
-with open("README.md", "r") as fh:
+with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 
@@ -23,7 +23,7 @@ setup(name='pynfact',
           'Tracker': 'https://github.com/jacorbal/pynfact/issues'},
       description='Blog-oriented static website generator by Jinja2 templates and Markdown source.',
       long_description=long_description,
-      long_description_content_type='text/markdown',
+      long_description_content_type='text/x-rst',
       license='MIT',
       keywords=['blog', 'markdown', 'static', 'web', 'site', 'generator'],
       py_modules=find_packages(),

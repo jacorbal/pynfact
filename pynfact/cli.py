@@ -227,7 +227,9 @@ def main():
                         help="set a new error log filename (or 'none')")
     parser.add_argument('-v', '--verbose', action='store_true',
                         help="increase output verbosity")
-    args = parser.parse_args()
+
+    # Print help if no arguments supplied
+    args = parser.parse_args(None if sys.argv[1:] else ['--help'])
 
     # Process arguments
     logger = set_logger(args.verbose, error_log=args.log)

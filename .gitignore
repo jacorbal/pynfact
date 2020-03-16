@@ -1,14 +1,16 @@
 *~
 .*.sw?
 *.un~
-Session.vim
-.netrwhist
-.DS_Store
+*.err
 *.pyc
-_tmp_
 *.nosync
 .hgignore
 .hg
+*egg-info
+Session.vim
+.netrwhist
+.DS_Store
+_tmp_
 _build
-*.err
+dist
 
