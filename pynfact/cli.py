@@ -27,18 +27,24 @@ def set_logger(verbosity=False, error_log='pynfact.err',
                echo_log=sys.stdout):
     """Set up the system logger.
 
-    :param verbosity: Show only information, or show all messages
+    :param verbosity: Show basic information, or also debug messages
     :type verbosity: bool
     :param error_log: Filename for the warnings and errors log
     :type error_log: str
-    :param echo_log: Where to write the default notification log
-    :type echo_log: str
+    :param echo_log: Stream to write the default information log
+    :type echo_log: _io.TextIOWrapper
+
+    This function starts two logs, one stream on the standard output
+    (``echo_log``) where the ``verbosity`` parameter can increase the
+    volume of messages; and the error log (``error_log``), saved to a
+    file but only logging errors and critical errors.  Warnings, errors
+    and critical errors are displayed automatically to the standard
+    output.
 
     The parameter ``verbosity`` concerns only to what is being displayed
-    on screen.  Those levels of verbosity will be computed to translate
-    it to a valid log level that the ``logging`` system could handle.
-    The default levels are set by the ``logging`` module.  It can be
-    specify by integer value or by name.  These are the options:
+    on screen concordingly with the log leves of the ``logging`` module.
+    These levels may be specified by an integer value or by name.  These
+    are their values:
 
     * 10: ``logging.DEBUG``
     * 20: ``logging.INFO``
@@ -67,7 +73,8 @@ def set_logger(verbosity=False, error_log='pynfact.err',
     The only way to deactivate the ``error_log`` is to use the command
     line option ``-l none``, or ``--log=none``.  Either way, the
     warnings, errors and critical messages will still be shown on
-    screen, for any value of ``verbosity``.
+    screen, for any value of ``verbosity``.  What ``verbosity`` does is
+    to enable or disabe the debug messages.
     """
     log_level = logging.DEBUG if verbosity else logging.INFO
     logger = logging.getLogger(__name__)
