@@ -795,6 +795,8 @@ class Builder:
                   Otherwise those links could be left behind on page
                   pages.
         """
+        self.logger and self.logger.info('Building static website...')
+
         self.gen_nav_page_links()
         self.gen_entries(self.site_config['date_format']['entry'])
         self.gen_pages()
@@ -808,4 +810,6 @@ class Builder:
         self.gen_feed(self.site_config['presentation']['feed_format'])
         self.gen_static()
         self.gen_extra_dirs()
+
+        self.logger and self.logger.info('Done!')
 

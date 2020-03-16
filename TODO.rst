@@ -9,8 +9,8 @@ The number in brackets represents the priority (0:none, 5:urgent)
 Code
 ====
 
+* **[5]** Get array of meta data, instead of individual attributes
 * **[3]** Break ``Builder`` into more classes and functions, redundant code!
-
 * **[1]** In ``struri.py``:
 
   * Apply ``re.sub`` to all members of the list
@@ -19,13 +19,9 @@ Code
 
   * Retrieve metainfo without regenerating all HTML from Markdown
 
-* **[3]** In *all* of the above and the rest:
-
-  * Use a much more *pythonic* code
-
+* **[3]** In *all*, use a **much more** *pythonic* code
 * **[2]** Single-sourcing_ the package version in an efficient way
-
-* **[4]** Use ``argparse`` in ``cli.py``
+* **[X]** Use ``argparse`` in ``cli.py``
 
 Next features
 =============
@@ -90,7 +86,7 @@ Functionality
 -------------
 
 * **[X]** Logging, instead of using ``stdout`` when generating the site
-* **[4]** User can choose where to store the logs in ``config.yaml``.
+* **[2]** User should choose where to store the logs in ``config.yaml``.
 
   * ``pynfact --log=/dev/stdout``
   * ``pynfact --log=~/pynfact.log``
@@ -113,14 +109,20 @@ Things that will change for sure.
 Intended command line interface
 -------------------------------
 
-* Initialize a site: ``pynfact -i [name]``  or ``pynfact --init[=name]``
-* Serve: ``pynfact -s`` or ``pynfact --serve``
-* Set port:  ``pynfact -p 4002`` or ``pynfact --port=4002``
-* Build: ``pynfact -b`` or ``pynfact --build``
-* Deploy dir: ``pynfact -d _deploy`` or ``pynfact --deploy-dir=_deploy``
-* Theme load: ``pynfact -L theme`` or ``pynfact --loadtheme=theme``
-* Theme save: ``pynfact -S theme`` or ``pynfact --savetheme=theme``
-* Logging: ``pynfact -l file`` or ``pynfact --log=file``
+* **[5]** Check if CWD is a pynfact blog one when invoking ``--init``
+* **[1]** Logs in directory ``log`` (?)
+
+Command line options:
+
+* **[X]** Initialize a site: ``pynfact -i [name]``  or ``pynfact --init[=name]``
+* **[X]** Serve: ``pynfact -s`` or ``pynfact --serve``
+* **[X]** Set port:  ``pynfact -p 4002`` or ``pynfact --port=4002``
+* **[X]** Build: ``pynfact -b`` or ``pynfact --build``
+* **[X]** Logging: ``pynfact -l file`` or ``pynfact --log=file``
+* **[ ]** Configuration: ``pynfact -c myconfig.yaml`` or ``--config=``
+* **[ ]** Deploy dir: ``pynfact -d _deploy`` or ``pynfact --deploy-dir=_deploy``
+* **[ ]** Theme load: ``pynfact -L theme`` or ``pynfact --loadtheme=theme``
+* **[ ]** Theme save: ``pynfact -S theme`` or ``pynfact --savetheme=theme``
 
 Intended userspace
 ------------------

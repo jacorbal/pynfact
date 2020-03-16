@@ -46,7 +46,8 @@ class Server:
             httpd = HTTPServer((self.host, self.port),
                                SimpleHTTPRequestHandler)
         except OSError:
-            self.logger and self.logger.error("Address already in use")
+            self.logger and self.logger.error(
+                "Address not valid or already in use")
             sys.exit(62)
 
         self.logger and self.logger.info("Serving %s:%s at %s",

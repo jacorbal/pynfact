@@ -5,6 +5,12 @@ Changelog
 Release history
 ===============
 
+1.3.1a1 -- Mon 16 Mar 2020 03:17:43 +0100
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* CLI interface with ``argparser`` and more modularized
+* Update documentation
+
 1.2.1a1 -- Sun 15 Mar 2020 17:16:17 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

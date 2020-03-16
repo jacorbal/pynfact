@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: **1.2.1a1** (2020-03-15)
+:Latest version: **1.3.1a1** (2020-03-16)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
@@ -50,11 +50,11 @@ Usage
 The interaction is done by command line.  Only a few commands are
 needed:
 
-#. ``pynfact init <myblog>``: Create a folder with all needed content
+#. ``pynfact --init=<myblog>``: Create a folder with all needed content
 #. Go to that directory: ``cd <myblog>``
 #. Configure settings in ``config.yml``, title, name, language...
-#. ``pynfact build``: Generates the static content
-#. ``pynfact serve``: Serves locally to test the results
+#. ``pynfact --build``: Generates the static content
+#. ``pynfact --serve=localhost``: Serves locally to test the results
    (by default at ``localhost:4000``)
 
 More details at: <https://github.com/jacorbal/pynfact/wiki>.
@@ -62,6 +62,7 @@ More details at: <https://github.com/jacorbal/pynfact/wiki>.
 Recent changes
 ==============
 
+* CLI interface with ``argparser`` and more modularized
 * Improve code readability to comply with :PEP:`8` and :PEP:`257`
 * Generate pages slugs as posts, i.e, from the title, not the filename
 * Add logging support using ``logging``
@@ -91,10 +92,9 @@ Contributing
 Bugs
 ~~~~
 
-Lots!  This project is still in development, so there are probably a
-lot of bugs that need to be fixed before deploying a stable release.
-If you find a bug, please, report it at the `GitHub issue
-tracker`_.
+This project is still in development, so there are probably lots of bugs
+that need to be fixed before deploying a stable release.  If you find a
+bug, please, report it at the `GitHub issue tracker`_.
 
 Getting help, suggesting, asking questions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
