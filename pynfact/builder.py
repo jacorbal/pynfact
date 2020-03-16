@@ -30,25 +30,28 @@ class Builder:
     """Site building process manager.
 
     .. todo:: Manage better with timezones. Make sure if there is no
-              timezone, the default is always UTC, for posts info, and
-              both feeds publication and modification dates.
+        timezone, the default is always UTC, for posts info, and both
+        feeds publication and modification dates.
 
     .. todo:: Remove redundant code using a universal method for
-              retrieve and gather the data; and use subclasses.
+        retrieve and gather the data; and use subclasses.
 
     .. todo:: Unlink all file management from this class and build
-              andother module to deal with that
+        andother module to deal with that
 
     .. versionchanged:: 1.0.1.dev1
-       Constructor takes a configuration dictionary instead of all
-       parameters individually
+        Constructor takes a configuration dictionary instead of all
+        parameters individually
 
     .. versionchanged:: 1.0.1a1
-       Input pages stored in ``pages`` directory instead of root
+        Input pages stored in ``pages`` directory instead of root
 
     .. versionchanged:: 1.2.0a1
-       Implement ``logging`` instead of printing to ``stdout`` and/or
-       ``stderr``
+        Implement ``logging`` instead of printing to ``stdout`` and/or
+        ``stderr``
+
+    .. versionchanged:: 1.3.1.a2
+        Update YAML loaded method to :func:``yaml.safe_load``
 
     """
 

@@ -24,7 +24,7 @@ class Yamler:
         self.fd = None
         try:
             with open(self.filename, 'r') as self.fd:
-                self.config = yaml.load(self.fd)
+                self.config = yaml.safe_load(self.fd)
         except IOError:
             self.logger and self.logger.error(
                 "Cannot read the configuration file")

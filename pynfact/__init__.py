@@ -38,6 +38,6 @@ __email__ = "jacorbal@gmail.com"
 __license__ = "MIT"
 __maintainer__ = "J. A. Corbal"
 __status__ = "Production"
-__version_info__ = ('1', '2', '1a1')
+__version_info__ = ('1', '3', '1a2')
 __version__ = '.'.join(__version_info__)
 

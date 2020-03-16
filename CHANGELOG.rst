@@ -5,6 +5,12 @@ Changelog
 Release history
 ===============
 
+1.3.1a1 -- Mon 16 Mar 2020 20:31:24 +0100
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fix dependency requirement in ``setup.py`` for ``PyYAML``
+* CLI interface now displays help if no option is given
+
 1.3.1a1 -- Mon 16 Mar 2020 03:17:43 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

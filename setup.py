@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 
-version = '1.3.1a1'
+version = '1.3.1a2'
 
 with open("README.rst", "r") as fh:
     long_description = fh.read()
@@ -21,7 +21,7 @@ setup(name='pynfact',
           'Funding': 'https://jacorbal.es/pynfact',
           'Source': 'https://github.com/jacorbal/pynfact',
           'Tracker': 'https://github.com/jacorbal/pynfact/issues'},
-      description='Blog-oriented static website generator by Jinja2 templates and Markdown source.',
+      description='Blog-oriented static website generator using Markdown.',
       long_description=long_description,
       long_description_content_type='text/x-rst',
       license='MIT',
@@ -51,6 +51,7 @@ setup(name='pynfact',
           'jinja2 >= 2.7',
           'markdown >= 3.0.0',
           'pygments',
+          'pyyaml >= 5.1',
           'unidecode',
       ],
       python_requires='>=3.6',

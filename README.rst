@@ -10,7 +10,6 @@ configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
 :Latest version: **1.3.1a2** (2020-03-17)
-:Latest ``pip``: **1.3.1a1** (2020-03-16)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
