@@ -1,15 +1,13 @@
-#!/usr/bin/env python3
 # vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
-Command line interface.
+Command line interface functions.
 
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
 """
 from pynfact.builder import Builder
 from pynfact.server import Server
 from pynfact.yamler import Yamler
-import argparse
 import logging
 import os
 import shutil
@@ -26,13 +24,6 @@ except ImportError:
 def set_logger(verbosity=False, error_log='pynfact.err',
                echo_log=sys.stdout):
     """Set up the system logger.
-
-    :param verbosity: Show basic information, or also debug messages
-    :type verbosity: bool
-    :param error_log: Filename for the warnings and errors log
-    :type error_log: str
-    :param echo_log: Stream to write the default information log
-    :type echo_log: _io.TextIOWrapper
 
     This function starts two logs, one stream on the standard output
     (``echo_log``) where the ``verbosity`` parameter can increase the
@@ -75,6 +66,13 @@ def set_logger(verbosity=False, error_log='pynfact.err',
     warnings, errors and critical messages will still be shown on
     screen, for any value of ``verbosity``.  What ``verbosity`` does is
     to enable or disabe the debug messages.
+
+    :param verbosity: Show basic information, or also debug messages
+    :type verbosity: bool
+    :param error_log: Filename for the warnings and errors log
+    :type error_log: str
+    :param echo_log: Stream to write the default information log
+    :type echo_log: _io.TextIOWrapper
     """
     log_level = logging.DEBUG if verbosity else logging.INFO
     logger = logging.getLogger(__name__)
@@ -105,7 +103,7 @@ def retrieve_config(config_file, logger=None):
     :type config_file: str
     :param logger: Logger to pass it to the ``Yamler`` constructor
     :type logger: logging.Logger
-    :return: Dictionary of configuration
+    :return: Dictionary with the configuration written in YAML file
     :rtype: dict
     """
     config = Yamler(config_file, logger)
@@ -155,7 +153,7 @@ def arg_init(logger, dst):
     :type dst: str
     :param logger: Logger to pass it to the ``Yamler`` constructor
     :type logger: logging.Logger
-    :raise: OSError
+    :raise OSError: If it's not possible to create the website folder
     """
     real_path = os.path.dirname(os.path.realpath(__file__))
     src = os.path.join(real_path, 'initnew')
@@ -206,42 +204,4 @@ def arg_serve(logger, host='localhost', port=4000):
     """
     server = Server(host, port=port, path='_build', logger=logger)
     server.serve()
-
-
-def main():
-    """Manage the command line arguments."""
-    parser = argparse.ArgumentParser(description="PynFact!:"
-                                     " A static blog generator from"
-                                     " Markdown to HTML5 with Jinja2")
-    group = parser.add_mutually_exclusive_group()
-
-    group.add_argument('-i', '--init', default=None,
-                       help="initialize a new blog structure")
-    group.add_argument('-b', '--build', action='store_true',
-                       help="build the website")
-    group.add_argument('-s', '--serve', default='localhost',
-                       help="set address to serve locally the blog")
-    parser.add_argument('-p', '--port', default='4000', type=int,
-                        help="set port to listen to when serving")
-    parser.add_argument('-l', '--log', default='pynfact.err',
-                        help="set a new error log filename (or 'none')")
-    parser.add_argument('-v', '--verbose', action='store_true',
-                        help="increase output verbosity")
-
-    # Print help if no arguments supplied
-    args = parser.parse_args(None if sys.argv[1:] else ['--help'])
-
-    # Process arguments
-    logger = set_logger(args.verbose, error_log=args.log)
-    if args.init:
-        arg_init(logger, args.init)
-    elif args.build:
-        arg_build(logger, default_content_ext='.md')
-    elif args.serve:
-        arg_serve(logger, args.serve, int(args.port))
-
-
-# Main entry
-if __name__ == '__main__':
-    main()
 

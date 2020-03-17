@@ -95,8 +95,19 @@ body, input, select, textarea {
 strong { font-weight: 400; }
 
 /* Italic within italic is normal style */
-em > em { font-style: normal; }
-em > em > em { font-style: italic; }
+cite > cite,
+cite > em,
+em > cite,
+em > em {
+    font-style: normal;
+}
+
+cite, em,
+cite > em > em,
+em > em > cite,
+em > em > em {
+    font-style: italic;
+}
 
 /* Units *never* in italics even when inside an italicized block.
  * Always, **always**, **ALWAYS** in normal font (RAE has spoken!) */
@@ -819,9 +830,11 @@ div.sfootnote a[href^="#sfnref"] {
  * Fixes the bug of the double reference in the Python Markdown plugin,
  * although it can make some backreferences invisible when not desired,
  * in very few cases. */
+/*
 div.footnote a[href^="#fnref:"]{
    display: none; 
 }
+*/
 
 div.footnote a:after,
 div.sfootnote a:after {

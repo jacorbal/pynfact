@@ -2,8 +2,11 @@
 """
 URI strings manipulation functions.
 
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
+
+.. versionchanged:: 1.2.0a1
+    Relocate file management functions to :mod:`fileman`.
 """
 import unidecode
 import re

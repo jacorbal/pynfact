@@ -1,65 +1,129 @@
 # vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
-Meta information retrieval from markdown post file.
+Meta information processor from markdown post file.
 
 Meta fields are set in English, Portuguese, Spanish, Catalan, Galician
 and Esperanto (using the *X*-system), although there cannot be any
 accent in the field names, so "título" has to be "titulo" in order to
 work properly.
 
-There may be diacritics in field values (UTF-8 by default) but not in
-field names.
+There may be diacritics in meta values (UTF-8 by default) but not in key
+names (``[A-Za-z0-9]]``).
 
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
 """
 from dateutil.parser import parse
+from pynfact.dataman import or_array_in
 import datetime
+import logging
 import markdown
 import re
+import sys
 
 
 class Meta:
-    """Meta information retriever.
+    """Meta information processor.
 
-    .. todo: Use a general function retriever, instead of one function
-             for each meta key.
+    .. todo:: Use a general function retriever, instead of one function
+        for each meta key.
 
-    .. code-block:
+    .. code-block:: python
 
-        def retrieve(self, array_of_valid_keys,
+        def process(self, array_of_valid_keys,
                 type=[str, list, joined, date],
-                date_format[if_type is date]):
+                date_format[if type is date]):
 
-    * ``type`` is ``date``, use the `date_format`
-    * ``type`` is ``str``, return the trimmed string as it comes
-    * ``type`` is ``joined``, return the list after splitting commas
+    * if ``type`` is ``"date"``, use the `date_format`
+    * if ``type`` is ``"str"``, return the trimmed string as it comes
+    * if ``type`` is ``"joined"``, return the list after splitting commas
 
     Code example of the intended feature::
 
         >>> m = Meta(meta_information)
 
         >>> title_valid_keys = ['title', 'titulo', 'titolo', 'titol' ]
-        >>> def m.retrieve(title_valid_keys, type='str')
+        >>> def m.process(title_valid_keys, type='str')
         'The title to this Post'
 
         >>> date_valid_keys = ['date', 'data', 'dato', 'fecha' ]
-        >>> def m.retrieve(date_valid_keys, type='date', '%c')
+        >>> def m.process(date_valid_keys, type='date', '%c')
         'Thu 12 Mar 2020 06:47:43 PM UTC'
 
         >>> tags_valid_keys = ['tags', 'labels', 'etiquetas', 'etikedoj']
-        >>> def m.retrieve(tags_valid_keys, type='join')
+        >>> def m.process(tags_valid_keys, type='join')
         ['tag1', 'tag2', 'tag3', 'tag4']
 
+    .. versionchanged:: 1.3.1a3
+        Validate source input meta tags of title (always) and date (when
+        needed) raising a ``ValueError`` and passing to the logger the
+        information of the error.
     """
 
-    def __init__(self, meta):
+    def __init__(self, meta, filename='', date_required=False,
+                 logger=None):
         """Constructor.
 
-        :param meta: Meta information
-        :type meta: list
+        :param meta: Meta information dictionary
+        :type meta: dict
+        :param filename: Identifier for the file that is being tested
+        :type filename: str
+        :param date_required: If ``True`` checks for the date metadata
+        :type date_required: bool
+        :param logger: Logger where to store activity in
+        :type logger: logging.Logger
         """
         self.meta = meta
+        self.logger = logger
+        self.filename = filename
+        self.date_required = date_required
+
+        # Test if the data supplied is valid
+        self.is_valid()
+
+    def is_valid(self):
+        """Check if the metadata is valid.
+
+        The metadata is considered malformed when the title (and if
+        ``date_required`` is set to ``True``, also the date) are not in
+        the dictionary that is generated after parsing the file.  This
+        could happen because:
+
+        * title (or date) are missing;
+        * title (or date) identifiers have invalid characters (the only
+          valid ones are the ASCII character set encoded: "[A-Za-z0-9]");
+        * title (or date) meta-information tag is more than one line
+          long and it's not properly indented (subsequent lines require
+          to be indented a minimum of four spaces).
+
+        :return: ``False`` if problem found while getting the metadata
+        :rtype: bool
+        :raise ValueError: If the metadata is malformed
+
+        .. versionadded:: 1.3.1a3
+            Preliminary test to see if the mandatory meta tags are set,
+            or otherwise an exception is thrown.
+        """
+        title_arr = ['titulo', 'title', 'titolo', 'entry', 'post', 'afiso']
+        try:
+            if not or_array_in(self.meta, *title_arr):
+                raise ValueError
+        except ValueError:
+            self.logger and self.logger.error(
+                'Missing or malformed title key in "{}" metadata'.format(
+                    self.filename))
+            sys.exit(31)
+
+        if self.date_required:
+            date_arr = ['fecha', 'date', 'data', 'dato']
+            try:
+                if not or_array_in(self.meta, *date_arr):
+                    raise ValueError
+            except ValueError:
+                self.logger and self.logger.error(
+                    'Missing or malformed date key in "{}" metadata'.format(
+                        self.filename))
+                sys.exit(32)
 
     def category(self, default_category='Miscellaneous'):
         """Get category as a string from post meta information.
@@ -68,13 +132,15 @@ class Meta:
         :rtype: str
         """
         category = self.meta.get('category') or \
+            self.meta.get('categoría') or \
             self.meta.get('categoria') or self.meta.get('kategorio')
         return ' '.join(category) if category else default_category
 
     def author(self, default_author=''):
         """Get the author as a string from post meta information.
 
-        .. todo:: If more than one author, return list, instead of str
+        .. todo:: If more than one author, return list, instead of
+            ``str``.
 
         :return: Author field
         :rtype: str
@@ -121,7 +187,17 @@ class Meta:
             self.meta.get('titolo')
         # return ''.join(title) if title else ''
         fmttitle = markdown.markdown(' '.join(title) if title else '')
-        return re.sub(r'</*(p|br)[^>]*?>', '', fmttitle)
+        rtitle = re.sub(r'</*(p|br)[^>]*?>', '', fmttitle)
+
+        try:
+            if not rtitle:
+                raise ValueError
+        except ValueError:
+            self.logger and self.logger.error(
+                'Empty title value in "{}" metadata'.format(self.filename))
+            sys.exit(33)
+
+        return rtitle
 
     def summary(self):
         """Get post summary as a string from post meta information.
@@ -169,9 +245,21 @@ class Meta:
         :type date_format: str
         :return: Date field
         :rtype: str
+
+        .. versionchanged:: 1.3.1a3
+        Validate source input meta tags of date raising a ``ValueError``
+        and passing to the logger the information of the error.
         """
-        return self.date_info().strftime(date_format) \
-            if self.date_info() else ''
+        try:
+            if not self.date_info():
+                raise ValueError
+        except ValueError:
+            self.logger and self.logger.error(
+                'Empty or invalid date value in "{}" metadata'.format(
+                    self.filename))
+            sys.exit(34)
+        else:
+            return self.date_info().strftime(date_format)
 
     def up_date_info(self):
         """Get updated post date as a datetime object.
@@ -270,4 +358,8 @@ class Meta:
         :rtype: str
         """
         return ', '.join(tag_list(self.meta)) if tag_list(self.meta) else ''
+
+    def __str__(self):
+        """Return string representation for an object of this class."""
+        return str(self.meta)
 

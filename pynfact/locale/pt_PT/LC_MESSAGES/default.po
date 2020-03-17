@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
-"PO-Revision-Date: 2012-09-30 18:33+0200\n"
+"PO-Revision-Date: 2020-03-17 12:16+0100\n"
 "Last-Translator: J. A. Corbal <jacorbal@gmail.com>\n"
 "Language-Team: Português\n"
 "Language: pt_PT\n"
@@ -26,6 +26,14 @@ msgstr "Etiquetas"
 msgid "Entries tagged"
 msgstr "Artigos etiquetados"
 
+#: initnew/templates/base.html.j2:49 templates/catcloud.html.j2:2 templates/catcloud.html.j2:3 templates/catcloud.html.j2:9 templates/cat.html.j2:6
+msgid "Categories"
+msgstr "Categorias"
+
+#: templates/cat.html.j2:7 templates/cat.html.j2:14
+msgid "Entries categorized"
+msgstr "Artigos categorizados em"
+
 # Take in consideration the surrounding spaces
 #: templates/entry.html.j2:29
 msgid " and "
@@ -35,9 +43,29 @@ msgstr " e "
 msgid "published on"
 msgstr "publicado em"
 
+#:  templates/entry.html.j2:15
+msgid "published for first time on"
+msgstr "publicado pela primeira vez em"
+
+#:  templates/entry.html.j2:18
+msgid "updated on"
+msgstr "revisado em"
+
 #: templates/entry.html.j2:26
 msgid "This entry is tagged"
 msgstr "Este artigo está etiquetado"
+
+#: templates/entry.html.j2:26
+msgid "This entry is not tagged"
+msgstr "Este artigo não está etiquetado"
+
+#: templates/entry.html.js:48
+msgid "and categorized"
+msgstr "e categorizado em"
+
+#: initnew/templates/base.html.j2:66
+msgid "Projects"
+msgstr "Projetos"
 
 #: initnew/templates/base.html.j2:51
 msgid "Feed"

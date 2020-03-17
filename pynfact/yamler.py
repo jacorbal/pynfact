@@ -2,22 +2,30 @@
 """
 Handles a YAML file by setting a default value when variable is not set.
 
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
 """
 import sys
 import yaml
 
 
 class Yamler:
-    """Handle a YAML file."""
+    """Handle a YAML file.
+
+    .. versionchanged:: 1.2.0a1
+        Implement ``logging`` instead of printing to ``stdout`` and/or
+        ``stderr``.
+    """
 
     def __init__(self, filename, logger=None):
         """Constructor.
 
-        :param filename: YAML filename where to look for the config.
+        :param filename: YAML filename where to look for the config
         :type filename: str
-        :raise: IOError
+        :raise IOError: If the configuration files cannot be read
+
+        .. versionchanged:: 1.3.1.a2
+            Update YAML loaded method to :func:``yaml.safe_load``.
         """
         self.filename = filename
         self.logger = logger
@@ -64,7 +72,8 @@ class Yamler:
         :param default_value: Default value if key is not found
         :return: The value associated to that key, or the default value
 
-        .. todo:: Use :func:`yamler.Yamler.__getitem__`?
+        .. todo::
+            Use :func:`self.__getitem__`?
         """
         if key in self.config:
             value = self.config[key]

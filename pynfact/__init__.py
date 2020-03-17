@@ -28,9 +28,9 @@
 """
 A blog-oriented static web content generator from Markdown to HTML5.
 
-    :author: J A Corbal
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:author: \J. A. Corbal
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
 """
 __author__ = "J. A. Corbal"
 __copyright__ = "Copyright 2012-2020, J. A. Corbal"
@@ -38,6 +38,6 @@ __email__ = "jacorbal@gmail.com"
 __license__ = "MIT"
 __maintainer__ = "J. A. Corbal"
 __status__ = "Production"
-__version_info__ = ('1', '3', '1a2')
+__version_info__ = ('1', '3', '1a3')
 __version__ = '.'.join(__version_info__)
 

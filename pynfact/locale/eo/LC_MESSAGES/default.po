@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
 "POT-Creation-Date: 2020-03-10 23:52+0200\n"
-"PO-Revision-Date: 2020-03-10 23:52+0200\n"
+"PO-Revision-Date: 2020-03-17 12:23+0100\n"
 "Last-Translator: J. A. Corbal <jacorbal@gmail.com>\n"
 "Language-Team: Esperanto\n"
 "Language: eo\n"
@@ -55,6 +55,10 @@ msgstr "ĝisdatigita en"
 #: templates/entry.html.j2:41
 msgid "This entry is tagged"
 msgstr "Ĉi tiu eniro estas etikedita kiel"
+
+#: templates/entry.html.j2:41
+msgid "This entry is not tagged"
+msgstr "Ĉi tiu eniro ne estas etikedita"
 
 #: templates/entry.html.js:48
 msgid "and categorized"

@@ -5,7 +5,21 @@ Changelog
 Release history
 ===============
 
-1.3.1a1 -- Mon 16 Mar 2020 20:31:24 +0100
+1.3.1a3 -- Tue 17 Mar 2020 12:47:16 +0100 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Update user documentation
+* Refactor ``cli.py`` moving the ``main`` entry to ``main.py``
+* Refactor ``Builder`` reducing redundant code
+* ``Meta`` class now raises exceptions if meta data is invalid or
+  insufficient; validation of titles (always) and dates (if required)
+* Array manipulation functions in ``dataman.py`` file
+* Update dependency versions in ``setup.py``
+* Enhance CSS with minor improvements
+* Update locales for Esperanto, Spanish, French, Portuguese, Galician
+  and Catalan
+
+1.3.1a2 -- Mon 16 Mar 2020 20:31:24 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Fix dependency requirement in ``setup.py`` for ``PyYAML``
@@ -26,13 +40,13 @@ Release history
 * Error codes
 * Reduce redundant code in ``Builder`` class, private methods to manage
   the code better
-* Refactorize the code
+* Refactor code
 
 1.2.0a1 -- Sun 15 Mar 2020 10:44:17 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Logging support by using ``logging``.  Warnings and errors stored in
-  separated file, information logs (or more critical) on ``stdout``.
+* Add logging support by using ``logging``.  Warnings and errors stored
+  in separated file, information logs (or more critical) on ``stdout``.
   When the CLI interface will be updated with ``argparser``, the user
   will be able to select the log level, DEBUG (show all), INFO (show
   only file updates, but not parsing actions), WARNING,...
@@ -40,10 +54,10 @@ Release history
 1.1.0a1 -- Sat 14 Mar 2020 01:21:35 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Pages now are stored in the directory ``pages``
+* Store pages in the directory ``pages``, and not in the root directory
 * Generate links to pages in the navigation bar, unless indicating the
-  opposite.
-* Fix bugs.
+  opposite
+* Fix bugs
 
 1.0.2.dev4 -- Wed 12 Mar 2020 02:24:35 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,7 +67,7 @@ Release history
 1.0.0.dev1 -- Wed 11 Mar 2020 03:21:35 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* First tests finished, released as 1.0.0-alpha and first steps into
+* Finish first tests, released as 1.0.0-alpha and first steps into
   package developing
 * Move all templates to user space, so the user has full
   control over the presentation, and prepares the system for future
@@ -72,14 +86,14 @@ Release history
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Simplify ``Builder`` class constructor: now it takes a configuration
-  dicionary sorted semantically
-* Refactorize and improved exceptions check
+  dictionary sorted semantically
+* Refactor and improved exceptions check
 
 0.3.7 -- Mon 09 Mar 2020 11:46:19 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Remove Javascript and added light/dark CSS styles
-  
+
 0.3.6 -- Wed 04 Mar 2020 15:30:48 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -94,7 +108,7 @@ Release history
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Files that haven't changed are no longer rewritten after parsing the
-  Markdown text; only overwritte those files that are different (using
+  Markdown text; only overwrite those files that are different (using
   ``filecmp``)
 
 0.3.3 -- Tue 03 Mar 2020 08:23:24 +0100

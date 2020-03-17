@@ -1,5 +1,5 @@
 .. vim: set ft=rst fenc=utf-8 tw=72 nowrap:
-.. Version: pynfact-1.3.1a1
+.. Version: pynfact-1.3.1a3
 
 ##################
 User documentation
@@ -26,6 +26,7 @@ Contents
     :maxdepth: 2
 
     intro
+    dependencies
     quickstart
     install-and-upgrade
     configuration

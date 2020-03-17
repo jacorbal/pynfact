@@ -3,12 +3,12 @@
 """
 A blog-oriented static web content generator from Markdown to HTML5.
 
-    :author: J A Corbal
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:author: \J. A. Corbal
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
 """
 
-from pynfact.cli import main
+from pynfact.main import main
 
 
 if __name__ == '__main__':

@@ -2,8 +2,8 @@
 """
 File and path manipulation functions.
 
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
 """
 
 from pynfact.struri import slugify, strip_html_tags
@@ -38,12 +38,14 @@ def link_to(name, prefix='', makedirs=True, justdir=False,
     >>> struri.link_to('dest', 'a/b/c', makedirs=False, justdir=True)
     'a/b/c/dest'
 
-    .. versionchanged:: 1.2.0a1, changed function location from module
-                        ``struri`` to ``fileman``.
+    .. versionchanged:: 1.2.0a1
+        Relocate function location from module :mod:`struri` to
+        :mod:`fileman`.
 
-    .. todo:: Add a verbose argument, default to ``False`` (for
-              compatibility), that prints status on creating the path if
-              ``makedirs=True``.
+    .. todo::
+        Add a verbose argument, default to ``False`` (for
+        compatibility), that prints status on creating the path if
+        ``makedirs=True``.
     """
     dirname = slugify(strip_html_tags(os.path.splitext(name)[0]))
     path = os.path.join(prefix, slugify(dirname), index)

@@ -6,8 +6,8 @@ Only markdown files will be taken, but markdown files are identified by
 its extension, which for this application is ``.md`` (but it may be
 specified in ``infile_ext`` argument)
 
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
 """
 from datetime import datetime
 from feedgen.feed import FeedGenerator
@@ -23,36 +23,34 @@ import gettext
 import locale
 import os
 import sys
-import textwrap
 
 
 class Builder:
     """Site building process manager.
 
-    .. todo:: Manage better with timezones. Make sure if there is no
-        timezone, the default is always UTC, for posts info, and both
-        feeds publication and modification dates.
+    .. todo::
+        Manage better with timezones. Make sure if there is no timezone,
+        the default is always UTC, for posts info, and both feeds
+        publication and modification dates.
 
-    .. todo:: Remove redundant code using a universal method for
-        retrieve and gather the data; and use subclasses.
+    .. todo::
+        Remove redundant code using a universal method for retrieve and
+        gather the data; and use subclasses.
 
-    .. todo:: Unlink all file management from this class and build
-        andother module to deal with that
+    .. todo::
+        Unlink all file management from this class and build andother
+        module to deal with that.
 
     .. versionchanged:: 1.0.1.dev1
         Constructor takes a configuration dictionary instead of all
-        parameters individually
+        parameters individually.
 
     .. versionchanged:: 1.0.1a1
-        Input pages stored in ``pages`` directory instead of root
+        Input pages stored in ``pages`` directory instead of root.
 
     .. versionchanged:: 1.2.0a1
         Implement ``logging`` instead of printing to ``stdout`` and/or
-        ``stderr``
-
-    .. versionchanged:: 1.3.1.a2
-        Update YAML loaded method to :func:``yaml.safe_load``
-
+        ``stderr``.
     """
 
     def __init__(self, site_config, template_values=dict(),
@@ -67,7 +65,7 @@ class Builder:
         :type infile_ext: str
         :param logger: Logger where to store activity in
         :type logger: logging.Logger
-        :raise: localeError
+        :raise localeError: If the selected locale is not supported
         """
         self.site_config = site_config
         self.template_values = template_values
@@ -112,136 +110,6 @@ class Builder:
         """Destructor.  Restore the locale, if changed."""
         return locale.setlocale(locale.LC_ALL, self.old_locale)
 
-    def _render_template(self, template, output_data, values):
-        """Render a template using Jinja2.
-
-        :param template: Template to use
-        :type template: str
-        :param output_data: File where the data is saved
-        :type output_data: str
-        :return: Generated HTML of the output data
-        :rtype: str
-        """
-        trans = gettext.translation('default', self.locale_dir,
-                                    [self.current_locale])
-        env = Environment(extensions=['jinja2.ext.i18n'],
-                          loader=FileSystemLoader([self.templates_dir,
-                                                   self.builtin_templates_dir]))
-        env.install_gettext_translations(trans)
-        env.globals['slugify'] = slugify  # Add `slugify` to Jinja2
-        env.globals['strip_html_tags'] = strip_html_tags
-        template = env.get_template(template)
-        html = template.render(**values)
-
-        # Update only those files that are different in content
-        # comparing with a cache file
-        with open(output_data + '~', mode="w",
-                  encoding=self.site_config['wlocale']['encoding']) \
-                as cache_file:
-            cache_file.write(html)
-
-        if not os.path.exists(output_data) or \
-           not filecmp.cmp(output_data + '~', output_data):
-            with open(output_data, mode="w",
-                      encoding=self.site_config['wlocale']['encoding']) \
-                    as output_file:
-                output_file.write(html)
-            self.logger and self.logger.info(
-                'Updated content of: "%s"', output_data)
-
-        # Clear cache, both in memory and space
-        filecmp.clear_cache()
-        os.remove(output_data + '~')
-
-        return html
-
-    def _entry_link_prefix(self, entry):
-        """Compute entrie final path.
-
-        To compute the final path, it's required to take the meta
-        information of that entry concerning to title and publication
-        date.
-        Let's suppose the title is "My entry", and the date is
-        "2020-04-01".  The output will be: `posts/2020/04/01/my-entry`
-
-        :param: Entry filename
-        :type: str
-        :return: Path to this entry relative to root (slugified)
-        :rtype: str
-        """
-        meta = Meta(Mulang(os.path.join(self.entries_dir, entry),
-                           self.site_config['wlocale']['encoding'],
-                           logger=self.logger).metadata())
-        category = meta.category(
-            self.site_config['presentation']['default_category'])
-        date = meta.date('%Y-%m-%d')
-        date_arr = date.split('-')
-        path = os.path.join(str(self.entries_dir),
-                            slugify(category),
-                            str(date_arr[0]),
-                            str(date_arr[1]),
-                            str(date_arr[2]))
-        return path
-
-    def _make_entry_uri(self, name='', infix='', index='index.html',
-                        force_root=False):
-        """Generate the link to an entry, based on the date and name.
-
-        :type name: Destination basename
-        :param name: str
-        :param infix: Appendix to the deploy directory
-        :type infix: str
-        :param index: Default name of the generated resource
-        :type index: str
-        :param force_root: Force the URI to be done from the root
-        :type force_root: bool
-        :return: Link to final external URI relative to root directory
-        :rtype: str
-        """
-        if force_root:
-            return link_to(name,
-                           os.path.join('/',
-                                        self.site_config['uri']['base'],
-                                        self._entry_link_prefix(infix)),
-                           makedirs=False, justdir=True, index=index)
-        else:
-            return link_to(name,
-                           self._entry_link_prefix(infix),
-                           makedirs=False, justdir=True, index=index)
-
-    def _make_root_uri(self, name='', infix='', index='index.html'):
-        """Generate the link to any resource in the root filesystem.
-
-        :type name: Destination basename
-        :param name: str
-        :param infix: Appendix to the deploy directory
-        :type infix: str
-        :param index: Default name of the generated resource
-        :type index: str
-        :return: Link to final external URI relative to root directory
-        """
-        return link_to(name,
-                       os.path.join('/',
-                                    self.site_config['uri']['base'],
-                                    infix),
-                       makedirs=False, justdir=True, index=index)
-
-    def _make_output_file(self, name='', infix='', index='index.html'):
-        """Return the output file link, and make required directories.
-
-        :param name: Destination basename
-        :type name: str
-        :param infix: Appendix to the deploy directory
-        :type infix: str
-        :param index: Default name of the generated resource
-        :type index: str
-        :return: Link to the constructed path in the deploy directory
-        :rtype: str
-        """
-        return link_to(name,
-                       os.path.join(self.site_config['dirs']['deploy'], infix),
-                       makedirs=True, justdir=False, index=index)
-
     def gen_entry(self, infile, date_format='%c'):
         """Generate a HTML entry from its Mardkdown counterpart.
 
@@ -252,11 +120,8 @@ class Builder:
         :return: Generated HTML
         :rtype: str
         """
-        inpath = os.path.join(self.entries_dir, infile)
-        ml = Mulang(inpath, self.site_config['wlocale']['encoding'],
-                    logger=self.logger)
-        meta = Meta(ml.metadata())
-        content_html = ml.html()
+        meta = self._fetch_meta(self.entries_dir, infile, True)
+        html = self._fetch_html(self.entries_dir, infile)
 
         title = meta.title()
         category = meta.category(
@@ -268,7 +133,7 @@ class Builder:
         datehtml = meta.date('%Y-%m-%dT%H:%M') + timezone
         up_datehtml = meta.up_date('%Y-%m-%dT%H:%M') \
             + timezone if meta.up_date('%Y-%m-%dT%H:%M') \
-                       else None
+            else None
 
         values = self.template_values.copy()
         values['entry'] = {  # append
@@ -286,7 +151,7 @@ class Builder:
             'date': meta.date(date_format),
             'datehtml': datehtml,
             'tags': meta.tag_list(),
-            'content': content_html}
+            'content': html}
 
         # Publish original date if needed
         if meta.up_date():
@@ -320,10 +185,7 @@ class Builder:
         total_entries = 0
         for filename in os.listdir(self.entries_dir):
             if has_extension(filename, self.infile_ext):
-                inpath = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(inpath,
-                                   self.site_config['wlocale']['encoding'],
-                                   logger=self.logger).metadata())
+                meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
                 title = meta.title()
@@ -334,7 +196,7 @@ class Builder:
                                                    self.categories_dir)
                 date = meta.date(date_format)
                 date_idx = meta.date('%Y-%m-%d %H:%M:%S')
-                uri = self._make_entry_uri(title, filename, force_root=True)
+                uri = self._make_entry_uri(title, filename, absolute=True)
 
                 # Generate archive
                 if not private:
@@ -356,7 +218,6 @@ class Builder:
         # Generate 'index.html' even when there are no posts
         if total_entries == 0:
             outfile = self._make_output_file()
-            print(outfile)
             self._render_template('entries.html.j2', outfile, values)
 
         # Home page (and subsequent ones)
@@ -387,10 +248,7 @@ class Builder:
         archive = dict()
         for filename in os.listdir(self.entries_dir):
             if has_extension(filename, self.infile_ext):
-                post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding'],
-                                   logger=self.logger).metadata())
+                meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
                 title = meta.title()
@@ -437,10 +295,7 @@ class Builder:
         archive = dict()
         for filename in os.listdir(self.entries_dir):
             if has_extension(filename, self.infile_ext):
-                post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding'],
-                                   logger=self.logger).metadata())
+                meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
                 title = meta.title()
@@ -479,10 +334,7 @@ class Builder:
         entries_by_category = dict()
         for filename in os.listdir(self.entries_dir):
             if has_extension(filename, self.infile_ext):
-                post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding'],
-                                   logger=self.logger).metadata())
+                meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
                 title = meta.title()
@@ -522,10 +374,7 @@ class Builder:
         entries_by_tag = dict()
         for filename in os.listdir(self.entries_dir):
             if has_extension(filename, self.infile_ext):
-                post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding'],
-                                   logger=self.logger).metadata())
+                meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
                 title = meta.title()
@@ -568,10 +417,7 @@ class Builder:
         entries_by_tag = dict()
         for filename in os.listdir(self.entries_dir):
             if has_extension(filename, self.infile_ext):
-                post = os.path.join(self.entries_dir, filename)
-                meta = Meta(Mulang(post,
-                                   self.site_config['wlocale']['encoding'],
-                                   logger=self.logger).metadata())
+                meta = self._fetch_meta(self.entries_dir, filename, True)
                 private = meta.private()
                 title = meta.title()
                 tag_list = meta.tag_list()
@@ -609,16 +455,13 @@ class Builder:
         but also all pages without the meta descriptor ``Navigate`` set
         to "no".
 
-        .. note:: Since this add new data to the base template, it must
-                  be invoked first, before generating any other page.
+        .. important::
+            Since this add new data to the base template, it **must be
+            invoked first**, before generating any other content.
         """
         for filename in os.listdir(self.pages_dir):
             if has_extension(filename, self.infile_ext):
-                inpath = os.path.join(self.pages_dir, filename)
-                ml = Mulang(inpath,
-                            self.site_config['wlocale']['encoding'],
-                            logger=self.logger)
-                meta = Meta(ml.metadata())
+                meta = self._fetch_meta(self.pages_dir, filename, False)
 
                 if meta.navigation():
                     title = meta.title()
@@ -638,7 +481,7 @@ class Builder:
                          values['page']['uri']])
 
                     self.logger and self.logger.info(
-                        'Added page to navigation: "%s"', inpath)
+                        'Added page to navigation: "{}"'.format(filename))
 
     def gen_page(self, infile):
         """Generate a HTML page from its Mardkdown counterpart.
@@ -648,11 +491,8 @@ class Builder:
         :return: Generated HTML
         :rtype: str
         """
-        inpath = os.path.join(self.pages_dir, infile)
-        ml = Mulang(inpath, self.site_config['wlocale']['encoding'],
-                    logger=self.logger)
-        meta = Meta(ml.metadata())
-        content_html = ml.html()
+        meta = self._fetch_meta(self.pages_dir, infile, False)
+        html = self._fetch_html(self.pages_dir, infile)
 
         title = meta.title()
 
@@ -660,7 +500,7 @@ class Builder:
         values['page'] = {  # append
             'title': title,
             'raw_title': strip_html_tags(title),
-            'content': content_html}
+            'content': html}
 
         outfile = self._make_output_file(title)
         return self._render_template('page.html.j2', outfile, values)
@@ -706,18 +546,15 @@ class Builder:
         entries = list()
         for filename in os.listdir(self.entries_dir):
             if has_extension(filename, self.infile_ext):
-                infile = os.path.join(self.entries_dir, filename)
-                ml = Mulang(infile,
-                            self.site_config['wlocale']['encoding'],
-                            logger=self.logger)
-                meta = Meta(ml.metadata())
+                meta = self._fetch_meta(self.entries_dir, filename, True)
+                html = self._fetch_html(self.entries_dir, filename)
                 author = self.site_config['info']['site_name'] \
                     if not meta.author() \
                     else meta.author()
                 email = self.site_config['info']['site_author_email'] \
                     if not meta.email() \
                     else meta.email()
-                content_html = ml.html()
+                content_html = html
                 private = meta.private()
                 title = meta.title()
                 summary = meta.summary()
@@ -727,7 +564,7 @@ class Builder:
                 date_iso8601 = meta.date('%Y-%m-%dT%H:%M') + timezone
                 up_date_iso8601 = meta.up_date('%Y-%m-%dT%H:%M') \
                     + timezone if meta.up_date('%Y-%m-%dT%H:%M') \
-                               else None
+                    else None
                 pub_date = date_iso8601
                 up_date = up_date_iso8601
 
@@ -793,10 +630,10 @@ class Builder:
     def gen_site(self):
         """Generate all website content.
 
-        .. note:: The first thing that has to be generated is the
-                  navigation links for all user defined pages.
-                  Otherwise those links could be left behind on page
-                  pages.
+        .. note::
+            The first thing that has to be generated is the navigation
+            links for all user defined pages.  Otherwise those links
+            could be left behind on page pages.
         """
         self.logger and self.logger.info('Building static website...')
 
@@ -815,4 +652,182 @@ class Builder:
         self.gen_extra_dirs()
 
         self.logger and self.logger.info('Done!')
+
+    def _render_template(self, template, output_data, values):
+        """Render a template using Jinja2.
+
+        :param template: Template to use
+        :type template: str
+        :param output_data: File where the data is saved
+        :type output_data: str
+        :return: Generated HTML of the output data
+        :rtype: str
+        """
+        trans = gettext.translation('default', self.locale_dir,
+                                    [self.current_locale])
+        env = Environment(extensions=['jinja2.ext.i18n'],
+                          loader=FileSystemLoader([self.templates_dir,
+                                                   self.builtin_templates_dir]))
+        env.install_gettext_translations(trans)
+        env.globals['slugify'] = slugify  # Add `slugify` to Jinja2
+        env.globals['strip_html_tags'] = strip_html_tags
+        template = env.get_template(template)
+        html = template.render(**values)
+
+        # Update only those files that are different in content
+        # comparing with a cache file
+        with open(output_data + '~', mode="w",
+                  encoding=self.site_config['wlocale']['encoding']) \
+                as cache_file:
+            cache_file.write(html)
+
+        if not os.path.exists(output_data) or \
+           not filecmp.cmp(output_data + '~', output_data):
+            with open(output_data, mode="w",
+                      encoding=self.site_config['wlocale']['encoding']) \
+                    as output_file:
+                output_file.write(html)
+            self.logger and self.logger.info(
+                'Updated content of: "{}"'.format(output_data))
+
+        # Clear cache, both in memory and space
+        filecmp.clear_cache()
+        os.remove(output_data + '~')
+
+        return html
+
+    def _fetch_html(self, directory, infile):
+        """Fetches HTML content out of a Markdown input file.
+
+        :param directory: Markdown file working directory
+        :type directory: str
+        :param infile: Markdown file to parse
+        :type infile: str
+        :return: HTML content for the parsed file
+        :rtype: str
+        """
+        html = Mulang(os.path.join(directory, infile),
+                      self.site_config['wlocale']['encoding'],
+                      logger=self.logger).html()
+        return html
+
+    def _fetch_meta(self, directory, infile, date_required=False):
+        """Fetches metadata out of a Markdown input file.
+
+        :param directory: Markdown file working directory
+        :type directory: str
+        :param infile: Markdown file to parse
+        :type infile: str
+        :param date_required: If ``True`` checks for the date metadata
+        :type date_required: bool
+        :return: Markdown metadata
+        :rtype: Meta
+        """
+        meta = Mulang(os.path.join(directory, infile),
+                      self.site_config['wlocale']['encoding'],
+                      logger=self.logger).metadata()
+
+        return Meta(meta, filename=infile, date_required=date_required,
+                    logger=self.logger)
+
+    def _entry_link_prefix(self, entry):
+        """Compute entrie final path.
+
+        To compute the final path, it's required to take the meta
+        information of that entry concerning to title and publication
+        date.
+        Let's suppose the title is "My entry", and the date is
+        "2020-04-01".  The output will be: `posts/2020/04/01/my-entry`
+
+        :param: Entry filename
+        :type: str
+        :return: Path to this entry relative to root (slugified)
+        :rtype: str
+
+        .. versionchanged:: 1.3.0a
+            Set as a member method.
+        """
+        meta = self._fetch_meta(self.entries_dir, entry, True)
+
+        category = meta.category(
+            self.site_config['presentation']['default_category'])
+        date = meta.date('%Y-%m-%d')
+        date_arr = date.split('-')
+        path = os.path.join(str(self.entries_dir),
+                            slugify(category),
+                            str(date_arr[0]),
+                            str(date_arr[1]),
+                            str(date_arr[2]))
+        return path
+
+    def _make_entry_uri(self, name='', infix='', index='index.html',
+                        absolute=False):
+        """Generate the link to an entry, based on the date and name.
+
+        Link automated generation for final URIs of articles.
+
+        :type name: Destination basename
+        :param name: str
+        :param infix: Appendix to the deploy directory
+        :type infix: str
+        :param index: Default name of the generated resource
+        :type index: str
+        :param absolute: Force the URI to be done from the root
+        :type absolute: bool
+        :return: Link to final external URI relative to root directory
+        :rtype: str
+            .
+        """
+        if absolute:
+            return link_to(name,
+                           os.path.join('/',
+                                        self.site_config['uri']['base'],
+                                        self._entry_link_prefix(infix)),
+                           makedirs=False, justdir=True, index=index)
+        else:
+            return link_to(name,
+                           self._entry_link_prefix(infix),
+                           makedirs=False, justdir=True, index=index)
+
+    def _make_root_uri(self, name='', infix='', index='index.html'):
+        """Generate the link to any resource in the root filesystem.
+
+        Link automated generation for final URIs of the content in
+        the website root directory, such as pages.
+
+        :type name: Destination basename
+        :param name: str
+        :param infix: Appendix to the deploy directory
+        :type infix: str
+        :param index: Default name of the generated resource
+        :type index: str
+        :return: Link to final external URI relative to root directory
+
+        .. versionadded:: 1.3.2a
+            
+        """
+        return link_to(name,
+                       os.path.join('/',
+                                    self.site_config['uri']['base'],
+                                    infix),
+                       makedirs=False, justdir=True, index=index)
+
+    def _make_output_file(self, name='', infix='', index='index.html'):
+        """Return the output file link, and make required directories.
+
+        Link automated generation for files in the deploy directory.
+
+        :param name: Destination basename
+        :type name: str
+        :param infix: Appendix to the deploy directory
+        :type infix: str
+        :param index: Default name of the generated resource
+        :type index: str
+        :return: Link to the constructed path in the deploy directory
+        :rtype: str
+        """
+        return link_to(name,
+                       os.path.join(self.site_config['dirs']['deploy'],
+                                    infix),
+                       makedirs=True, justdir=False, index=index)
 

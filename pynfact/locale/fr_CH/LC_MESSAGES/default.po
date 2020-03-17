@@ -1,7 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
-"PO-Revision-Date: 2012-09-27 18:33+0200\n"
+"POT-Creation-Date: 2012-09-27 18:33+0200\n"
+"PO-Revision-Date: 2020-03-17 12:31+0100\n"
 "Last-Translator: J. A. Corbal <jacorbal@gmail.com>\n"
 "Language-Team: Français\n"
 "Language: fr_CH\n"
@@ -26,6 +27,14 @@ msgstr "Étiquettes"
 msgid "Entries tagged"
 msgstr "Articles avec le étiquette"
 
+#: initnew/templates/base.html.j2:49 templates/catcloud.html.j2:2 templates/catcloud.html.j2:3 templates/catcloud.html.j2:9 templates/cat.html.j2:6
+msgid "Categories"
+msgstr "Catégories"
+
+#: templates/cat.html.j2:7 templates/cat.html.j2:14
+msgid "Entries categorized"
+msgstr "Articles classés dans"
+
 # Take in consideration the surrounding spaces
 #: templates/entry.html.j2:29
 msgid " and "
@@ -35,13 +44,33 @@ msgstr " et "
 msgid "published on"
 msgstr "publié en"
 
+#:  templates/entry.html.j2:15
+msgid "published for first time on"
+msgstr "publié pour la première fois le"
+
+#:  templates/entry.html.j2:18
+msgid "updated on"
+msgstr "revu"
+
 #: templates/entry.html.j2:26
 msgid "This entry is tagged"
 msgstr "Cette article est étiquetté"
 
+#: templates/entry.html.j2:41
+msgid "This entry is not tagged"
+msgstr "Cette article n'est pas étiquetté"
+
+#: templates/entry.html.js:48
+msgid "and categorized"
+msgstr "et classés en"
+
+#: initnew/templates/base.html.j2:66
+msgid "Projects"
+msgstr "Projets"
+
 #: initnew/templates/base.html.j2:51
 msgid "Feed"
-msgstr "Fuente"
+msgstr "Flux"
 
 #: initnew/templates/base.html.j2:69
 msgid "Content licensed under"

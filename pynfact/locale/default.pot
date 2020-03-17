@@ -56,6 +56,10 @@ msgstr ""
 msgid "This entry is tagged"
 msgstr ""
 
+#: templates/entry.html.j2:41
+msgid "This entry is not tagged"
+msgstr ""
+
 #: templates/entry.html.js:48
 msgid "and categorized"
 msgstr ""

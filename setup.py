@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 # vim: set ft=python fileencoding=utf-8 tw=72 nowrap:
+"""
+Source distribution setup.
 
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
+"""
 from setuptools import setup, find_packages
 
 
-version = '1.3.1a2'
+version = '1.3.1a3'
 
 with open("README.rst", "r") as fh:
     long_description = fh.read()
@@ -40,6 +45,7 @@ setup(name='pynfact',
           'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
           'Programming Language :: Python :: 3.8',
+          'Topic :: Internet',
           'Topic :: Internet :: WWW/HTTP',
           'Topic :: Internet :: WWW/HTTP :: Site Management',
           'Topic :: Software Development :: Code Generators',
@@ -50,9 +56,10 @@ setup(name='pynfact',
           'feedgen >= 0.9.0',
           'jinja2 >= 2.7',
           'markdown >= 3.0.0',
-          'pygments',
+          'pygments >= 2.0',
+          'python-dateutil >= 2.0',  # it's also a dep. of ``feedgen``
           'pyyaml >= 5.1',
-          'unidecode',
+          'unidecode >= 0.4.9',
       ],
       python_requires='>=3.6',
       include_package_data=True,

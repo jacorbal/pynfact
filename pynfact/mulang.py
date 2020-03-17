@@ -1,20 +1,28 @@
 # vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
-Markdown translation to HTML and metadata "getter".
+Markdown translation to HTML and metadata retrieval.
 
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
 """
 import markdown
-import textwrap
 
 
 class Mulang:
-    """Generate HTML code from MarkUp LANGuage (mulang) source."""
+    """Generate HTML body from MarkUp LANGuage (mulang) source.
+
+    .. versionchanged:: 1.2.0a1
+        Implement ``logging`` instead of printing to ``stdout`` and/or
+        ``stderr``.
+    """
 
     def __init__(self, input_data, encoding='utf-8',
                  output_format='html5', logger=None):
         """Constructor.
+
+        This class has methods to parse the markup language and get the
+        information.  The logging activity is only set to debug, since
+        it's not neccessary to tell continously the default activity.
 
         :param input_data: File from where the data is taken
         :type input_data: str
@@ -24,10 +32,6 @@ class Mulang:
         :type output: str
         :param logger: Logger where to store activity in
         :type logger: logging.Logger
-
-        This class has methods to parse the markup language and get the
-        information.  The logging activity is only set to debug, since
-        it's not neccessary to tell continously the default activity.
         """
         self.input_data = input_data
         self.encoding = encoding
@@ -51,15 +55,16 @@ class Mulang:
         input_file.close()
         html = self.md.convert(text)
 
-        self.logger and self.logger.debug('Parsed body data of: "%s"',
-                                          self.input_data)
+        self.logger and self.logger.debug(
+            'Parsed body data of: "{}"'.format(self.input_data))
 
         return html
 
     def metadata(self):
         """Fetch metadata in the markdown file.
 
-        .. todo: Get the meta without generating HTML again
+        .. todo::
+            Get the meta without generating HTML again.
         """
         input_file = open(self.input_data, mode="r",
                           encoding=self.encoding)
@@ -67,8 +72,8 @@ class Mulang:
         input_file.close()
         html = self.md.convert(text)
 
-        self.logger and self.logger.debug('Parsed meta data of: "%s"',
-                                          self.input_data)
+        self.logger and self.logger.debug(
+            'Parsed meta data of: "{}"'.format(self.input_data))
 
         return self.md.Meta
 

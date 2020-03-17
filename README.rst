@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: **1.3.1a2** (2020-03-17)
+:Latest version: **1.3.1a3** (2020-03-18)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
@@ -20,19 +20,35 @@ Features
 * Input format: Markdown
 * Output format: HTML5
 * Configuration: Jinja2 templates
-* Locale support (``gettext``)
-* Code syntax highlighting (``Pygments``)
+* Locale support
+* Code syntax highlighting
 * Atom/RSS feed generation
 
 Requirements
 ============
 
-* **Python 3**
-* **Markdown**: Python implementation of Markdown
-* **Unidecode**: ASCII transliterations of Unicode text
-* **feedgen**: Feed Generator (Atom, RSS, Podcasts)
-* **Jinja2**: A small but fast and easy to use stand-alone template
-  engine written in pure Python
+**feedgen** (``feedgen >= 0.9.0``):
+    Feed Generator (Atom, RSS, Podcasts).
+
+**python-dateutil** (``python-dateutil >= 2.0``):
+    Extensions to the standard Python datetime module.
+    [This is also a ``feedgen`` dependency].
+
+**Jinja2** (``jinja2 >= 2.7``):
+    A small but fast and easy to use stand-alone template engine written
+    in pure Python.
+
+**Markdown** (``markdown >= 3.0.0``):
+    Python implementation of Markdown.
+
+**Pygments** (``pygments >= 1.0``):
+    Syntax highlighting package written in Python.
+
+**PyYAML** (``pyyaml >=5.1``):
+    YAML parser and emitter for Python.
+
+**Unidecode** (``unidecode >= 0.4.9``):
+    ASCII transliterations of Unicode text.
 
 Installation
 ============
@@ -62,6 +78,8 @@ More details at: <https://github.com/jacorbal/pynfact/wiki>.
 Recent changes
 ==============
 
+* Validate  input metadata (titles, and dates if required) in ``Meta``
+* Update ``setup.py`` to fix missing dependency ``PyYAML``
 * CLI interface with ``argparser`` and more modularized
 * Improve code readability to comply with :PEP:`8` and :PEP:`257`
 * Generate pages slugs as posts, i.e, from the title, not the filename
@@ -74,6 +92,8 @@ Recent changes
   dictionary, sorted semantically
 * Replace ``feedgen`` for ``pyatom`` to generate RSS/Atom syndication
   feeds
+
+Refer to ``CHANGELOG`` file for more details.
 
 Why this name?
 ==============
@@ -105,7 +125,7 @@ offer tips, make sugestions, or ask questions; or via classic email.
 License
 =======
 
-*PynFact!* is distributed under the `MIT License`_.  Read the
+**PynFact!** is distributed under the `MIT License`_.  Read the
 ``LICENSE`` file embeeded in this project for more information.
 
 

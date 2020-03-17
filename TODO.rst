@@ -23,6 +23,8 @@ Code
 * **[2]** Single-sourcing_ the package version in an efficient way
 * **[X]** Use ``argparse`` in ``cli.py``
 
+* **[3]** Refactor ``Meta`` class in simpler methods
+
 Next features
 =============
 
@@ -114,13 +116,13 @@ Intended command line interface
 
 Command line options:
 
-* **[X]** Initialize a site: ``pynfact -i [name]``  or ``pynfact --init[=name]``
+* **[X]** Initialize: ``pynfact -i [name]``  or ``pynfact --init[=name]``
 * **[X]** Serve: ``pynfact -s`` or ``pynfact --serve``
 * **[X]** Set port:  ``pynfact -p 4002`` or ``pynfact --port=4002``
 * **[X]** Build: ``pynfact -b`` or ``pynfact --build``
 * **[X]** Logging: ``pynfact -l file`` or ``pynfact --log=file``
 * **[ ]** Configuration: ``pynfact -c myconfig.yaml`` or ``--config=``
-* **[ ]** Deploy dir: ``pynfact -d _deploy`` or ``pynfact --deploy-dir=_deploy``
+* **[ ]** Deploy dir: ``pynfact -d _deploy`` or ``pynfact --deploy-dir=_dpl``
 * **[ ]** Theme load: ``pynfact -L theme`` or ``pynfact --loadtheme=theme``
 * **[ ]** Theme save: ``pynfact -S theme`` or ``pynfact --savetheme=theme``
 

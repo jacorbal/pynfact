@@ -20,6 +20,22 @@ pynfact.cli module
     :undoc-members:
     :show-inheritance:
 
+pynfact.fileman module
+----------------------
+
+.. automodule:: pynfact.fileman
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pynfact.main module
+-------------------
+
+.. automodule:: pynfact.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pynfact.meta module
 -------------------
 
@@ -68,3 +84,4 @@ Module contents
     :members:
     :undoc-members:
     :show-inheritance:
+

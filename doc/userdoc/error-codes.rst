@@ -8,11 +8,11 @@ These error codes are referencing the exit status of the application
 after an abnormal termination.  The error codes are divided in the
 following categories:
 
-#. Command line interface (``cli.main``)
+#. Command line interface (``main``)
 #. Configuration problems (``Yamler``)
 #. Markdown to HTML Parser (``Mulang``)
 #. Builder (``Builder``)
-#. File manager errors (``fileman.``)
+#. File manager errors (``fileman``)
 #. Server (``Server``)
 
 An exit code equal to ``0`` means *Success!*
@@ -44,8 +44,28 @@ Configuration error codes (``2x``)
 Markdown to HTML parsing error codes (``3x``)
 =============================================
 
-There are no error codes for parsing operations, but this space is
-reserved for that.
+**ERROR 31**: *Missing or malformed title key in "{filename}" metadata*
+    The content of *{filename}* doesn't have a "title" meta tag, or it
+    is malformed.  The title is required in every post or page.
+
+**ERROR 32**: *Missing or malformed date key in "{filename}" metadata*
+    The content of *{filename}* doesn't have a "date" meta tag, or it
+    is malformed.  Dates are required in posts, but not in pages.
+
+A malformed meta tag is written using diacritics or invalid characters,
+or has a value that spans across multiple lines.
+
+Key identifiers only accept characters in range ``[A-Za-z0-9]``.  Also,
+if the value of the meta tag is a very long string written in multiple
+lines, all subsequent lines must be indented at least four characters.
+
+**ERROR 33**: *Empty title value in "{filename}" metadata*
+    The metadata tag for title exists, but it's empty.  This tag is
+    mandatory for posts and pages and cannot be empty.
+
+**ERROR 34**: *Empty or invalid date value in "{filename}" metadata*
+    The metadata tag for date exists, but it's empty or is not a date.
+    This tag is mandatory for posts and cannot be empty.
 
 Builder error codes (``4x``)
 ============================
@@ -59,8 +79,8 @@ Builder error codes (``4x``)
 File manager error codes (``5x``)
 =================================
 
-There are no error codes for file operations, but this space is reserved
-for that.
+There are no error codes for file operations yet..., but this space is
+reserved for that.
 
 Server error codes (``6x``)
 ===========================

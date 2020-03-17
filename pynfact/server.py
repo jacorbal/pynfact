@@ -2,8 +2,8 @@
 """
 Simple server for testing purposes.
 
-    :copyright: © 2012-2020, J. A. Corbal
-    :license: MIT
+:copyright: © 2012-2020, J. A. Corbal
+:license: MIT
 """
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import os
@@ -11,7 +11,12 @@ import sys
 
 
 class Server:
-    """Simple server."""
+    """Simple server.
+
+    .. versionchanged:: 1.2.0a1
+        Implement ``logging`` instead of printing to ``stdout`` and/or
+        ``stderr``.
+    """
 
     def __init__(self, host='127.0.0.1', port=4000, path='_build',
                  logger=None):
@@ -34,7 +39,9 @@ class Server:
     def serve(self):
         """Serve a specific directory and waits for keyboard interrupt.
 
-        :raise: FileNotFoundError, OSError, KeyboardInterrupt
+        :raise FileNotFoundError: If the deploy directory doesn't exist
+        :raise KeyboardInterrupt: If the user stops the server (``^C``)
+        :raise OSError: If ``location:port`` is not valid or in use
         """
         try:  # Find the deploy directory
             os.chdir(self.path)
@@ -50,8 +57,9 @@ class Server:
                 "Address not valid or already in use")
             sys.exit(62)
 
-        self.logger and self.logger.info("Serving %s:%s at %s",
-                                         self.host, self.port, self.path)
+        self.logger and self.logger.info(
+            "Serving {}:{} at {}".format(self.host, self.port,
+                                         self.path))
 
         try:  # Listen until a keyboard interruption
             httpd.serve_forever()
