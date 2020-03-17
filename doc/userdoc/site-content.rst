@@ -45,6 +45,12 @@ could be::
     Since the level-1 header `h1` is reserved for the title, all
     subsequent headers should begin in the second level.
 
++------------------------------------------------------------------------+
+| **NOTE.**  When a string is too long that requires more than one line, |
+| all the lines from the second one 'til the end  must be indented at    |
+| least four spaces.                                                     |
++------------------------------------------------------------------------+
+
 And for a page::
 
     Title: Page title

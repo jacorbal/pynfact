@@ -131,9 +131,10 @@ class Builder:
             # to html5 timezone conv.
             timezone = timezone[:3] + ':' + timezone[3:]
         datehtml = meta.date('%Y-%m-%dT%H:%M') + timezone
-        up_datehtml = meta.up_date('%Y-%m-%dT%H:%M') \
-            + timezone if meta.up_date('%Y-%m-%dT%H:%M') \
-            else None
+        if meta.update('%Y-%m-%dT%H:%M'):
+            updatehtml = meta.update('%Y-%m-%dT%H:%M') + timezone
+        else:
+            None
 
         values = self.template_values.copy()
         values['entry'] = {  # append
@@ -154,10 +155,10 @@ class Builder:
             'content': html}
 
         # Publish original date if needed
-        if meta.up_date():
+        if meta.update():
             values['entry'].update({
-                'up_date': meta.up_date(date_format),
-                'up_datehtml': up_datehtml})
+                'update': meta.update(date_format),
+                'updatehtml': updatehtml})
 
         outfile = self._make_output_file(
             title, self._entry_link_prefix(infile))
@@ -189,7 +190,7 @@ class Builder:
 
                 private = meta.private()
                 title = meta.title()
-                summary = meta.summary()
+                subtitle = meta.subtitle()
                 category = meta.category(
                     self.site_config['presentation']['default_category'])
                 category_uri = self._make_root_uri(category,
@@ -201,7 +202,7 @@ class Builder:
                 # Generate archive
                 if not private:
                     total_entries += 1
-                    val = {'title': title, 'summary': summary,
+                    val = {'title': title, 'subtitle': subtitle,
                            'date': date, 'date_idx': date_idx,
                            'uri': uri, 'category': category,
                            'category_uri': category_uri}
@@ -252,7 +253,7 @@ class Builder:
 
                 private = meta.private()
                 title = meta.title()
-                #summary = meta.summary()
+                #subtitle = meta.subtitle()
                 category = meta.category(
                     self.site_config['presentation']['default_category'])
                 date = meta.date(date_format)
@@ -299,7 +300,7 @@ class Builder:
 
                 private = meta.private()
                 title = meta.title()
-                #summary = meta.summary()
+                #subtitle = meta.subtitle()
                 category = meta.category(
                     self.site_config['presentation']['default_category'])
                 date = meta.date(date_format)
@@ -338,7 +339,7 @@ class Builder:
 
                 private = meta.private()
                 title = meta.title()
-                #summary = meta.summary()
+                #subtitle = meta.subtitle()
                 category = meta.category(
                     self.site_config['presentation']['default_category'])
                 date = meta.date(date_format)
@@ -378,7 +379,7 @@ class Builder:
 
                 private = meta.private()
                 title = meta.title()
-                #summary = meta.summary()
+                #subtitle = meta.subtitle()
                 category = meta.category(
                     self.site_config['presentation']['default_category'])
                 tag_list = meta.tag_list()
@@ -557,16 +558,16 @@ class Builder:
                 content_html = html
                 private = meta.private()
                 title = meta.title()
-                summary = meta.summary()
-                up_date_idx = meta.up_date('%Y-%m-%d %H:%M:%S')
+                subtitle = meta.subtitle()
+                update_idx = meta.update('%Y-%m-%d %H:%M:%S')
                 date_idx = meta.date('%Y-%m-%d %H:%M:%S')
                 timezone = 'UTC' if not meta.date('%Z') else meta.date('%Z')
                 date_iso8601 = meta.date('%Y-%m-%dT%H:%M') + timezone
-                up_date_iso8601 = meta.up_date('%Y-%m-%dT%H:%M') \
-                    + timezone if meta.up_date('%Y-%m-%dT%H:%M') \
+                update_iso8601 = meta.update('%Y-%m-%dT%H:%M') \
+                    + timezone if meta.update('%Y-%m-%dT%H:%M') \
                     else None
                 pub_date = date_iso8601
-                up_date = up_date_iso8601
+                update = update_iso8601
 
                 #updated = datetime.strptime(date_iso8601, '%Y-%m-%dT%H:%M%Z')
                 uri = self._make_entry_uri(title, filename)
@@ -575,14 +576,14 @@ class Builder:
 
                 if not private:
                     val = {'title': strip_html_tags(title),
-                           'subtitle': summary,
+                           'subtitle': subtitle,
                            'content_html': content_html,
                            'author': author,
                            'email': email,
                            'full_uri': full_uri,
                            'date_idx': date_idx,
                            'pub_date': pub_date,
-                           'up_date': up_date}
+                           'update': update}
                     entries.append(val)
 
         # sort chronologically descent
@@ -593,8 +594,8 @@ class Builder:
             fnew.id(slugify(strip_html_tags(entry['title'])))
             fnew.title(entry['title'])
             fnew.description(entry['content_html'])
-            if up_date:
-                fnew.updated(entry['up_date'])
+            if update:
+                fnew.updated(entry['update'])
             fnew.pubDate(entry['pub_date'])
             # , 'email':entry['email']})
             fnew.author({'name': entry['author']})

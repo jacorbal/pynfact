@@ -5,9 +5,15 @@ Changelog
 Release history
 ===============
 
-1.3.1a3 -- Tue 17 Mar 2020 12:47:16 +0100 
+1.3.1a3 -- Tue 18 Mar 2020 00:42:52 +0100 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+* Validation: required metatags are initialized to empty string raise
+  exception ``ValueError``
+* Hard refactor of ``Meta`` class
+* Metainformation tags languages no longer hardcoded, only English, but
+  ready to increase the comparison sets with all the tags; maybe in the
+  future a JSON file will all translations will be used
 * Update user documentation
 * Refactor ``cli.py`` moving the ``main`` entry to ``main.py``
 * Refactor ``Builder`` reducing redundant code

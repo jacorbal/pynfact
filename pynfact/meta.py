@@ -2,16 +2,21 @@
 """
 Meta information processor from markdown post file.
 
-Meta fields are set in English, Portuguese, Spanish, Catalan, Galician
-and Esperanto (using the *X*-system), although there cannot be any
-accent in the field names, so "título" has to be "titulo" in order to
-work properly.
-
-There may be diacritics in meta values (UTF-8 by default) but not in key
-names (``[A-Za-z0-9]]``).
-
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
+
+.. note::
+    In the metainformation header of every Markdown document to be
+    parsed, there may be diacritics in metainformation values (UTF-8 by
+    default) but not in metainformation key names (``[A-Za-z0-9]]``).
+
+.. versionchanged:: 1.3.1a3
+    Meta tags in document header are now reduced to only English,
+    although the code is set to add more.  It's possible that in next
+    versions those fields will be added by importing a JSON file will
+    all the translations, but for the time being, it's better to stick
+    to one universal language instead of hardcoding the
+    internationalization.
 """
 from dateutil.parser import parse
 from pynfact.dataman import or_array_in
@@ -24,35 +29,6 @@ import sys
 
 class Meta:
     """Meta information processor.
-
-    .. todo:: Use a general function retriever, instead of one function
-        for each meta key.
-
-    .. code-block:: python
-
-        def process(self, array_of_valid_keys,
-                type=[str, list, joined, date],
-                date_format[if type is date]):
-
-    * if ``type`` is ``"date"``, use the `date_format`
-    * if ``type`` is ``"str"``, return the trimmed string as it comes
-    * if ``type`` is ``"joined"``, return the list after splitting commas
-
-    Code example of the intended feature::
-
-        >>> m = Meta(meta_information)
-
-        >>> title_valid_keys = ['title', 'titulo', 'titolo', 'titol' ]
-        >>> def m.process(title_valid_keys, type='str')
-        'The title to this Post'
-
-        >>> date_valid_keys = ['date', 'data', 'dato', 'fecha' ]
-        >>> def m.process(date_valid_keys, type='date', '%c')
-        'Thu 12 Mar 2020 06:47:43 PM UTC'
-
-        >>> tags_valid_keys = ['tags', 'labels', 'etiquetas', 'etikedoj']
-        >>> def m.process(tags_valid_keys, type='join')
-        ['tag1', 'tag2', 'tag3', 'tag4']
 
     .. versionchanged:: 1.3.1a3
         Validate source input meta tags of title (always) and date (when
@@ -74,14 +50,234 @@ class Meta:
         :type logger: logging.Logger
         """
         self.meta = meta
-        self.logger = logger
         self.filename = filename
         self.date_required = date_required
+        self.logger = logger
+        self._is_valid()  # Test if the data supplied is valid
 
-        # Test if the data supplied is valid
-        self.is_valid()
+    def title(self):
+        """Get post title as a string from post meta information.
 
-    def is_valid(self):
+        This function performs some validation procedures in order to
+        make sure that the title is valid (ie, not empty).
+
+        .. note::
+            In order to make the title a mandatory field, it's required
+            to have the ``default`` argument to ``None``, so it raises
+            an exception to warn the user.
+
+        :param default: Default value if title is empty
+        :type default: str
+        :return: Title field
+        :rtype: str
+        :raise ValueError: If the title field is empty
+        """
+        vs = {'title'}
+        rtitle = self._parse_str_md(vs, None, ' ')
+
+        try:
+            if not rtitle:
+                raise ValueError
+        except ValueError:
+            self.logger and self.logger.error(
+                'Empty title value in "{}" metadata'.format(self.filename))
+            sys.exit(33)
+        else:
+            return rtitle
+
+    def subtitle(self, default=''):
+        """Get post subtitle as a string from post meta information.
+
+        :param default: Default value if title is empty
+        :type default: str
+        :return: Summary field
+        :rtype: str
+        """
+        vs = {'subtitle', 'summary'}
+        return self._parse_str_md(vs, default, ' ')
+
+    def category(self, default='Miscellaneous'):
+        """Get post category as a string from post meta information.
+
+        .. note::
+            A post can belong to only one category.  If the user inputs
+            more than one category, the first one will be the valid one.
+
+        :param default: Default value if category wasn't specified
+        :type default: str
+        :return: Value of the category field
+        :rtype: str
+        """
+        vs = {'category'}
+        return self._parse_str_raw(vs, default, '')
+
+    def author(self, default=''):
+        """Get post author as a string from post meta information.
+
+        :param default: Default value if author wasn't specified
+        :type default: str
+        :return: Value of the author field
+        :rtype: str
+
+        .. todo::
+            Get author/s for pages too.
+
+        .. todo::
+            If more than one author, return a list with all authors
+            instead of a string, or return always a list and process it
+            later.  Use :func:`_parse_list`?
+        """
+        vs = {'author', 'authors'}
+        return self._parse_str_raw(vs, default, ', ')
+
+    def email(self, default=''):
+        """Get post author's email as a string from meta information.
+
+        :param default: Default value if author email wasn't specified
+        :type default: str
+        :return: Value of the email field
+        :rtype: str
+        """
+        vs = {'email', 'e-mail'}
+        return self._parse_str_raw(vs, default, ', ')
+
+    def language(self, default='en'):
+        """Get post language code as a string from meta information.
+
+        :param default: Default value if language field is empty
+        :type default: str
+        :return: Value of the language field
+        :rtype: str
+        """
+        vs = {'language', 'lang'}
+        return self._parse_str_raw(vs, default, ', ')
+
+    def copyright(self, default=''):
+        """Get post copyright as a string from post meta information.
+
+        :param default: Default value if title is empty
+        :type default: str
+        :return: Value of the copyright field
+        :rtype: str
+        """
+        vs = {'copyright', 'license'}
+        return self._parse_str_md(vs, default, ' ')
+
+    def comments(self, default=True):
+        """Get comments boolean status.
+
+        :param default: Default value if comments tag is empty
+        :type default: str
+        :return: ``True`` if entry allows comments, or otherwise
+        :rtype: bool
+        """
+        vs = {'comments'}
+        return self._parse_bool(vs, default)
+
+    def private(self, default=False):
+        """Get private boolean status.
+
+        :param default: Default value if private tag is empty
+        :type default: str
+        :return: ``True`` if entry is private, or ``False`` otherwise
+        :rtype: bool
+        """
+        vs = {'private'}
+        return self._parse_bool(vs, default)
+
+    def navigation(self, default=True):
+        """Get navigation boolean status.
+
+        :param default: Default value if navigation tag is empty
+        :type default: str
+        :return: ``False`` if entry is not in nav. bar, or otherwise
+        :rtype: bool
+        """
+        vs = {'navigation', 'nav'}
+        return self._parse_bool(vs, default)
+
+    def tag_list(self, default=[]):
+        """Get post tags as a list from post meta information.
+
+        :return: List of tags
+        :rtype: list
+        """
+        vs = {'tags'}
+        return self._parse_list(vs, default)
+
+    def tags(self, vlist):
+        """Retrieve post tags as a string of comma-separated-values.
+
+        :return: List of tags
+        :rtype: str
+        """
+        return self._parse_cvs(self.tag_list())
+
+    def date_info(self):
+        """Get post date as a datetime object.
+
+        :return: Date field as object
+        :rtype: datetime.datetime
+        """
+        vs = {'created', 'date'}
+        return self._parse_date_obj(vs)
+
+    def date(self, date_format='%c'):
+        """Get post date as a string.
+
+        :param date_format: Date format string
+        :type date_format: str
+        :return: Date field as string
+        :rtype: str
+
+        .. versionchanged:: 1.3.1a3
+            Validate source input meta tags of date raising a
+            ``ValueError`` and passing to the logger the information of
+            the error.
+        """
+        try:
+            if not self.date_info():
+                raise ValueError
+        except ValueError:
+            self.logger and self.logger.error(
+                'Empty or invalid date value in "{}" metadata'.format(
+                    self.filename))
+            sys.exit(34)
+        else:
+            return self.date_info().strftime(date_format) \
+                if self.date_info() else ''
+
+    def update_info(self):
+        """Get updated post date as a datetime object.
+
+        :return: Date field as object
+        :rtype: datetime.datetime
+        """
+        vs = {'modified', 'updated', 'update'}
+        return self._parse_date_obj(vs)
+
+    def update(self, date_format='%c'):
+        """Get updated post date as a string.
+
+        :param date_format: Date format string
+        :type date_format: str
+        :return: Date field as string
+        :rtype: str
+        :raise ValueError: If data is malformed, but ignored
+
+        .. note:: This is not a mandatory piece of metainformation, so
+            it's only taken into consideration when it's well formed and
+            doesn't raise a ``ValueError``.
+        """
+        try:
+            if not self.update_info():
+                raise ValueError
+        except ValueError:
+            pass
+        else:
+            return self.update_info().strftime(date_format)
+
+    def _is_valid(self):
         """Check if the metadata is valid.
 
         The metadata is considered malformed when the title (and if
@@ -104,9 +300,10 @@ class Meta:
             Preliminary test to see if the mandatory meta tags are set,
             or otherwise an exception is thrown.
         """
-        title_arr = ['titulo', 'title', 'titolo', 'entry', 'post', 'afiso']
+        # Title is always required
+        title_k = {'title'}
         try:
-            if not or_array_in(self.meta, *title_arr):
+            if not or_array_in(self.meta, *title_k):
                 raise ValueError
         except ValueError:
             self.logger and self.logger.error(
@@ -114,10 +311,11 @@ class Meta:
                     self.filename))
             sys.exit(31)
 
+        # Date is required only in posts, but not in pages
         if self.date_required:
-            date_arr = ['fecha', 'date', 'data', 'dato']
+            date_k = {'created', 'date'}
             try:
-                if not or_array_in(self.meta, *date_arr):
+                if not or_array_in(self.meta, *date_k):
                     raise ValueError
             except ValueError:
                 self.logger and self.logger.error(
@@ -125,239 +323,112 @@ class Meta:
                         self.filename))
                 sys.exit(32)
 
-    def category(self, default_category='Miscellaneous'):
-        """Get category as a string from post meta information.
+    def _parse_str_raw(self, values, default='', joint=', '):
+        """Get a value as a raw string from post meta information.
 
-        :return: Category field
+        Raw, in this context, means in plain text, with no markup
+        language.
+
+        :param values: Set of possible meta tags
+        :type values: set
+        :param default: Default value if no keys match
+        :type default: str
+        :param joint: String used as a joint between values
+        :type joint: str
+        :return: The value of the meta key, or the default value
         :rtype: str
         """
-        category = self.meta.get('category') or \
-            self.meta.get('categoría') or \
-            self.meta.get('categoria') or self.meta.get('kategorio')
-        return ' '.join(category) if category else default_category
-
-    def author(self, default_author=''):
-        """Get the author as a string from post meta information.
-
-        .. todo:: If more than one author, return list, instead of
-            ``str``.
-
-        :return: Author field
-        :rtype: str
-        """
-        authors = self.meta.get('authors') or self.meta.get('author') or \
-            self.meta.get('autores') or self.meta.get('autors') or \
-            self.meta.get('autor') or self.meta.get('autoro') or \
-            self.meta.get('auxtoro')
-        return ', '.join(authors) if authors else default_author
-
-    def email(self):
-        """Get the author's email as a string from post meta information.
-
-        :return: Email field
-        :rtype: str
-        """
-        emails = self.meta.get('email') or self.meta.get('e-mail') or \
-            self.meta.get('correo electronico') or \
-            self.meta.get('correo') or self.meta.get('correu') or \
-            self.meta.get('e-correo') or \
-            self.meta.get('retposto') or self.meta.get('retposxto')
-        return ', '.join(emails) if emails else ''
-
-    def language(self, default_language="en"):
-        """Get the post language as a string from post meta information.
-
-        :return: Language field
-        :rtype: str
-        """
-        language = self.meta.get('language') or self.meta.get('idioma') or \
-            self.meta.get('lengua') or self.meta.get('lingua') or \
-            self.meta.get('llengua') or self.meta.get('lingvo')
-        return language if language else default_language
-
-    def title(self):
-        """Get post title as a string from post meta information.
-
-        :return: Title field
-        :rtype: str
-        """
-        title = self.meta.get('title') or self.meta.get('titulo') or \
-            self.meta.get('entry') or self.meta.get('entrada') or \
-            self.meta.get('titol') or self.meta.get('post') or \
-            self.meta.get('titolo')
-        # return ''.join(title) if title else ''
-        fmttitle = markdown.markdown(' '.join(title) if title else '')
-        rtitle = re.sub(r'</*(p|br)[^>]*?>', '', fmttitle)
-
-        try:
-            if not rtitle:
-                raise ValueError
-        except ValueError:
-            self.logger and self.logger.error(
-                'Empty title value in "{}" metadata'.format(self.filename))
-            sys.exit(33)
-
-        return rtitle
-
-    def summary(self):
-        """Get post summary as a string from post meta information.
-
-        :return: Summary field
-        :rtype: str
-        """
-        summary = self.meta.get('summary') or self.meta.get('resumo') or \
-            self.meta.get('resumen') or self.meta.get('resum')
-        fmtsummary = markdown.markdown(' '.join(summary) if summary else '')
-        return re.sub(r'</*(p|br)[^>]*?>', '', fmtsummary)
-
-    def copyright(self):
-        """Get post copyright as a string from post meta information.
-
-        :return: Copyright field
-        :rtype: str
-        """
-        copyright = self.meta.get('copyright') or \
-            self.meta.get('license') or \
-            self.meta.get('licencia') or \
-            self.meta.get('licenza') or \
-            self.meta.get('llicencia') or \
-            self.meta.get('permesilo') or \
-            self.meta.get('kopirajto') or \
-            self.meta.get('(c)')
-        fmtcopyright = markdown.markdown(' '.join(copyright) if copyright
-                                         else '')
-        return re.sub(r'</*(p|br)[^>]*?>', '', fmtcopyright)
-
-    def date_info(self):
-        """Get post date as a datetime object.
-
-        :return: Date field
-        :rtype: datetime
-        """
-        date = self.meta.get('date') or self.meta.get('data') or \
-            self.meta.get('fecha') or self.meta.get('dato')
-        return parse(''.join(date)) if date else ''
-
-    def date(self, date_format='%c'):
-        """Get post date as a string.
-
-        :param date_format: Date locale
-        :type date_format: str
-        :return: Date field
-        :rtype: str
-
-        .. versionchanged:: 1.3.1a3
-        Validate source input meta tags of date raising a ``ValueError``
-        and passing to the logger the information of the error.
-        """
-        try:
-            if not self.date_info():
-                raise ValueError
-        except ValueError:
-            self.logger and self.logger.error(
-                'Empty or invalid date value in "{}" metadata'.format(
-                    self.filename))
-            sys.exit(34)
+        value = or_array_in(self.meta, *values)
+        if value:
+            return joint.join(value)
         else:
-            return self.date_info().strftime(date_format)
+            return default
 
-    def up_date_info(self):
-        """Get updated post date as a datetime object.
+    def _parse_str_md(self, values, default='', joint=' '):
+        """Get a value as a string from post meta information in
+        Markdown syntax
 
-        :return: Date field
-        :rtype: datetime
-        """
-        up_date = self.meta.get('updated') or \
-            self.meta.get('actualizado') or \
-            self.meta.get('actualitzat') or \
-            self.meta.get('gisdatigita') or \
-            self.meta.get('gxisdatigita')
-        return parse(''.join(up_date)) if up_date else ''
-
-    def up_date(self, date_format='%c'):
-        """Get updated post date as a string.
-
-        :param date_format: Date locale
-        :type date_format: str
-        :return: Date field
+        :param values: Set of possible meta tags
+        :type values: set
+        :param default: Default value if no keys match
+        :type default: str
+        :param joint: String used as a joint between values
+        :type joint: str
+        :return: The value of the meta key, or the default value
         :rtype: str
         """
-        return self.up_date_info().strftime(date_format) \
-            if self.up_date_info() else ''
+        value = or_array_in(self.meta, *values)
+        if value:
+            fmt = markdown.markdown(joint.join(value))
+            return re.sub(r'</*(p|br)[^>]*?>', '', fmt)
+        else:
+            return default
 
-    def comments(self):
-        """Get comments status.
+    def _parse_bool(self, values, default=True):
+        """Get a value as a bool from post meta information.
 
-        :return: True if entry has comments, or False otherwise
-        :rtype: bool
+        The function has two "confrontation arrays (sets)" to test
+        against them the values of the intended key.  Because the meta
+        tag possible values are "yes" or "no" in natural language, this
+        lists have all the possible outcome, and uses one list or the
+        other depending on the default value.
+
+        :param values: Set of possible meta tags
+        :type values: set
+        :param default: Default value if no keys match
+        :type default: str
+        :return: The value of the meta key, or the default value
+        :rtype: str
         """
-        comments = self.meta.get('comments') or \
-            self.meta.get('comentarios') or \
-            self.meta.get('comentaris') or \
-            self.meta.get('komentoj') or ['']
-        com_bool = False if comments[0].lower() == "no" or \
-            comments[0].lower() == "non" or \
-            comments[0].lower() == "não" or \
-            comments[0].lower() == "ne" \
-            else True
-        return com_bool
+        if default:
+            bools = {'no', 'non', 'não', 'nao', 'ne', 'nein'}
+        else:
+            bools = {'yes', 'sí', 'si', 'sì', 'sim', 'jes', 'oui', 'ja'}
 
-    def private(self):
-        """Get private status.
+        value = or_array_in(self.meta, *values)
+        if value:
+            if any(x in map(lambda x: x.lower(), value) for x in bools):
+                return not default
+        return default
 
-        :return: True if entry is private, or False otherwise
-        :rtype: bool
-        """
-        private = self.meta.get('private') or \
-            self.meta.get('privado') or \
-            self.meta.get('privat') or \
-            self.meta.get('privata') or ['']
-        piv_bool = True if private[0].lower() == "yes" or \
-            private[0].lower() == "si" or \
-            private[0].lower() == "sí" or \
-            private[0].lower() == "sim" or \
-            private[0].lower() == "jes" \
-            else False
-        return piv_bool
+    def _parse_list(self, values, default=[]):
+        """Get a list with all the values to the matching key.
 
-    def navigation(self):
-        """Get navigation status.
-
-        :return: True if entry is navigable, or False otherwise
-        :rtype: bool
-        """
-        navigation = self.meta.get('nav') or \
-            self.meta.get('navigation') or \
-            self.meta.get('navegacion') or \
-            self.meta.get('navegacio') or \
-            self.meta.get('navigado') or ['']
-        nav_bool = False if navigation[0].lower() == "no" or \
-            navigation[0].lower() == "non" or \
-            navigation[0].lower() == "não" or \
-            navigation[0].lower() == "ne" \
-            else True
-        return nav_bool
-
-    def tag_list(self):
-        """Get the tags as a list from post meta information.
-
-        :return: List of tags
+        :param values: Set of possible meta tags
+        :type values: set
+        :param default: Default value if no keys match
+        :type default: str
+        :return: The value of the meta key as a list, or default value
         :rtype: list
         """
-        tag_list = self.meta.get('tags') or self.meta.get('labels') or \
-            self.meta.get('etiquetas') or \
-            self.meta.get('etiquetes') or \
-            self.meta.get('etikedoj') or ['']
-        tag_list = [x.strip() for x in tag_list[0].split(',') if x.strip()]
-        return tag_list if tag_list else []
+        value = or_array_in(self.meta, *values)
+        if value:
+            return [x.strip() for x in str(value[0]).split(',') if x.strip()]
+        else:
+            return default
 
-    def tags(self):
-        """Get the tags as a list from post meta information.
+    def _parse_csv(self, values, default=''):
+        """Get string with values to the matching key, comma separated.
 
-        :return: List of tags
-        :rtype: str
+        :param values: Set of possible meta tags
+        :type values: set
+        :param default: Default value if no keys match
+        :type default: str
+        :return: The value of the meta key as a string, or default value
+        :rtype: string
         """
-        return ', '.join(tag_list(self.meta)) if tag_list(self.meta) else ''
+        return ', '.join(self._parse_list(values, default))
+
+    def _parse_date_obj(self, values):
+        """Gets a datetime object from the metadata.
+
+        :param values: Set of possible meta tags
+        :type values: set
+        :return: Datetime object
+        :rtype: datetime.datetime
+        """
+        value = or_array_in(self.meta, *values)
+        return parse(''.join(value)) if value else None
 
     def __str__(self):
         """Return string representation for an object of this class."""

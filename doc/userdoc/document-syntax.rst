@@ -24,22 +24,6 @@ A simple example of meta information could be::
     Summary: Here I can type diacritics such as *naïve*
     Date: Wed 11 Mar 2020 11:11:11 AM UTC
 
-
-The tags may be in English, Esperanto (using the *X*-system), Spanish,
-Catalan, Galician, and Portuguese, but they cannot have any diacritics,
-e.g.::
-
-    Titolo: Interesa afiŝo en Esperanto-lingvo
-    Resumo: Ĉi tie mi povas skribi diakritoj
-    Dato: 2020-03-11
-
-or::
-
-    Titulo: Entrada interesante en español
-    Resumen: ¡Aquí sí puedo escribir tildes!
-    Fecha: 2020-03-11 23:11:11 CEST
-
-
 List of meta tags
 -----------------
 
@@ -70,6 +54,18 @@ Tags are case insensitive.
 +--------------+----------------------------------------+----------+----------+
 
 .. [1] Mandatory fields
+
+Aliases
+~~~~~~~
+
++------------------------------+
+|    Tags     |    Aliases     |
++=============+================+
+| ``summary`` | ``subtitle``   |
+| ``date``    | ``created``    |
+| ``updated`` | ``modified``   |
+| ``nav``     | ``navigation`` |
++-------------+----------------+
 
 Not all the tags work on individual pages, as they do not require the
 chronological order, nor they have any comments, or tags, or they do not

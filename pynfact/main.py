@@ -50,8 +50,8 @@ def main():
                         const='localhost',
                         metavar='<host>', nargs='?',
                         help="set host where to serve the blog")
-    parser.add_argument('-p', '--port', default=4000, type=int,
-                        metavar='<port>',
+    parser.add_argument('-p', '--port', default=4000,
+                        metavar='<port>', type=int,
                         help="set port to listen to when serving")
     parser.add_argument('-l', '--log', default='pynfact.err',
                         metavar='<logfile>',

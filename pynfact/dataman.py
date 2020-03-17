@@ -20,14 +20,14 @@ def or_array_in(dictionary, *keys):
     :type keys: args
     :param dictionary: Dictionary
     :type dictionary: dict
-    :return: ``True`` if at least one key is in the dictionary
-    :rtype: bool
+    :return: Value for the matching key, or ``None``
+    :rtype: mixed
     """
     for key in keys:
         if key in dictionary:
-            return True
+            return dictionary[key]
 
-    return False
+    return None
 
 
 def and_array_in(dictionary, *keys):
@@ -40,7 +40,7 @@ def and_array_in(dictionary, *keys):
     :type keys: args
     :param dictionary: Dictionary
     :type dictionary: dict
-    :return: ``True`` if at all keys are in the dictionary
+    :return: ``True`` if  every key is on the dictionary
     :rtype: bool
     """
     for key in keys:
