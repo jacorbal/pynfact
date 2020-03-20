@@ -8,6 +8,7 @@ URI strings manipulation functions.
 .. versionchanged:: 1.2.0a1
     Relocate file management functions to :mod:`fileman`.
 """
+from datetime import datetime
 import unidecode
 import re
 
@@ -35,4 +36,24 @@ def strip_html_tags(text):
     :rtype: str
     """
     return re.sub('<[^<]+?>', '', text)
+
+
+def date_iso(date):
+    """Converts a datetime string into ISO 8601 format.
+
+    HTML date format agrees with ISO 8601 (see also, :RFC:`3339`), ie::
+    
+        YYYY[-MM[-DD]][Thh[:mm[:ss[.s]]]T]
+
+    For more informations:
+
+    * `Date and Time Formats <https://www.w3.org/TR/NOTE-datetime>`_
+    * `Date formats <https://www.w3.org/International/questions/qa-date-format>`_
+
+    :param date: Datetime object
+    :type date: datetime.datetime
+    :return: Datetime formatted as ISO 8601, or empty string if invalid
+    :rtype: str
+    """
+    return datetime.isoformat(date, timespec='minutes') if date else ''
 

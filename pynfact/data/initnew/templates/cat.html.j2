@@ -21,7 +21,7 @@
             <li><a href="{{ base_uri}}{{ entry.uri }}"
                    title="{{ entry.title | striptags }}">{{ entry.title }}</a>,
                 <!-- {% trans %}published on{% endtrans %} -->
-                {{ entry.date }}
+                {{ entry.odate }}
             {%- endfor %}
         </ul>
         {%- endif %}

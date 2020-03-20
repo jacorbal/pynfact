@@ -18,14 +18,15 @@ Meta information processor from Markdown or reStructuredText file.
     to one universal language instead of hardcoding the
     internationalization.
 """
-from dateutil.parser import parse
+from dateutil.parser import parse as dt_parse
 from pynfact.dataman import or_array_in
 from pynfact.fileman import has_extensions
-import datetime
+from pynfact.struri import date_iso, strip_html_tags
 import logging
 import markdown
 import re
 import sys
+import locale
 
 
 class Meta:
@@ -39,25 +40,65 @@ class Meta:
     .. versionchanged:: 1.3.1b1
         Filetype no longer required in the constructor, since the parser
         automatically detect the file type by checking its extension.
+
+    .. note::
+        The prefixes for date are ``o-`` for "original date", or the
+        date when it was created (and not ``c-``, commonly used for
+        "changed date"); and ``m-`` for modified date".
     """
 
-    def __init__(self, meta, filename='', date_required=False, logger=None):
+    def __init__(self, meta, filename='', odate_required=False, logger=None):
         """Constructor.
 
         :param meta: Meta information dictionary
         :type meta: dict
         :param filename: Identifier for the file that is being tested
         :type filename: str
-        :param date_required: If ``True`` checks for the date metadata
-        :type date_required: bool
+        :param odate_required: If ``True`` checks for the date metadata
+        :type odate_required: bool
         :param logger: Logger where to store activity in
         :type logger: logging.Logger
         """
         self.meta = meta
         self.filename = filename
-        self.date_required = date_required
+        self.odate_required = odate_required
         self.logger = logger
         self._is_valid()  # Validate data supplied
+
+    def as_dict(self, override_values={}, defaults={}, date_format='%c'):
+        """Return an array with all metadata.
+
+        :param override_values: Dictionary of values to update
+        :type:override_values: dict
+        :param defaults: Default values if metadata value is empty
+        :type defaults: dict
+        :param date_format: Datetime format strings
+        :type date_format: str
+        :return: Dictionary of all metadata
+        :rtype: dict
+        """
+        metadata = {
+            'author': defaults['author'] if not self.author() \
+                                         else self.author(),
+            'category': defaults['category'] if not self.category() \
+                                             else self.category(),
+            'comments': self.comments(),
+            'copyright': self.copyright(),
+            'email': self.email(),
+            'language': self.language(),
+            'mdate_html': date_iso(self.mdate_info()),
+            'mdate': self.mdate(date_format),
+            'odate_html': date_iso(self.odate_info()),
+            'odate': self.odate(date_format),
+            'navigation': self.navigation(),
+            'private': self.private(),
+            'raw_title': strip_html_tags(self.title()),
+            'subtitle': self.subtitle(),
+            'tag_list': self.tag_list(),
+            'title': self.title(),
+        }
+
+        return metadata.update(override_values) or metadata
 
     def title(self):
         """Get post title as a string from post meta information.
@@ -217,16 +258,16 @@ class Meta:
         """
         return self._parse_cvs(self.tag_list())
 
-    def date_info(self):
+    def odate_info(self):
         """Get post date as a ``datetime`` object.
 
         :return: Date field as object
         :rtype: datetime.datetime
         """
-        vs = {'cdate', 'created', 'date'}
+        vs = {'odate', 'date', 'created'}
         return self._parse_date_obj(vs)
 
-    def date(self, date_format='%c'):
+    def odate(self, date_format='%c'):
         """Get post date as a string.
 
         :param date_format: Date format string
@@ -240,7 +281,7 @@ class Meta:
             the error.
         """
         try:
-            if not self.date_info():
+            if not self.odate_info() and self.odate_required:
                 raise ValueError
         except ValueError:
             self.logger and self.logger.error(
@@ -248,10 +289,10 @@ class Meta:
                     self.filename))
             sys.exit(34)
         else:
-            return self.date_info().strftime(date_format) \
-                if self.date_info() else ''
+            return self.odate_info().strftime(date_format) \
+                if self.odate_info() else ''
 
-    def update_info(self):
+    def mdate_info(self):
         """Get updated post date as a ``datetime`` object.
 
         :return: Date field as object
@@ -260,7 +301,7 @@ class Meta:
         vs = {'mdate', 'modified', 'updated', 'update'}
         return self._parse_date_obj(vs)
 
-    def update(self, date_format='%c'):
+    def mdate(self, date_format='%c'):
         """Get updated post date as a string.
 
         :param date_format: Date format string
@@ -274,18 +315,18 @@ class Meta:
             doesn't raise a ``ValueError``.
         """
         try:
-            if not self.update_info():
+            if not self.mdate_info():
                 raise ValueError
         except ValueError:
             pass
         else:
-            return self.update_info().strftime(date_format)
+            return self.mdate_info().strftime(date_format)
 
     def _is_valid(self):
         """Check if the metadata is valid.
 
         The metadata is considered malformed when the title (and if
-        ``date_required`` is set to ``True``, also the date) are not in
+        ``odate_required`` is set to ``True``, also the date) are not in
         the dictionary that is generated after parsing the file.  This
         could happen because:
 
@@ -316,10 +357,10 @@ class Meta:
             sys.exit(31)
 
         # Date is required only in posts, but not in pages
-        if self.date_required:
-            date_k = {'cdate', 'created', 'date'}
+        if self.odate_required:
+            odate_k = {'odate', 'date', 'created'}
             try:
-                if not or_array_in(self.meta, *date_k):
+                if not or_array_in(self.meta, *odate_k):
                     raise ValueError
             except ValueError:
                 self.logger and self.logger.error(
@@ -423,7 +464,7 @@ class Meta:
         :return: The value of the meta key as a string, or default value
         :rtype: string
         """
-        return ', '.join(self._parse_list(values, default))
+        return ', '.join(self._dt_parse_list(values, default))
 
     def _parse_date_obj(self, values):
         """Gets a ``datetime`` object from the metadata.
@@ -434,7 +475,11 @@ class Meta:
         :rtype: datetime.datetime
         """
         value = or_array_in(self.meta, *values)
-        return parse(''.join(value)) if value else None
+        return dt_parse(''.join(value)) if value else None
+
+    def __repr__(self):
+        """Return dictionary with all metainformation."""
+        return self.to_dict()
 
     def __str__(self):
         """Return string representation for an object of this class."""

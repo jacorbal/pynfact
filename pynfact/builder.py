@@ -32,17 +32,8 @@ class Builder:
     """Site building process manager.
 
     .. todo::
-        Make sure if there is no timezone, the default is always UTC,
-        for posts info, and both feeds publication and modification
-        dates.
-
-    .. todo::
-        Remove redundant code using a universal method for retrieve and
-        gather the data; and use subclasses.
-
-    .. todo::
-        Unlink all file management from this class and build and other
-        module to deal with that.
+        Manage better the timezone, the default is always UTC, for posts
+        info, and both feeds publication and modification dates.
 
     .. versionchanged:: 1.0.1.dev1
         Constructor takes a configuration dictionary instead of all
@@ -64,6 +55,11 @@ class Builder:
         Test of extension done by :func:`has_extension_md_rst` from
         module :mod:`fileman`.  No extensions passed as parameters nor
         defined explicitly in this class.
+
+    .. versionchanged:: 1.3.1b1
+        Feed is disabled if it has a value that doesn't match "rss" or
+        "atom".  The templates will not generate the feed link in this
+        particular case.
     """
 
     def __init__(self, site_config, template_values=dict(), logger=None):
@@ -115,6 +111,12 @@ class Builder:
         self.entries_dir = 'posts'          # Where posts are
         self.static_dir = 'static'          # CSS, JS, &c.
 
+        # Default values to override meta information
+        self.meta_defaults = {
+            'author': self.site_config['info']['site_author'],
+            'category': self.site_config['presentation']['default_category'],
+        }
+
     def __del__(self):
         """Destructor.  Restore the locale, if changed."""
         return locale.setlocale(locale.LC_ALL, self.old_locale)
@@ -132,45 +134,18 @@ class Builder:
         meta = self._fetch_meta(self.entries_dir, infile, True)
         html = self._fetch_html(self.entries_dir, infile)
 
-        title = meta.title()
-        category = meta.category(
-            self.site_config['presentation']['default_category'])
-        timezone = meta.date('%z')
-        if timezone:
-            # to html5 timezone conv.
-            timezone = timezone[:3] + ':' + timezone[3:]
-        datehtml = meta.date('%Y-%m-%dT%H:%M') + timezone
-        if meta.update('%Y-%m-%dT%H:%M'):
-            updatehtml = meta.update('%Y-%m-%dT%H:%M') + timezone
-        else:
-            None
-
-        values = self.template_values.copy()
-        values['entry'] = {  # append
-            'author': meta.author() \
-            if meta.author() \
-            else self.site_config['info']['site_author'],
-            'title': title,
-            'raw_title': strip_html_tags(title),
-            'private': meta.private(),
-            'comments': meta.comments(),
-            'site_comments': self.site_config['presentation']['comments'],
-            'category': category,
-            'category_uri': self._make_root_uri(category,
+        override = {
+            'category_uri': self._make_root_uri(meta.category(),
                                                 self.categories_dir),
-            'date': meta.date(date_format),
-            'datehtml': datehtml,
-            'tags': meta.tag_list(),
-            'content': html}
-
-        # Publish original date if needed
-        if meta.update():
-            values['entry'].update({
-                'update': meta.update(date_format),
-                'updatehtml': updatehtml})
-
+            'content': html,
+            'site_comments': self.site_config['presentation']['comments'],
+        }
+        values = self.template_values.copy()
+        values['entry'] = meta.as_dict(override, self.meta_defaults,
+                                       date_format)
         outfile = self._make_output_file(
-            title, self._entry_link_prefix(infile))
+            values['entry']['title'], self._entry_link_prefix(infile))
+
         return self._render_template('entry.html.j2', outfile, values)
 
     def gen_entries(self, date_format='%c'):
@@ -197,35 +172,30 @@ class Builder:
             if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
-                private = meta.private()
-                title = meta.title()
-                subtitle = meta.subtitle()
-                category = meta.category(
-                    self.site_config['presentation']['default_category'])
-                category_uri = self._make_root_uri(category,
-                                                   self.categories_dir)
-                date = meta.date(date_format)
-                date_idx = meta.date('%Y-%m-%d %H:%M:%S')
-                uri = self._make_entry_uri(title, filename, absolute=True)
+                override = {
+                    'category_uri': self._make_root_uri(meta.category(),
+                                                        self.categories_dir),
+                    'odate_idx': meta.odate('%Y-%m-%d %H:%M:%S'),
+                    'uri': self._make_entry_uri(meta.title(),
+                                                filename,
+                                                absolute=True),
+                }
 
-                # Generate archive
-                if not private:
+                # Generate entries list
+                if not meta.private():
                     total_entries += 1
-                    val = {'title': title, 'subtitle': subtitle,
-                           'date': date, 'date_idx': date_idx,
-                           'uri': uri, 'category': category,
-                           'category_uri': category_uri}
-                    entries.append(val)
+                    entries.append(meta.as_dict(override,
+                                                self.meta_defaults,
+                                                date_format))
 
         # Sort chronologically descent
-        entries = sorted(entries, key=lambda k: k['date_idx'],
+        entries = sorted(entries, key=lambda k: k['odate_idx'],
                          reverse=True)
 
         total_pages = ceil(total_entries / max_entries_per_page)
         values = self.template_values.copy()
 
-        # FIXME :: Merge this scenario with the following loop
-        # Generate 'index.html' even when there are no posts
+        # FIXME: Generate 'index.html' even when there are no posts
         if total_entries == 0:
             outfile = self._make_output_file()
             self._render_template('entries.html.j2', outfile, values)
@@ -260,36 +230,34 @@ class Builder:
             if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
-                private = meta.private()
-                title = meta.title()
-                #subtitle = meta.subtitle()
-                category = meta.category(
-                    self.site_config['presentation']['default_category'])
-                date = meta.date(date_format)
-                date_idx = meta.date('%Y-%m-%d')
-                uri = self._make_entry_uri(title, filename)
+                override = {
+                    'category_uri': self._make_root_uri(meta.category(),
+                                                        self.categories_dir),
+                    'uri': self._make_entry_uri(meta.title(),
+                                                filename),
+                    'odate_idx': meta.odate('%Y-%m-%d'),
+                }
 
                 # Generate archive
-                if not private:
-                    val = {'uri': uri, 'title': title, 'date': date,
-                           'date_idx': date_idx, 'category': category}
-                    d = datetime.strptime(meta.date('%Y-%m-%d'), '%Y-%m-%d')
-                    idx_year = d.strftime('%Y')
+                if not meta.private():
+                    val = meta.as_dict(override, self.meta_defaults,
+                                       date_format)
+                    oyear_idx = meta.odate('%Y')
                     # %m to sort chronologically
-                    idx_month = d.strftime('<%m> %B')
-                    if idx_year in archive:
-                        if idx_month in archive[idx_year]:
-                            archive[idx_year][idx_month].append(val)
+                    omonth_idx = meta.odate('<%m> %B')
+                    if oyear_idx in archive:
+                        if omonth_idx in archive[oyear_idx]:
+                            archive[oyear_idx][omonth_idx].append(val)
                         else:
-                            archive[idx_year][idx_month] = [val]
+                            archive[oyear_idx][omonth_idx] = [val]
                         # sort entries
-                        archive[idx_year][idx_month] = \
-                            sorted(archive[idx_year][idx_month],
-                                   key=lambda k: k['date_idx'],
+                        archive[oyear_idx][omonth_idx] = \
+                            sorted(archive[oyear_idx][omonth_idx],
+                                   key=lambda k: k['odate_idx'],
                                    reverse=False)
                     else:
-                        archive[idx_year] = dict()
-                        archive[idx_year][idx_month] = [val]
+                        archive[oyear_idx] = dict()
+                        archive[oyear_idx][omonth_idx] = [val]
 
         values = self.template_values.copy()
         values['archive'] = archive
@@ -307,28 +275,25 @@ class Builder:
             if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
-                private = meta.private()
-                title = meta.title()
-                #subtitle = meta.subtitle()
-                category = meta.category(
-                    self.site_config['presentation']['default_category'])
-                date = meta.date(date_format)
-                date_idx = meta.date('%Y-%m-%d')
-                comments = meta.comments()
-                uri = self._make_entry_uri(title, filename)
+                override = {
+                    'uri': self._make_entry_uri(meta.title(), filename),
+                    'odate_idx': meta.odate('%Y-%m-%d'),
+                }
 
                 # Generate archive
-                if not private:
-                    val = {'uri': uri, 'title': title, 'date': date,
-                           'date_idx': date_idx, 'comments': comments}
+                if not meta.private():
+                    val = meta.as_dict(override, self.meta_defaults,
+                                       date_format)
+                    category = meta.category()
                     if category in archive:
                         archive[category].append(val)
                     else:
                         archive[category] = [val]
                     # sort entries
-                    archive[category] = sorted(archive[category],
-                                               key=lambda k: k['date_idx'],
-                                               reverse=True)
+                    archive[category] = \
+                        sorted(archive[category],
+                               key=lambda k: k['odate_idx'],
+                               reverse=True)
 
         values = self.template_values.copy()
         values['archive'] = archive
@@ -346,19 +311,16 @@ class Builder:
             if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
-                private = meta.private()
-                title = meta.title()
-                #subtitle = meta.subtitle()
-                category = meta.category(
-                    self.site_config['presentation']['default_category'])
-                date = meta.date(date_format)
-                date_idx = meta.date('%Y-%m-%d')
-                uri = self._make_entry_uri(title, filename)
+                override = {
+                    'odate_idx': meta.odate('%Y-%m-%d'),
+                    'uri': self._make_entry_uri(meta.title(), filename),
+                }
 
                 # Generate archive
-                if not private:
-                    val = {'uri': uri, 'title': title, 'date': date,
-                           'date_idx': date_idx}
+                if not meta.private():
+                    val = meta.as_dict(override, self.meta_defaults,
+                                       date_format)
+                    category = meta.category()
                     if category in entries_by_category:
                         entries_by_category[category].append(val)
                     else:
@@ -371,7 +333,7 @@ class Builder:
             values['entries'] = entries_by_category[category]
             # sort entries
             values['entries'] = sorted(values['entries'], key=lambda k:
-                                       k['date_idx'], reverse=True)
+                                       k['odate_idx'], reverse=True)
             outfile = self._make_output_file(category, self.categories_dir)
             self._render_template('cat.html.j2', outfile, values)
 
@@ -386,21 +348,16 @@ class Builder:
             if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
-                private = meta.private()
-                title = meta.title()
-                #subtitle = meta.subtitle()
-                category = meta.category(
-                    self.site_config['presentation']['default_category'])
-                tag_list = meta.tag_list()
-                date = meta.date(date_format)
-                date_idx = meta.date('%Y-%m-%d')
-                uri = self._make_entry_uri(title, filename)
+                override = {
+                    'odate_idx': meta.odate('%Y-%m-%d'),
+                    'uri': self._make_entry_uri(meta.title(), filename),
+                }
 
-                # Generate archive
-                if not private:
-                    val = {'uri': uri, 'title': title, 'date': date,
-                           'date_idx': date_idx, 'category': category}
-                    for tag in tag_list:
+                # Generate dictionary of entries by tag
+                if not meta.private():
+                    val = meta.as_dict(override, self.meta_defaults,
+                                       date_format)
+                    for tag in meta.tag_list():
                         if tag in entries_by_tag:
                             entries_by_tag[tag].append(val)
                         else:
@@ -413,7 +370,7 @@ class Builder:
             values['entries'] = entries_by_tag[tag]
             # sort entries
             values['entries'] = sorted(values['entries'], key=lambda k:
-                                       k['date_idx'], reverse=True)
+                                       k['odate_idx'], reverse=True)
             outfile = self._make_output_file(tag, self.tags_dir)
             self._render_template('tag.html.j2', outfile, values)
 
@@ -428,14 +385,11 @@ class Builder:
         for filename in os.listdir(self.entries_dir):
             if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
-                private = meta.private()
-                title = meta.title()
-                tag_list = meta.tag_list()
 
-                # Generate archive
-                if not private:
-                    val = {'title': title}
-                    for tag in tag_list:
+                # Generate dictionary of entries by tag
+                if not meta.private():
+                    val = meta.as_dict({}, self.meta_defaults)
+                    for tag in meta.tag_list():
                         if tag in entries_by_tag:
                             entries_by_tag[tag].append(val)
                         else:
@@ -473,15 +427,12 @@ class Builder:
             if valid_ext(filename):
                 meta = self._fetch_meta(self.pages_dir, filename, False)
 
-                if meta.navigation():
-                    title = meta.title()
-                    uri = self._make_root_uri(title)
+                override = {'uri': self._make_root_uri(meta.title())}
 
+                if meta.navigation():
                     values = self.template_values.copy()
-                    values['page'] = {  # append
-                           'title': title,
-                           'raw_title': strip_html_tags(title),
-                           'uri': uri}
+                    values['page'] = meta.as_dict(override,
+                                                  self.meta_defaults)
 
                     # Update base template values to get pages links in
                     # nav. bar only if the page is set to be in the
@@ -504,15 +455,12 @@ class Builder:
         meta = self._fetch_meta(self.pages_dir, infile, False)
         html = self._fetch_html(self.pages_dir, infile)
 
-        title = meta.title()
+        override = {'content': html}
 
         values = self.template_values.copy()
-        values['page'] = {  # append
-            'title': title,
-            'raw_title': strip_html_tags(title),
-            'content': html}
+        values['page'] = meta.as_dict(override, self.meta_defaults)
 
-        outfile = self._make_output_file(title)
+        outfile = self._make_output_file(meta.title())
         return self._render_template('page.html.j2', outfile, values)
 
     def gen_pages(self):
@@ -530,6 +478,10 @@ class Builder:
         :param outfile: Output filename
         :type outfile: str
         """
+        if feed_format.lower() != "atom" and \
+           feed_format.lower() != "rss":
+            return
+
         feed = FeedGenerator()
         # feed.logo()
         feed.id(self.site_config['info']['site_name']
@@ -558,62 +510,45 @@ class Builder:
             if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
                 html = self._fetch_html(self.entries_dir, filename)
-                author = self.site_config['info']['site_name'] \
-                    if not meta.author() \
-                    else meta.author()
-                email = self.site_config['info']['site_author_email'] \
-                    if not meta.email() \
-                    else meta.email()
-                content_html = html
-                private = meta.private()
-                title = meta.title()
-                subtitle = meta.subtitle()
-                update_idx = meta.update('%Y-%m-%d %H:%M:%S')
-                date_idx = meta.date('%Y-%m-%d %H:%M:%S')
-                timezone = 'UTC' if not meta.date('%Z') else meta.date('%Z')
-                date_iso8601 = meta.date('%Y-%m-%dT%H:%M') + timezone
-                update_iso8601 = meta.update('%Y-%m-%dT%H:%M') \
-                    + timezone if meta.update('%Y-%m-%dT%H:%M') \
-                    else None
-                pub_date = date_iso8601
-                update = update_iso8601
 
-                #updated = datetime.strptime(date_iso8601, '%Y-%m-%dT%H:%M%Z')
-                uri = self._make_entry_uri(title, filename)
-                full_uri = os.path.join(self.site_config['uri']['canonical'],
-                                        self.site_config['uri']['base'], uri)
+                uri = self._make_entry_uri(meta.title(), filename)
+                override = {
+                    'content_html': html,
+                    'full_uri': os.path.join(self.site_config['uri']['canonical'],
+                                             self.site_config['uri']['base'], uri),
+                    'mdate_idx': meta.mdate('%Y-%m-%d %H:%M:%S'),
+                    'odate_idx': meta.odate('%Y-%m-%d %H:%M:%S'),
+                    'timezone': 'UTC' if not meta.odate('%Z')
+                    else meta.odate('%Z'),
+                    'uri': uri,
+                }
 
-                if not private:
-                    val = {'title': strip_html_tags(title),
-                           'subtitle': subtitle,
-                           'content_html': content_html,
-                           'author': author,
-                           'email': email,
-                           'full_uri': full_uri,
-                           'date_idx': date_idx,
-                           'pub_date': pub_date,
-                           'update': update}
+                if not meta.private():
+                    val = meta.as_dict(override, self.meta_defaults)
                     entries.append(val)
 
         # sort chronologically descent
-        entries = sorted(entries, key=lambda k: k['date_idx'],
+        entries = sorted(entries, key=lambda k: k['odate_idx'],
                          reverse=True)
         for entry in entries:
             fnew = feed.add_entry()
             fnew.id(slugify(strip_html_tags(entry['title'])))
             fnew.title(entry['title'])
             fnew.description(entry['content_html'])
-            if update:
-                fnew.updated(entry['update'])
-            fnew.pubDate(entry['pub_date'])
+            if entry['mdate_html']:
+                fnew.updated(entry['mdate_html'])
+                fnew.published(entry['mdate_html'])
+            else:
+                fnew.updated(entry['odate_html'])
+            fnew.pubDate(entry['odate_html'])
             # , 'email':entry['email']})
             fnew.author({'name': entry['author']})
             fnew.link(href=entry['full_uri'], rel='alternate')
 
-        if feed_format == "rss":
+        if feed_format.lower() == "rss":
             feed.rss_file(os.path.join(self.site_config['dirs']['deploy'],
                                        outfile))
-        else:
+        elif feed_format.lower() == "atom":
             feed.atom_file(os.path.join(self.site_config['dirs']['deploy'],
                                         outfile))
 
@@ -737,29 +672,32 @@ class Builder:
         """
         return self._fetch_markup(directory, infile).html()
 
-    def _fetch_meta(self, directory, infile, date_required=False):
+    def _fetch_meta(self, directory, infile, odate_required=False):
         """Fetches metadata out of a Markdown input file.
+
+        If ``odate_required`` is ``False``, the metadata is valid as
+        long as it has a title; if it's ``True``, the metadata require
+        to be valid, also an "origin date", or ``odate`` field.
 
         :param directory: Markdown file working directory
         :type directory: str
         :param infile: Markdown file to parse
         :type infile: str
-        :param date_required: If ``True`` checks for the date metadata
-        :type date_required: bool
+        :param odate_required: Field ``odate`` is required
+        :type odate_required: bool
         :return: Markdown metadata
         :rtype: Meta
         """
         return Meta(self._fetch_markup(directory, infile).metadata(),
-                    infile, date_required, logger=self.logger)
+                    infile, odate_required, logger=self.logger)
 
     def _entry_link_prefix(self, entry):
         """Compute entry final path.
 
         To compute the final path, it's required to take the meta
-        information of that entry concerning to title and publication
-        date.
-        Let's suppose the title is "My entry", and the date is
-        "2020-04-01".  The output will be: `posts/2020/04/01/my-entry`
+        information of that entry concerning to title and origin date.
+        Let's suppose the title is "My post", and the ``odate`` set to
+        "2020-04-01".  The output will be: ``posts/2020/04/01/my-post``.
 
         :param: Entry filename
         :type: str
@@ -773,13 +711,13 @@ class Builder:
 
         category = meta.category(
             self.site_config['presentation']['default_category'])
-        date = meta.date('%Y-%m-%d')
-        date_arr = date.split('-')
+        odate = meta.odate('%Y-%m-%d')
+        odate_arr = odate.split('-')
         path = os.path.join(str(self.entries_dir),
                             slugify(category),
-                            str(date_arr[0]),
-                            str(date_arr[1]),
-                            str(date_arr[2]))
+                            str(odate_arr[0]),
+                            str(odate_arr[1]),
+                            str(odate_arr[2]))
         return path
 
     def _make_entry_uri(self, name='', infix='', index='index.html',
@@ -801,15 +739,15 @@ class Builder:
             .
         """
         if absolute:
-            return link_to(name,
-                           os.path.join('/',
-                                        self.site_config['uri']['base'],
-                                        self._entry_link_prefix(infix)),
-                           makedirs=False, justdir=True, index=index)
+            path = os.path.join('/',
+                                self.site_config['uri']['base'],
+                                self._entry_link_prefix(infix))
+
         else:
-            return link_to(name,
-                           self._entry_link_prefix(infix),
-                           makedirs=False, justdir=True, index=index)
+            path = self._entry_link_prefix(infix)
+
+        return link_to(name, path, makedirs=False, justdir=True,
+                       index=index)
 
     def _make_root_uri(self, name='', infix='', index='index.html'):
         """Generate the link to any resource in the root file system.

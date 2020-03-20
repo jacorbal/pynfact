@@ -5,7 +5,7 @@ Markdown translation to HTML and metadata retrieval.
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
 """
-from pynfact.fileman import has_extension
+from pynfact.fileman import has_extension_md, has_extension_rst
 from pynfact.parsers import ParserMd
 from pynfact.parsers import ParserRst
 
@@ -32,7 +32,12 @@ class Parser:
         :param logger: Logger where to store activity in
         :type logger: logging.Logger
         """
-        Parser = ParserRst if has_extension(input_data, '.rst') else ParserMd
+        #Parser = ParserRst if has_extension_rst(input_data) else ParserMd
+        if has_extension_rst(input_data):
+            Parser = ParserRst
+        elif has_extension_md(input_data):
+            Parser = ParserMd
+
         self.parser = Parser(input_data, encoding, logger=logger)
 
     def html(self):

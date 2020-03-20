@@ -35,28 +35,28 @@ def main():
         Move functions to :mod:`cli` and renamed file as ``main.py``.
     """
     parser = argparse.ArgumentParser(description=
-                "PynFact!:"
-                " A static blog generator from Markdown and"
-                " reStructuredText to HTML5",
-            prog="pynfact",
-            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+                "PynFact!: "
+                "Static website generator from Markdown and "
+                "reStructuredText to HTML5",
+            prog="pynfact",)
+            #formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     rgroup = parser.add_mutually_exclusive_group(required=True)
 
     rgroup.add_argument('-i', '--init', default=None,
-                        metavar='<blog>',
-                        help="initialize a new blog structure")
+                        metavar='<site>',
+                        help="initialize a new website structure")
     rgroup.add_argument('-b', '--build', action='store_true',
                         help="parse input files and build the website")
-    rgroup.add_argument('-s', '--serve', default='localhost',
-                        const='localhost',
-                        metavar='<host>', nargs='?',
-                        help="set host where to serve the blog")
+    rgroup.add_argument('-s', '--serve', nargs='?',
+                        default='localhost', const='localhost',
+                        metavar='<host>',
+                        help="set host where to serve the website (localhost)")
     parser.add_argument('-p', '--port', default=4000,
                         metavar='<port>', type=int,
-                        help="set port to listen to when serving")
+                        help="set port to listen to when serving (4000)")
     parser.add_argument('-l', '--log', default='pynfact.err',
                         metavar='<logfile>',
-                        help="set a new error log filename or 'none'")
+                        help="set file where to log errors (pynfact.err)")
     parser.add_argument('-v', '--verbose', action='store_true',
                         help="increase output verbosity")
 

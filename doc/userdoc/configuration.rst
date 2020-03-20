@@ -37,7 +37,10 @@ This variables are:
 
 ``feed_format``
     Default format for syndication feed; valid values are ``rss`` and
-    ``atom``.  If invalid value, it defaults to ``atom``.
+    ``atom``.  Any other value will disable the feed generation.  For
+    example, to deactivate the feed generation, set this value to
+    ``none``, so there will be no feed nor links to the feed in the
+    navigation bar.
 
 ``comments``
     If you decide to add some code at the end of the ``entry.html.j2``

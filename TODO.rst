@@ -4,52 +4,86 @@ To-Do List
 
 .. rubric:: TO-DO LIST
 
-The number in brackets represents the priority (0:none, 5:urgent)
+The number in brackets represents the priority (0:none; 5:urgent)
 
-Code
-====
-
-* **[5]** Get array of meta data, instead of individual attributes
-* **[1]** In ``parsers.*.py``:
-
-  * Retrieve metainfo without regenerating all HTML from Markdown
+Coding style
+============
 
 * **[3]** In *all*, use a **much more** *pythonic* code
-* **[2]** Single-sourcing_ the package version in an efficient way
+* **[4]** Refactor ``Builder`` class in simpler methods (if possible)
+* **[X]** Refactor ``Meta`` class in simpler methods
+* **[X]** Get array of meta data, instead of individual attributes
 * **[X]** Use ``argparse`` in ``cli.py``
+* **[2]** Single-sourcing_ the package version in an efficient way
 
-* **[/]** Refactor ``Meta`` class in simpler methods
-* **[4]** Refactor ``Builder`` class in simpler methods
+Unit testing
+============
 
-Next features
-=============
+* **[4]** Finish beta tests stage 2 and upload them to repository
 
-Structure
----------
+Next features for future versions
+=================================
 
-* **[5]** Pages allowed to be ``private``
-* **[X]** Slug in pages taken from title, not from filename
+Content configuration
+---------------------
+
+* **[2]** Pages allowed to be ``private``
 * **[3]** Tags (and categories) in bold and/or italics (accept MU lang)
+* **[X]** Slug in pages taken from title, not from filename
 
 Internal references
 -------------------
 
-* **[5]** Internal links between posts and pages in markdown content:
+References inter-posts or inter-pages are required, imitating the Wiki
+syntax.  This syntax will be the same for Markdown and reStructuredText
+documents, so it has to be in a way that do not interfere with their
+natural syntax.
 
-  * ``This [link]({{ link posts/post_filename.md }})`` or
-  * ``This [link]({{ link posts/post_filename }})``;
-  * ``This [link]({{ link page/page_filename }})``,
-    (with or without extension?).
+Proposals:
 
-* **[5]** Internal links between tags and categories:
+#. Using double brackets: ``[[ ... ]]``
+#. Using double curly braces: ``{{ ... }}``
 
-  * ``This [link]({{ link tag/tag_slug }})``;
-  * ``This [link]({{ link cat/cat_slug }})``;
+The second syntax is very reminiscent of Jinja2 templates, and event the
+content documents will not interfere with the source templates, it could
+be confusing.  It'll be better to use the brackets.
 
-* **[5]** Include source from other files:
+#. **[5]** Internal links between posts and pages in markdown content:
 
-  * ``{{ source media/files/lipsum.txt }}``
-  * ``{{ source media/files/data.c }}``
+   * ``This [[ linkpost "Title of the post" ]]``, or
+   * ``This [[ linkpost slug-of-the-post ]]``, or
+   * ``This [[ linkpost filename-of-post.md ]]``;
+
+   * ``This [[ linkpage "Title of the page" ]]``, or
+   * ``This [[ linkpage slug-of-the-page ]]``, or
+   * ``This [[ linkpage filename-of-page.md ]]``.
+
+#. **[5]** Internal links between tags and categories:
+
+   * ``This [[ linkcat "Category name" ]]``, or
+   * ``This [[ linkcat cateogry-slug ]]``, or
+
+   * ``This [[ linktag "Tag name" ]]``, or
+   * ``This [[ linktag tag-slug ]]`` .
+
+#. **[5]** Include source from other files:
+
+   * ``[[ source media/files/lipsum.txt ]]``, or
+   * ``[[ source media/files/data.c ]]``.
+
+In case of malformed "Wiki" links, it'll be considered as a comment and
+removed from final HTML5 content, therefore, not parsed.
+
+Exceptions
+~~~~~~~~~~
+
+Parsing errors are code ``3x``:
+
+* Error **35**: Double brackets are opened, but not properly closed
+
+* Error **36**: The instruction within is malformed
+
+* Error **37**: The page/post/category/tag does not exist
 
 Locale
 ------
@@ -63,20 +97,40 @@ Locale
   * ``page.html.j2``:
     ``<article class="page" lang="{{ base.lang }}"> [...]``
 
+The value ``language`` from ``config.yaml`` sets the ``<body>`` element,
+the ``language`` sets the ``<article>`` element if defined.
+
+Feed
+----
+
+* **[X]** Accept a new value from the ``config.yaml`` file.  Currently
+  is set to accept either ``rss`` or ``atom``, but not to disable it.
+  Any value for this key that is not one of ``{'rss', 'atom'}`` will
+  disable the feed.
+
 Meta information
 ----------------
 
 * **[5]** Author[s] taken as list, there could be more than one
 * **[1]** Author[s] meta tag for pages
-* **[5]** Allow insert date in current locale
+  In the end, why?  The only reason would be to show the page author as
+  the page metadata, below the title.
+
+* **[4]** Show author in posts
+
+  * Always?, or
+  * only when there are more than one author?, or
+  * depending on value in ``config.yaml``?
+
 * **[5]** Allow user to define own slug instead of autogenerating it
+* **[0]** Allow insert date in current locale (not worth it)
 
 Input format
 ------------
 
 * **[X]** Add reStructuredText as input format (``docutils``).
   Identify the document by the extension, depending on which, the
-  interpreter parses Markdown or reStructuredText.
+  interpreter parses Markdown or reStructuredText (HTML5 only)
 
 Functionality
 -------------
@@ -88,9 +142,12 @@ Functionality
 * **[X]** Logging, instead of using ``stdout`` when generating the site
 * **[2]** User should choose where to store the logs in ``config.yaml``.
 
+* **[X]** Logging output configured by ``argparse``:
+
   * ``pynfact --log=/dev/stdout``
   * ``pynfact --log=~/pynfact.log``
 
+* **[2]** User should choose the deploy directory name in ``config.yaml``
 * **[2]** Bugs report: allow the user to file a bug
 
 Customization
@@ -110,7 +167,7 @@ Intended command line interface
 -------------------------------
 
 * **[5]** Check if CWD is a pynfact blog one when invoking ``--init``
-* **[1]** Logs in directory ``log`` (?)
+* **[1]** Logs in specific directory: ``log/`` (?)
 
 Command line options:
 
@@ -123,24 +180,6 @@ Command line options:
 * **[ ]** Deploy dir: ``pynfact -d _deploy`` or ``pynfact --deploy-dir=_dpl``
 * **[ ]** Theme load: ``pynfact -L theme`` or ``pynfact --loadtheme=theme``
 * **[ ]** Theme save: ``pynfact -S theme`` or ``pynfact --savetheme=theme``
-
-Intended userspace
-------------------
-
-::
-
-    my-pynfact-blog/
-        config.yml
-        logs/
-        pages/*.md
-        posts/*.md
-        static/
-            css/
-        templates/*.j2
-        themes/
-            theme1/*j2
-            theme2/*j2
-            <[...]>
 
 Templates
 =========

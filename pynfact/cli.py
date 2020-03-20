@@ -73,6 +73,21 @@ def set_logger(verbosity=False, error_log='pynfact.err',
     :type error_log: str
     :param echo_log: Stream to write the default information log
     :type echo_log: _io.TextIOWrapper
+
+    .. versionchanged:: 1.3.1a4
+        If the error log is set to "None" (case insensitive), deactivate
+        the log for warnings and errors.
+
+    .. versionchanged:: 1.3.1b1
+        If the error log is set as ``/dev/stdout`` or ``/dev/stderr``,
+        then, instead of using a ``logging.FileHandler``, use a
+        ``logging.StreamHandler`` to ``sys.stdout`` or ``sys.stderr``
+        respectively.  In any other case, write to a file.
+
+    -- versionchanged:: 1.3.1b2
+        If the error log is set to ``/dev/null``, act in the same way as
+        using the value "None" (case insensive), i.e., deactivate the
+        warnings and errors log.
     """
     log_level = logging.DEBUG if verbosity else logging.INFO
     logger = logging.getLogger(__name__)
@@ -85,9 +100,14 @@ def set_logger(verbosity=False, error_log='pynfact.err',
         '[%(levelname)s]: %(message)s'))
     logger.addHandler(echo_shandler)
 
-    # Errors and Critical errors handler (write to file)
-    if error_log.lower() != 'none':
-        warning_fhandler = logging.FileHandler(error_log)
+    # Errors and Critical errors handler
+    if error_log.lower() != 'none' or error.log != '/dev/null':
+        if error_log == '/dev/stdout':
+            warning_fhandler = logging.StreamHandler(sys.stdout)
+        elif error_log == '/dev/stderr':
+            warning_fhandler = logging.StreamHandler(sys.stderr)
+        else:
+            warning_fhandler = logging.FileHandler(error_log)
         warning_fhandler.setLevel(logging.ERROR)
         warning_fhandler.setFormatter(logging.Formatter(
             '%(asctime)s [%(levelname)s]: %(message)s'))
@@ -134,7 +154,7 @@ def retrieve_config(config_file, logger=None):
             'comments': config.retrieve('comments').lower() == "yes",
             'default_category':
                 config.retrieve('default_category', "Miscellaneous"),
-            'feed_format': config.retrieve('feed_format', "atom"),
+            'feed_format': config.retrieve('feed_format', "atom").lower(),
             'max_entries': config.retrieve('max_entries', 10),
         },
         'dirs': {
@@ -179,7 +199,6 @@ def arg_build(logger, config_file='config.yml'):
     """
     site_config = retrieve_config(config_file, logger)
 
-    # Prepare builder
     template_values = {
         'blog': {
             'author': site_config['info']['site_author'],
@@ -192,7 +211,6 @@ def arg_build(logger, config_file='config.yml'):
         }
     }
 
-    # Build
     b = Builder(site_config, template_values, logger=logger)
     b.gen_site()
 
