@@ -9,10 +9,9 @@
          itemtype="http://schema.org/CreativeWork">
     <meta itemprop="author" content="{{ entry.author }}">
     <header>
-        <h1 class="title"
-            itemprop="headline">
-            {{ entry.title }}
-            {% if entry.private %}<span class="private">[PRIV]</span>{%- endif -%}
+        <h1 class="title" itemprop="headline">
+            {{- entry.title -}}
+            {%- if entry.private -%}<span class="private">[PRIV]</span>{%- endif -%}
         </h1>
         {% if entry.up_date %}
         <p class="date">
@@ -31,7 +30,7 @@
         {% endif %}
     </header>
 
-    <section class="entry hyphenate prettify">
+    <section class="entry hyphenate prettify" role="main">
         {{ entry.content }}
     </section>
 

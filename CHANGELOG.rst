@@ -5,6 +5,17 @@ Changelog
 Release history
 ===============
 
+1.3.1b1 -- Fri 20 Mar 2020 01:57:08 +0100
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Finish alpha tests, starting beta version.
+* Update documentation
+* Add reStructuredText support using ``docutils``
+* Parsers (both, md & rst) in separate module (`ParserMd`, `ParserRst`)
+* Rename ``Mulang`` to ``Parser``
+* Refactor code
+* Initial data and locales now stored in ``data`` directory
+
 1.3.1a3 -- Tue 18 Mar 2020 00:42:52 +0100 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

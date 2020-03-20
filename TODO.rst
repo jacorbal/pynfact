@@ -10,12 +10,7 @@ Code
 ====
 
 * **[5]** Get array of meta data, instead of individual attributes
-* **[3]** Break ``Builder`` into more classes and functions, redundant code!
-* **[1]** In ``struri.py``:
-
-  * Apply ``re.sub`` to all members of the list
-
-* **[1]** In ``mulang.py``:
+* **[1]** In ``parsers.*.py``:
 
   * Retrieve metainfo without regenerating all HTML from Markdown
 
@@ -23,7 +18,8 @@ Code
 * **[2]** Single-sourcing_ the package version in an efficient way
 * **[X]** Use ``argparse`` in ``cli.py``
 
-* **[3]** Refactor ``Meta`` class in simpler methods
+* **[/]** Refactor ``Meta`` class in simpler methods
+* **[4]** Refactor ``Builder`` class in simpler methods
 
 Next features
 =============
@@ -75,17 +71,19 @@ Meta information
 * **[5]** Allow insert date in current locale
 * **[5]** Allow user to define own slug instead of autogenerating it
 
-Input text
-----------
+Input format
+------------
 
-* **[1]** Add reStructuredText as input format (``docutils``), bedides
-  Markdown.  Requires a new entry in ``config.yml``:
-  ``input_format=["md"|"rst"]``, **OR**, maybe, identify the document by the
-  extension, depending on which, theinterpreter parses Markdown or
-  reStructuredText.
+* **[X]** Add reStructuredText as input format (``docutils``).
+  Identify the document by the extension, depending on which, the
+  interpreter parses Markdown or reStructuredText.
 
 Functionality
 -------------
+
+* **[3]** Do not write a log file on ``init`` operations, only ``build``
+  and ``serve`` because those require to be within the blog directory,
+  so there will be no logs outside the related path.
 
 * **[X]** Logging, instead of using ``stdout`` when generating the site
 * **[2]** User should choose where to store the logs in ``config.yaml``.

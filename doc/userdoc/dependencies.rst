@@ -9,12 +9,14 @@ Dependencies
 
 Dependency list:
 
+**docutils** (``docutils >= 0.1.4``):
+    Python Documentation Utilities.
+
 **feedgen** (``feedgen >= 0.9.0``):
     Feed Generator (Atom, RSS, Podcasts).
 
 **python-dateutil** (``python-dateutil >= 2.0``):
     Extensions to the standard Python datetime module.
-    [This is also a ``feedgen`` dependency].
 
 **Jinja2** (``jinja2 >= 2.7``):
     A small but fast and easy to use stand-alone template engine written

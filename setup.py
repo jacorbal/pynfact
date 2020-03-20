@@ -9,7 +9,7 @@ Source distribution setup.
 from setuptools import setup, find_packages
 
 
-version = '1.3.1a3'
+version = '1.3.1b1'
 
 with open("README.rst", "r") as fh:
     long_description = fh.read()
@@ -26,16 +26,17 @@ setup(name='pynfact',
           'Funding': 'https://jacorbal.es/pynfact',
           'Source': 'https://github.com/jacorbal/pynfact',
           'Tracker': 'https://github.com/jacorbal/pynfact/issues'},
-      description='Blog-oriented static website generator using Markdown.',
+      description='Blog-oriented static website generator using Markdown or reStructuredText.',
       long_description=long_description,
       long_description_content_type='text/x-rst',
+      platforms='any',
       license='MIT',
-      keywords=['blog', 'markdown', 'static', 'web', 'site', 'generator'],
+      keywords=['blog', 'markdown', 'restructuredtext', 'static', 'web', 'site', 'generator'],
       py_modules=find_packages(),
       packages=['pynfact'],
       entry_points={'console_scripts': ['pynfact = pynfact.__main__:main']},
       classifiers=[
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 4 - Beta',
           'Environment :: Console',
           'Intended Audience :: Developers',
           'Intended Audience :: End Users/Desktop',
@@ -54,9 +55,10 @@ setup(name='pynfact',
       ],
       install_requires=[
           'feedgen >= 0.9.0',
+          'docutils >= 0.15',
           'jinja2 >= 2.7',
           'markdown >= 3.0.0',
-          'pygments >= 2.0',
+          'pygments >= 2.0.2',
           'python-dateutil >= 2.0',  # it's also a dep. of ``feedgen``
           'pyyaml >= 5.1',
           'unidecode >= 0.4.9',

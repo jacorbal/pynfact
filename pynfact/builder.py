@@ -2,20 +2,23 @@
 """
 Build the content.
 
-Only markdown files will be taken, but markdown files are identified by
-its extension, which for this application is ``.md`` (but it may be
-specified in ``infile_ext`` argument)
-
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
+
+.. versionchanged:: 1.3.1a4
+    Include processing of reStructuredText files along with Markdown.
+    Those files are detected by extension and parsed accordingly.  So,
+    no extension test in this module, only in the parser.
+
 """
 from datetime import datetime
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader, Markup
 from math import ceil
-from pynfact.fileman import link_to, has_extension
+from pynfact.fileman import link_to
+from pynfact.fileman import has_extension_md_rst as valid_ext
 from pynfact.meta import Meta
-from pynfact.mulang import Mulang
+from pynfact.parser import Parser
 from pynfact.struri import slugify, strip_html_tags
 import distutils.dir_util
 import filecmp
@@ -29,16 +32,16 @@ class Builder:
     """Site building process manager.
 
     .. todo::
-        Manage better with timezones. Make sure if there is no timezone,
-        the default is always UTC, for posts info, and both feeds
-        publication and modification dates.
+        Make sure if there is no timezone, the default is always UTC,
+        for posts info, and both feeds publication and modification
+        dates.
 
     .. todo::
         Remove redundant code using a universal method for retrieve and
         gather the data; and use subclasses.
 
     .. todo::
-        Unlink all file management from this class and build andother
+        Unlink all file management from this class and build and other
         module to deal with that.
 
     .. versionchanged:: 1.0.1.dev1
@@ -51,25 +54,31 @@ class Builder:
     .. versionchanged:: 1.2.0a1
         Implement ``logging`` instead of printing to ``stdout`` and/or
         ``stderr``.
+
+    .. versionchanged:: 1.3.1a4
+        Allowed extension in constructor is no longer needed.  Input
+        files are processed depending on their extension (Markdown or
+        reStructuredText), and those are fixed.
+
+    .. versionchanged:: 1.3.1b1
+        Test of extension done by :func:`has_extension_md_rst` from
+        module :mod:`fileman`.  No extensions passed as parameters nor
+        defined explicitly in this class.
     """
 
-    def __init__(self, site_config, template_values=dict(),
-                 infile_ext='.md', logger=None):
+    def __init__(self, site_config, template_values=dict(), logger=None):
         """Constructor.
 
         :param config: Site configuration as multidimensional dictionary
         :type config: dict
         :param template_values: Common values in all templates
         :type template_values: dict
-        :param infile_ext: Posts files extension
-        :type infile_ext: str
         :param logger: Logger where to store activity in
         :type logger: logging.Logger
         :raise localeError: If the selected locale is not supported
         """
         self.site_config = site_config
         self.template_values = template_values
-        self.infile_ext = infile_ext.lower()
         self.site_config['dirs']['deploy'] = \
             os.path.join(self.site_config['dirs']['deploy'],
                          self.site_config['uri']['base'])
@@ -89,7 +98,7 @@ class Builder:
         # Constants-like (I don't like this approach)
         # source dirs.
         self_dir = os.path.dirname(os.path.realpath(__file__))
-        self.locale_dir = os.path.join(self_dir, 'locale')
+        self.locale_dir = os.path.join(self_dir, 'data/locale')
         self.templates_dir = 'templates'
         self.builtin_templates_dir = \
             os.path.join(self.site_config['dirs']['deploy'],
@@ -111,7 +120,7 @@ class Builder:
         return locale.setlocale(locale.LC_ALL, self.old_locale)
 
     def gen_entry(self, infile, date_format='%c'):
-        """Generate a HTML entry from its Mardkdown counterpart.
+        """Generate a HTML entry from its Markdown counterpart.
 
         :param infile: Markdown file to parse
         :type infile: str
@@ -171,7 +180,7 @@ class Builder:
         :type date_format: str
         """
         for filename in os.listdir(self.entries_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 self.gen_entry(filename, date_format=date_format)
 
     def gen_home(self, max_entries_per_page=10, date_format='%Y-%m-%d'):
@@ -185,7 +194,7 @@ class Builder:
         entries = list()
         total_entries = 0
         for filename in os.listdir(self.entries_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
@@ -248,7 +257,7 @@ class Builder:
         """
         archive = dict()
         for filename in os.listdir(self.entries_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
@@ -295,7 +304,7 @@ class Builder:
         """
         archive = dict()
         for filename in os.listdir(self.entries_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
@@ -334,7 +343,7 @@ class Builder:
         """
         entries_by_category = dict()
         for filename in os.listdir(self.entries_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
@@ -374,7 +383,7 @@ class Builder:
         """
         entries_by_tag = dict()
         for filename in os.listdir(self.entries_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
 
                 private = meta.private()
@@ -417,7 +426,7 @@ class Builder:
         """
         entries_by_tag = dict()
         for filename in os.listdir(self.entries_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
                 private = meta.private()
                 title = meta.title()
@@ -461,7 +470,7 @@ class Builder:
             invoked first**, before generating any other content.
         """
         for filename in os.listdir(self.pages_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 meta = self._fetch_meta(self.pages_dir, filename, False)
 
                 if meta.navigation():
@@ -470,9 +479,9 @@ class Builder:
 
                     values = self.template_values.copy()
                     values['page'] = {  # append
-                        'title': title,
-                        'raw_title': strip_html_tags(title),
-                        'uri': uri}
+                           'title': title,
+                           'raw_title': strip_html_tags(title),
+                           'uri': uri}
 
                     # Update base template values to get pages links in
                     # nav. bar only if the page is set to be in the
@@ -485,7 +494,7 @@ class Builder:
                         'Added page to navigation: "{}"'.format(filename))
 
     def gen_page(self, infile):
-        """Generate a HTML page from its Mardkdown counterpart.
+        """Generate a HTML page from its Markdown counterpart.
 
         :param infile: Markdown file to parse
         :type infile: str
@@ -509,7 +518,7 @@ class Builder:
     def gen_pages(self):
         """Generate all pages."""
         for filename in os.listdir(self.pages_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 self.gen_page(filename)
 
     def gen_feed(self, feed_format="atom", outfile='feed.xml'):
@@ -546,7 +555,7 @@ class Builder:
 
         entries = list()
         for filename in os.listdir(self.entries_dir):
-            if has_extension(filename, self.infile_ext):
+            if valid_ext(filename):
                 meta = self._fetch_meta(self.entries_dir, filename, True)
                 html = self._fetch_html(self.entries_dir, filename)
                 author = self.site_config['info']['site_name'] \
@@ -697,6 +706,25 @@ class Builder:
 
         return html
 
+    def _fetch_markup(self, directory, infile):
+        """Parses an input file depending on its extension.
+
+        The ``Parser`` constructor detects the extension of ``infile``
+        and parses its body content as well as its metadata.
+
+        :param directory: Path to the file to be parsed
+        :type directory: str
+        :param infile: File to parse
+        :type infile: str
+        :return: Parser object
+        :rtype: Parser
+
+        .. sealso:: :class:`Parser`
+        """
+        return Parser(os.path.join(directory, infile),
+                      encoding=self.site_config['wlocale']['encoding'],
+                      logger=self.logger)
+
     def _fetch_html(self, directory, infile):
         """Fetches HTML content out of a Markdown input file.
 
@@ -707,10 +735,7 @@ class Builder:
         :return: HTML content for the parsed file
         :rtype: str
         """
-        html = Mulang(os.path.join(directory, infile),
-                      self.site_config['wlocale']['encoding'],
-                      logger=self.logger).html()
-        return html
+        return self._fetch_markup(directory, infile).html()
 
     def _fetch_meta(self, directory, infile, date_required=False):
         """Fetches metadata out of a Markdown input file.
@@ -724,15 +749,11 @@ class Builder:
         :return: Markdown metadata
         :rtype: Meta
         """
-        meta = Mulang(os.path.join(directory, infile),
-                      self.site_config['wlocale']['encoding'],
-                      logger=self.logger).metadata()
-
-        return Meta(meta, filename=infile, date_required=date_required,
-                    logger=self.logger)
+        return Meta(self._fetch_markup(directory, infile).metadata(),
+                    infile, date_required, logger=self.logger)
 
     def _entry_link_prefix(self, entry):
-        """Compute entrie final path.
+        """Compute entry final path.
 
         To compute the final path, it's required to take the meta
         information of that entry concerning to title and publication
@@ -791,7 +812,7 @@ class Builder:
                            makedirs=False, justdir=True, index=index)
 
     def _make_root_uri(self, name='', infix='', index='index.html'):
-        """Generate the link to any resource in the root filesystem.
+        """Generate the link to any resource in the root file system.
 
         Link automated generation for final URIs of the content in
         the website root directory, such as pages.
@@ -805,7 +826,7 @@ class Builder:
         :return: Link to final external URI relative to root directory
 
         .. versionadded:: 1.3.2a
-            
+
         """
         return link_to(name,
                        os.path.join('/',

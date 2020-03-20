@@ -44,10 +44,26 @@ pynfact.meta module
     :undoc-members:
     :show-inheritance:
 
-pynfact.mulang module
+pynfact.parser module
 ---------------------
 
-.. automodule:: pynfact.mulang
+.. automodule:: pynfact.parser
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pynfact.parsers.parserrst module
+--------------------------------
+
+.. automodule:: pynfact.parsers.parserrst
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pynfact.parser.parsermd module
+------------------------------
+
+.. automodule:: pynfact.parsers.parsermd
     :members:
     :undoc-members:
     :show-inheritance:

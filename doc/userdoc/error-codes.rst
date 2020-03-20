@@ -10,7 +10,7 @@ following categories:
 
 #. Command line interface (``main``)
 #. Configuration problems (``Yamler``)
-#. Markdown to HTML Parser (``Mulang``)
+#. Markup language to HTML Parser (``Parser``)
 #. Builder (``Builder``)
 #. File manager errors (``fileman``)
 #. Server (``Server``)
@@ -41,8 +41,8 @@ Configuration error codes (``2x``)
     site.  Check the configuration file keys and compare them to those
     in the documentation.
 
-Markdown to HTML parsing error codes (``3x``)
-=============================================
+Markup language to HTML parsing error codes (``3x``)
+====================================================
 
 **ERROR 31**: *Missing or malformed title key in "{filename}" metadata*
     The content of *{filename}* doesn't have a "title" meta tag, or it

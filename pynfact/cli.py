@@ -154,12 +154,15 @@ def arg_init(logger, dst):
     :param logger: Logger to pass it to the ``Yamler`` constructor
     :type logger: logging.Logger
     :raise OSError: If it's not possible to create the website folder
+
+    .. versionchanged:: 1.3.1b
+        Data files now stored in ``data`` directory.
     """
     real_path = os.path.dirname(os.path.realpath(__file__))
-    src = os.path.join(real_path, 'initnew')
+    src = os.path.join(real_path, 'data/initnew')
     dst = dst
 
-    # create new blog structure with the default values
+    # Create new blog structure with the default values
     try:
         shutil.copytree(src, dst)
     except OSError:
@@ -168,8 +171,7 @@ def arg_init(logger, dst):
         sys.exit(11)
 
 
-def arg_build(logger, default_content_ext='.md',
-              config_file='config.yml'):
+def arg_build(logger, config_file='config.yml'):
     """Build the static website after getting the site configuration.
 
     :param logger: Logger to pass it to the ``Builder`` constructor
@@ -191,8 +193,7 @@ def arg_build(logger, default_content_ext='.md',
     }
 
     # Build
-    b = Builder(site_config, template_values,
-                infile_ext=default_content_ext, logger=logger)
+    b = Builder(site_config, template_values, logger=logger)
     b.gen_site()
 
 

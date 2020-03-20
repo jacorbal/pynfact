@@ -10,7 +10,7 @@ Installing
 Using ``pip``
 -------------
 
-PynFact requires Python 3.5+.  You may install it by running the
+PynFact requires Python 3.6+.  You may install it by running the
 following command in any terminal::
 
     pip install pynfact
@@ -33,11 +33,13 @@ Downloading the source
 Pynfact require some dependencies in order to work, so make sure that
 the following packages are on your system:
 
-* ``markdown``: Python implementation of Markdown
-* ``unidecode``: ASCII transliterations of Unicode text
+* ``docutils``: Python Documentation Utilities
 * ``feedgen``: Feed Generator (Atom, RSS, Podcasts)
 * ``Jinja2`` : A small but fast and easy to use stand-alone template
   engine written in pure Python
+* ``markdown``: Python implementation of Markdown
+* ``python-dateutil``: Extensions to the standard Python datetime module
+* ``unidecode``: ASCII transliterations of Unicode text
 
 Download the project source, either from `GitHub`_ or from `PyPI`_.
 Once you have uncompressed the tarball, you may run::

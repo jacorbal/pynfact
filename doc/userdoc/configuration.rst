@@ -111,18 +111,10 @@ Default ``config.yml`` file:
     extra_dirs: ['media']
     ...
 
-+----------------------------------------------------------------------+
-| **NOTE**.  In future versions, more options will be added, such as:  |
-|                                                                      |
-| ``input``                                                            |
-|     Input language, ``markdown`` or ``md``; and ``reStructuredText`` |
-|     or ``rst``, ``reSt``; case insensitive.  This will affect the    |
-|     default input entry, but every entry could override its value by |
-|     specifying so in the meta tags.  (After ``reStructuredText``     |
-|     is implemented).                                                 |
-|                                                                      |
-| ``site_author``                                                      |
-|     Right now is just a string, but it will allow to enter a list of |
-|     authors, comma separated.  Same for entries ``author`` meta tag. |
-+----------------------------------------------------------------------+
+.. note:: In future versions, more options will be added, such as:
+
+    ``site_author``:
+        Right now is just a string, but it will allow to enter a list
+        of authors, comma separated.  Same for entries ``author`` meta
+        tag.
 

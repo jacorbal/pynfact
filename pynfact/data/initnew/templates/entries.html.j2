@@ -14,12 +14,12 @@
                         href="{{ entry.category_uri }}"
                         title="{{ entry.category }}">{{ entry.category }}</a></span>
             </div>
-            <div class="detail{%- if not entry.summary %} no-summary{%- endif %}">
+            <div class="detail{%- if not entry.subtitle %} no-summary{%- endif %}">
                 <a href=" {{entry.uri }}"
                    title="{{ entry.title | striptags}}"
-                   ><strong>{{ entry.title }}</strong></a>{%- if
-                   entry.summary %}&nbsp;&mdash;&nbsp;<div
-                   class="summary">{{ entry.summary }}</div>{%- endif %}
+                   ><strong>{{ entry.title }}</strong></a>
+                   {%- if entry.subtitle %}&nbsp;&mdash;&nbsp;<div
+                       class="summary">{{ entry.subtitle }}</div>{%- endif %}
             </div>
         </div>
         {%- endfor %}

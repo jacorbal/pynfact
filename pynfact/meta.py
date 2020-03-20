@@ -1,6 +1,6 @@
 # vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
 """
-Meta information processor from markdown post file.
+Meta information processor from Markdown or reStructuredText file.
 
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
@@ -20,6 +20,7 @@ Meta information processor from markdown post file.
 """
 from dateutil.parser import parse
 from pynfact.dataman import or_array_in
+from pynfact.fileman import has_extensions
 import datetime
 import logging
 import markdown
@@ -34,10 +35,13 @@ class Meta:
         Validate source input meta tags of title (always) and date (when
         needed) raising a ``ValueError`` and passing to the logger the
         information of the error.
+
+    .. versionchanged:: 1.3.1b1
+        Filetype no longer required in the constructor, since the parser
+        automatically detect the file type by checking its extension.
     """
 
-    def __init__(self, meta, filename='', date_required=False,
-                 logger=None):
+    def __init__(self, meta, filename='', date_required=False, logger=None):
         """Constructor.
 
         :param meta: Meta information dictionary
@@ -53,7 +57,7 @@ class Meta:
         self.filename = filename
         self.date_required = date_required
         self.logger = logger
-        self._is_valid()  # Test if the data supplied is valid
+        self._is_valid()  # Validate data supplied
 
     def title(self):
         """Get post title as a string from post meta information.
@@ -205,7 +209,7 @@ class Meta:
         vs = {'tags'}
         return self._parse_list(vs, default)
 
-    def tags(self, vlist):
+    def tags(self):
         """Retrieve post tags as a string of comma-separated-values.
 
         :return: List of tags
@@ -214,12 +218,12 @@ class Meta:
         return self._parse_cvs(self.tag_list())
 
     def date_info(self):
-        """Get post date as a datetime object.
+        """Get post date as a ``datetime`` object.
 
         :return: Date field as object
         :rtype: datetime.datetime
         """
-        vs = {'created', 'date'}
+        vs = {'cdate', 'created', 'date'}
         return self._parse_date_obj(vs)
 
     def date(self, date_format='%c'):
@@ -248,12 +252,12 @@ class Meta:
                 if self.date_info() else ''
 
     def update_info(self):
-        """Get updated post date as a datetime object.
+        """Get updated post date as a ``datetime`` object.
 
         :return: Date field as object
         :rtype: datetime.datetime
         """
-        vs = {'modified', 'updated', 'update'}
+        vs = {'mdate', 'modified', 'updated', 'update'}
         return self._parse_date_obj(vs)
 
     def update(self, date_format='%c'):
@@ -313,7 +317,7 @@ class Meta:
 
         # Date is required only in posts, but not in pages
         if self.date_required:
-            date_k = {'created', 'date'}
+            date_k = {'cdate', 'created', 'date'}
             try:
                 if not or_array_in(self.meta, *date_k):
                     raise ValueError
@@ -365,7 +369,7 @@ class Meta:
             return default
 
     def _parse_bool(self, values, default=True):
-        """Get a value as a bool from post meta information.
+        """Get a value as a boolean from post meta information.
 
         The function has two "confrontation arrays (sets)" to test
         against them the values of the intended key.  Because the meta
@@ -381,9 +385,11 @@ class Meta:
         :rtype: str
         """
         if default:
-            bools = {'no', 'non', 'não', 'nao', 'ne', 'nein'}
+            bools = {'no', 'non', 'não', 'nao', 'ne', 'nein',
+                     'false', '0'}
         else:
-            bools = {'yes', 'sí', 'si', 'sì', 'sim', 'jes', 'oui', 'ja'}
+            bools = {'yes', 'sí', 'si', 'sì', 'sim', 'jes', 'oui', 'ja'
+                     'true', '1'}
 
         value = or_array_in(self.meta, *values)
         if value:
@@ -420,7 +426,7 @@ class Meta:
         return ', '.join(self._parse_list(values, default))
 
     def _parse_date_obj(self, values):
-        """Gets a datetime object from the metadata.
+        """Gets a ``datetime`` object from the metadata.
 
         :param values: Set of possible meta tags
         :type values: set

@@ -11,18 +11,36 @@ Meta tags
 
 Both articles and pages use the same syntax and structure, although the
 pages will ignore some tags that are useless outside the chronological
-post definition.  Those will be ignored.
+post definition.
 
-Tags referring to text also may be declared with Markdown syntax.  Since
-the title is used to create the post/page slug, it's a mandatory
+Since the title is used to create the post/page slug, it's a mandatory
 requirement, and in posts but not in pages, the date is also mandatory,
 for the tree structure of the website depends on the date.
 
-A simple example of meta information could be::
+A simple example of meta information could be, for a **Markdown**
+document::
 
-    Title: Interesting post in English
-    Summary: Here I can type diacritics such as *naïve*
+    Title: Interesting title in English
+    Summary: Here I can type diacritics such as naïve
     Date: Wed 11 Mar 2020 11:11:11 AM UTC
+
+and, for a **reStructuredText**, two options:
+
+#. Adding the title as another metainformation tag::
+
+    :Title: Interesting title in English
+    :Summary: Here I can type diacritics such as naïve
+    :Date: Wed 11 Mar 2020 11:11:11 AM UTC
+
+#. Or, making the title in reStructuredText before the other meta tags::
+
+    Interesting title in English
+    ============================
+
+    :Summary: Here I can type diacritics such as naïve
+    :Date: Wed 11 Mar 2020 11:11:11 AM UTC
+
+All tags are case insensitive.
 
 List of meta tags
 -----------------
@@ -58,14 +76,17 @@ Tags are case insensitive.
 Aliases
 ~~~~~~~
 
-+------------------------------+
-|    Tags     |    Aliases     |
-+=============+================+
-| ``summary`` | ``subtitle``   |
-| ``date``    | ``created``    |
-| ``updated`` | ``modified``   |
-| ``nav``     | ``navigation`` |
-+-------------+----------------+
++-------------+-------------------------+
+|    Tags     |    Aliases              |
++=============+=========================+
+| ``summary`` | ``subtitle``            |
++-------------+-------------------------+
+| ``date``    | ``created``, ``cdate``  |
++-------------+-------------------------+
+| ``updated`` | ``modified``, ``mdate`` |
++-------------+-------------------------+
+| ``nav``     | ``navigation``          |
++-------------+-------------------------+
 
 Not all the tags work on individual pages, as they do not require the
 chronological order, nor they have any comments, or tags, or they do not
@@ -103,21 +124,19 @@ navigation of this page to "no".  There are many reasons for not wanting
 a page to appear at the navigation bar, for example, in case of
 referencing it from a blog post, and only from that post.
 
-+----------------------------------------------------------------------------+
-| **NOTE.**  In future versions, some tags will be expanded to pages,        |
-| and more tags will be included:                                            |
-|                                                                            |
-| +---------------+------------------------------------------+------+------+ |
-| | Meta tag      | Description                              | Post | Page | |
-| +===============+==========================================+======+======+ |
-| | ``private``   | Build post/page but do not reference it  | Yes  | Yes  | |
-| +---------------+------------------------------------------+------+------+ |
-| | ``language``  | Language for this particular content     | Yes  | Yes  | |
-| +---------------+------------------------------------------+------+------+ |
-| | ``slug``      | Slug of the post/page defined by user    | Yes  | Yes  | |
-| +---------------+------------------------------------------+------+------+ |
-|                                                                            |
-+----------------------------------------------------------------------------+
+.. note::
+    In future versions, some tags will be expanded to pages, and more
+    tags will be included:
+
+    +---------------+------------------------------------------+------+------+
+    | Meta tag      | Description                              | Post | Page |
+    +===============+==========================================+======+======+
+    | ``private``   | Build post/page but do not reference it  | Yes  | Yes  |
+    +---------------+------------------------------------------+------+------+
+    | ``language``  | Language for this particular content     | Yes  | Yes  |
+    +---------------+------------------------------------------+------+------+
+    | ``slug``      | Slug of the post/page defined by user    | Yes  | Yes  |
+    +---------------+------------------------------------------+------+------+
 
 On the date format
 ------------------
@@ -155,57 +174,85 @@ following are also some valid formats:
 Text body
 ---------
 
-It's just regular Markdown syntax with some loaded extensions, such as
-tables, abbreviations, footnotes, definition lists, and code
-highlighting when writing snippets of source code.
+It's just regular Markdown or reStructuredText syntax with some loaded
+extensions, such as tables, abbreviations, footnotes, definition lists,
+and code highlighting when writing snippets of source code.
 
 To learn about Markdown syntax elements, see:
 
 * `Markdown Syntax Guide`_
 * `Markdown Cheat Sheet`_
 
+To learn about reStructuredText elements, visit:
+
+* `Quick reStructuredText`_
+* `reStructuredText Markup Specification`_
+
 Internal links
 --------------
 
 To reference a resource (file, image,...) on the website, just use write
-in markdown the link, noting that the root of the website is ``/``.
+in Markdown the link, noting that the root of the website is ``/``.
+
 For example, to make a link to a PDF file in
-``/media/pdfs/document1.pdf``::
+``/media/pdfs/document1.pdf`` in **Markdown**::
 
     This is the [link](/media/pdfs/document1.pdf)
 
-or, to include an image::
+and, in **restructuredtext**::
 
-    ![This is a logo](/media/images/logo.png)
+    This is the `link </media/pdfs/document1.pdf>`_
+
+or, to include an image in **Markdown**::
+
+    My image ![This is a logo](/media/images/logo.png) is here
+
+and, in **restructuredtext**::
+
+    My image |logo| is here
+
+    .. |logo| image:: /media/images/logo.png
+
+But those are just some minimal examples.  Both Markdown and
+reStructuredText have a lot of different configurations and variations.
+Read the syntax guides for those markup languages.
 
 Currently there's no way to reference another post, unless you know the
 year, month, date, and slug.  In that case you can add the link::
 
-    This is [my other post](/posts/2020/03/11/my-other-post)
+    Markdown: [my other post](/posts/2020/03/11/my-other-post)
+    reStructuredText: `my other post </posts/2020/03/11/my-other-post>`_
 
-+-------------------------------------------------------------------+
-| **Future versions improvements**                                  |
-|                                                                   |
-| In future versions, there will be an easy way to reference other  |
-| internal posts and pages by writing:                              |
-|                                                                   |
-| * ``this { linkpost file_name_of_post }{alt name}``               |
-| * ``this { linkpage file_name_of_post }{alt name}``               |
-|                                                                   |
-| or, links to categories or tags:                                  |
-|                                                                   |
-| * ``this tag: { linktag tag_name }{alt name}``                    |
-| * ``this cat: { linkcat cat-name }{alt name}``                    |
-|                                                                   |
-| As well of including text from other files using:                 |
-|                                                                   |
-| * ``{ source media/files/lipsum.txt }``                           |
-| * ``{ source media/files/data.c }``                               |
-+-------------------------------------------------------------------+
+Future versions improvements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In future versions, there will be an easy way to reference other
+internal posts and pages by writing:
+
+* ``this { linkpost file_name_of_post }{alt name}``
+* ``this { linkpage file_name_of_post }{alt name}``
+
+or, links to categories or tags:
+
+* ``this tag: { linktag tag_name }{alt name}``
+* ``this cat: { linkcat cat-name }{alt name}``
+
+As well of including text from other files using:
+
+* ``{ source media/files/lipsum.txt }``
+* ``{ source media/files/data.c }``
+
+
 
 .. _`Markdown Syntax Guide`:
     https://sourceforge.net/p/digitalsign/wiki/markdown_syntax/
 
 .. _`Markdown Cheat Sheet`:
     https://www.markdownguide.org/cheat-sheet/
+
+.. _`Quick reStructuredText`:
+    https://docutils.sourceforge.io/docs/user/rst/quickref.html
+
+.. _`reStructuredText Markup Specification`:
+    https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html
 

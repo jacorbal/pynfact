@@ -36,7 +36,8 @@ def main():
     """
     parser = argparse.ArgumentParser(description=
                 "PynFact!:"
-                " A static blog generator from Markdown to HTML5",
+                " A static blog generator from Markdown and"
+                " reStructuredText to HTML5",
             prog="pynfact",
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     rgroup = parser.add_mutually_exclusive_group(required=True)
@@ -67,7 +68,7 @@ def main():
     if args.init:
         arg_init(logger, args.init)
     elif args.build:
-        arg_build(logger, default_content_ext='.md')
+        arg_build(logger)
     elif args.serve:
         arg_serve(logger, args.serve, int(args.port))
 

@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: **1.3.1a3** (2020-03-18)
+:Latest version: **1.3.1b1** (2020-03-20)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
@@ -17,22 +17,25 @@ configuration is possible by editing Jinja2 templates.
 Features
 ========
 
-* Input format: Markdown
+* Input format: Markdown or reStructuredText
 * Output format: HTML5
 * Configuration: Jinja2 templates
 * Locale support
 * Code syntax highlighting
 * Atom/RSS feed generation
+* Categories and tags
 
 Requirements
 ============
+
+**docutils** (``docutils >= 0.1.4``):
+    Python Documentation Utilities.
 
 **feedgen** (``feedgen >= 0.9.0``):
     Feed Generator (Atom, RSS, Podcasts).
 
 **python-dateutil** (``python-dateutil >= 2.0``):
     Extensions to the standard Python datetime module.
-    [This is also a ``feedgen`` dependency].
 
 **Jinja2** (``jinja2 >= 2.7``):
     A small but fast and easy to use stand-alone template engine written
@@ -78,6 +81,9 @@ More details at: <https://github.com/jacorbal/pynfact/wiki>.
 Recent changes
 ==============
 
+* Refactor parser
+* Perform test and upgraded to *beta* version
+* Add reStructuredText support
 * Validate  input metadata (titles, and dates if required) in ``Meta``
 * Update ``setup.py`` to fix missing dependency ``PyYAML``
 * CLI interface with ``argparser`` and more modularized
