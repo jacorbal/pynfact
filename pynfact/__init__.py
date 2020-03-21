@@ -25,10 +25,14 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ########################################################################
-"""
-A blog-oriented static web content generator from Markdown to HTML5.
+r"""
+A blog-oriented static web content generator.
+
+* Input formats: Markdown and reStructuredText
+* Output format: HTML5.
 
 :author: \J. A. Corbal
+:email: jacorbal@gmail.com
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
 """

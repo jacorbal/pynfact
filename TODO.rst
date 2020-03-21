@@ -4,7 +4,8 @@ To-Do List
 
 .. rubric:: TO-DO LIST
 
-The number in brackets represents the priority (0:none; 5:urgent)
+**The number in brackets represents the priority
+(0:none; 5:urgent; X:done)**
 
 Coding style
 ============

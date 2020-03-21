@@ -11,7 +11,7 @@ from pynfact.parsers import ParserRst
 
 
 class Parser:
-    """Parsers a markup language file to generate HTML code.
+    """Parse methods for a markup language file to generate HTML code.
 
     .. versionchanged:: 1.3.1b1
         Former class ``Mulang``, now it relies on the file extension to
@@ -41,10 +41,10 @@ class Parser:
         self.parser = Parser(input_data, encoding, logger=logger)
 
     def html(self):
-        """Generates HTML from a MarkUP LANGuage file."""
+        """Generate HTML from a MarkUP LANGuage file."""
         return self.parser.html()
 
     def metadata(self):
-        """Generates HTML from a MarkUP LANGuage file."""
+        """Generate metadata from a MarkUP LANGuage file."""
         return self.parser.metadata()
 

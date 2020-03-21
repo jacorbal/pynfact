@@ -390,8 +390,11 @@ class Meta:
             return default
 
     def _parse_str_md(self, values, default='', joint=' '):
-        """Get a value as a string from post meta information in
-        Markdown syntax
+        """Get value as string from metadata allowing Markdown syntax.
+
+        It parses the Markdown code to HTML and allow this HTML for this
+        particular piece of metadata, except some block elements such as
+        ``p``, ``br``...
 
         :param values: Set of possible meta tags
         :type values: set
@@ -467,7 +470,7 @@ class Meta:
         return ', '.join(self._dt_parse_list(values, default))
 
     def _parse_date_obj(self, values):
-        """Gets a ``datetime`` object from the metadata.
+        """Get a ``datetime`` object from the metadata.
 
         :param values: Set of possible meta tags
         :type values: set

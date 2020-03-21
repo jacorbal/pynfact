@@ -210,10 +210,10 @@ class Builder:
                 cur_page, total_pages
 
             if cur_page == 1:
-                # the home page, the "index.html" of the site
+                # This is the home page, the "index.html" of the site
                 outfile = self._make_output_file()
             else:
-                # subsequent pages other that the first
+                # These are the subsequent pages other than the first
                 outfile = self._make_output_file(
                     str(cur_page), self.home_cont_dir)
             self._render_template('entries.html.j2', outfile, values)
@@ -316,7 +316,7 @@ class Builder:
                     'uri': self._make_entry_uri(meta.title(), filename),
                 }
 
-                # Generate archive
+                # Generate dictionary of entries by category
                 if not meta.private():
                     val = meta.as_dict(override, self.meta_defaults,
                                        date_format)
@@ -395,8 +395,8 @@ class Builder:
                         else:
                             entries_by_tag[tag] = [val]
 
-        # multipliers seq. for tag size in function of times repeated
-        tagcloud_seq = [0, 14, 21, 27, 32, 38, 42, 45, 47, 48]
+        # Multipliers seq. for tag size in function of times repeated
+        tagcloud_seq = [0, 14, 21, 27, 32, 38, 42, 45, 47, 48, 50, 52]
 
         # One page for each tag
         values = self.template_values.copy()
@@ -404,7 +404,7 @@ class Builder:
         for tag in entries_by_tag:
             if tag:
                 tagname, tagfreq = tag, len(entries_by_tag[tag])
-                mult = 100 + int(tagcloud_set.last
+                mult = 100 + int(tagcloud_seq.last
                                  if tagfreq > len(tagcloud_seq)
                                  else tagcloud_seq[tagfreq - 1])
                 values['tags'].append({tagname: mult})
@@ -527,7 +527,7 @@ class Builder:
                     val = meta.as_dict(override, self.meta_defaults)
                     entries.append(val)
 
-        # sort chronologically descent
+        # Sort chronologically descent
         entries = sorted(entries, key=lambda k: k['odate_idx'],
                          reverse=True)
         for entry in entries:
@@ -642,7 +642,7 @@ class Builder:
         return html
 
     def _fetch_markup(self, directory, infile):
-        """Parses an input file depending on its extension.
+        """Parse an input file depending on its extension.
 
         The ``Parser`` constructor detects the extension of ``infile``
         and parses its body content as well as its metadata.
@@ -661,7 +661,7 @@ class Builder:
                       logger=self.logger)
 
     def _fetch_html(self, directory, infile):
-        """Fetches HTML content out of a Markdown input file.
+        """Fetch HTML content out of a Markdown input file.
 
         :param directory: Markdown file working directory
         :type directory: str
@@ -673,7 +673,7 @@ class Builder:
         return self._fetch_markup(directory, infile).html()
 
     def _fetch_meta(self, directory, infile, odate_required=False):
-        """Fetches metadata out of a Markdown input file.
+        """Fetch metadata out of a Markdown input file.
 
         If ``odate_required`` is ``False``, the metadata is valid as
         long as it has a title; if it's ``True``, the metadata require

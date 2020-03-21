@@ -26,7 +26,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ########################################################################
 """
-PynFact! Parsers.
+Markup languages parsers.
 
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT

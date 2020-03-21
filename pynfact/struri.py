@@ -39,13 +39,13 @@ def strip_html_tags(text):
 
 
 def date_iso(date):
-    """Converts a datetime string into ISO 8601 format.
+    """Convert a datetime string into ISO 8601 format.
 
     HTML date format agrees with ISO 8601 (see also, :RFC:`3339`), ie::
     
         YYYY[-MM[-DD]][Thh[:mm[:ss[.s]]]T]
 
-    For more informations:
+    For more information:
 
     * `Date and Time Formats <https://www.w3.org/TR/NOTE-datetime>`_
     * `Date formats <https://www.w3.org/International/questions/qa-date-format>`_
