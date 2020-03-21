@@ -51,3 +51,18 @@ def keys_exists(dictionary, *keys):
             return False
     return True
 
+
+def update_list_in_dict(dictionary, key, value):
+    """Update a dictionary with a value of type list.
+
+    :param dictionary: Dictionary to update
+    :type dictionary: dict
+    :param key: Key to check for
+    :type key: mixed
+    :param value: Value to append
+    :type value: mixed
+    """
+    if key in dictionary:
+        dictionary[key].append(value)
+    else:
+        dictionary[key] = [value]

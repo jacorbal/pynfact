@@ -9,7 +9,7 @@ Source distribution setup.
 from setuptools import setup, find_packages
 
 
-version = '1.3.1b2'
+version = '1.3.1b3'
 
 with open("README.rst", "r") as fh:
     long_description = fh.read()
@@ -26,12 +26,14 @@ setup(name='pynfact',
           'Funding': 'https://jacorbal.es/pynfact',
           'Source': 'https://github.com/jacorbal/pynfact',
           'Tracker': 'https://github.com/jacorbal/pynfact/issues'},
-      description='Blog-oriented static website generator using Markdown or reStructuredText.',
+      description='Blog-oriented static website generator using '
+                  'Markdown or reStructuredText.',
       long_description=long_description,
       long_description_content_type='text/x-rst',
       platforms='any',
       license='MIT',
-      keywords=['blog', 'markdown', 'restructuredtext', 'static', 'web', 'site', 'generator'],
+      keywords=['blog', 'markdown', 'restructuredtext', 'static',
+                'web', 'site', 'generator'],
       py_modules=find_packages(),
       packages=['pynfact'],
       entry_points={'console_scripts': ['pynfact = pynfact.__main__:main']},
@@ -66,4 +68,3 @@ setup(name='pynfact',
       python_requires='>=3.6',
       include_package_data=True,
       )
-

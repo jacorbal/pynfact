@@ -86,4 +86,3 @@ class ParserMd:
             'Parsed meta data of: "{}"'.format(self.input_data))
 
         return self.md.Meta
-

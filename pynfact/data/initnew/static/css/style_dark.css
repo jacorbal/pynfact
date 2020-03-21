@@ -293,6 +293,19 @@ span.center {
     font-size: 0.938em;
 }
 
+/* For integrals, sub before sup limits */
+sub.int-inf-lim {
+    margin-left: -0.25em;
+    vertical-align: -0.75em;
+    font-size: 0.75em;
+}
+
+sup.int-sup-lim {
+    margin-left: -0.45em;
+    vertical-align: 0.75em;
+    font-size: 0.75em;
+}
+
 em.equation,
 span.equation {
     display: block;
@@ -784,6 +797,15 @@ table {
     font-size: 0.85em;
     margin: 0.5em auto;
 }
+
+tr:nth-child(even) {
+    background-color: #444;
+}
+
+tr:nth-child(odd) {
+    background-color: #333;
+}
+
 td, th {
     border: 1px solid #ccc;
     padding: 0.125em 0.750em;
@@ -913,7 +935,9 @@ table.footnote {
     width: 100%;
 }
 
-table.footnote th, tr, td {
+table.footnote th,
+table.footnote tr,
+table.footnote td {
     border: none;
 }
 

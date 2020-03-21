@@ -44,4 +44,3 @@ __maintainer__ = "J. A. Corbal"
 __status__ = "Production"
 __version_info__ = ('1', '3', '1b2')
 __version__ = '.'.join(__version_info__)
-

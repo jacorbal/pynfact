@@ -10,9 +10,9 @@
     </header>
 
     <section class="page hyphenate prettify">
-        {%- if archive %}
+        {%- if categories %}
         <ul>
-            {%- for category in archive | dictsort %}
+            {%- for category in categories | dictsort %}
             <li>{{ category[0] }}
 
                 <ul>

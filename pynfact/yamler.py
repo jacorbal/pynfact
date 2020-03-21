@@ -80,4 +80,3 @@ class Yamler:
         else:
             value = default_value
         return value
-

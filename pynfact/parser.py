@@ -32,7 +32,7 @@ class Parser:
         :param logger: Logger where to store activity in
         :type logger: logging.Logger
         """
-        #Parser = ParserRst if has_extension_rst(input_data) else ParserMd
+        # Parser = ParserRst if has_extension_rst(input_data) else ParserMd
         if has_extension_rst(input_data):
             Parser = ParserRst
         elif has_extension_md(input_data):
@@ -47,4 +47,3 @@ class Parser:
     def metadata(self):
         """Generate metadata from a MarkUP LANGuage file."""
         return self.parser.metadata()
-

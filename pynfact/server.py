@@ -65,4 +65,3 @@ class Server:
             httpd.serve_forever()
         except KeyboardInterrupt:
             self.logger and self.logger.info("Interrupted!")
-

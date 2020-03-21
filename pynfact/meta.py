@@ -32,6 +32,11 @@ import locale
 class Meta:
     """Meta information processor.
 
+    The ``Meta`` class also validates the metadata with the method
+    :func:``Meta._is_valid``.  It seems off at first glance for a
+    metadata retriever class, but it's responsability of this class
+    ensure that the metadata is well-formed.
+
     .. versionchanged:: 1.3.1a3
         Validate source input meta tags of title (always) and date (when
         needed) raising a ``ValueError`` and passing to the logger the
@@ -78,17 +83,23 @@ class Meta:
         :rtype: dict
         """
         metadata = {
-            'author': defaults['author'] if not self.author() \
-                                         else self.author(),
-            'category': defaults['category'] if not self.category() \
-                                             else self.category(),
+            'author': defaults['author']
+                if not self.author()
+                else self.author(),
+            'category': defaults['category']
+                if not self.category()
+                else self.category(),
             'comments': self.comments(),
             'copyright': self.copyright(),
             'email': self.email(),
-            'language': self.language(),
+            'language': defaults['language']
+                if not self.language()
+                else self.language(),
             'mdate_html': date_iso(self.mdate_info()),
+            'mdate_info': self.mdate_info(),
             'mdate': self.mdate(date_format),
             'odate_html': date_iso(self.odate_info()),
+            'odate_info': self.odate_info(),
             'odate': self.odate(date_format),
             'navigation': self.navigation(),
             'private': self.private(),
@@ -153,7 +164,7 @@ class Meta:
         :return: Value of the category field
         :rtype: str
         """
-        vs = {'category'}
+        vs = {'category', 'cat'}
         return self._parse_str_raw(vs, default, '')
 
     def author(self, default=''):
@@ -227,7 +238,7 @@ class Meta:
         :return: ``True`` if entry is private, or ``False`` otherwise
         :rtype: bool
         """
-        vs = {'private'}
+        vs = {'private', 'priv'}
         return self._parse_bool(vs, default)
 
     def navigation(self, default=True):
@@ -298,7 +309,7 @@ class Meta:
         :return: Date field as object
         :rtype: datetime.datetime
         """
-        vs = {'mdate', 'modified', 'updated', 'update'}
+        vs = {'mdate', 'update', 'updated', 'modified'}
         return self._parse_date_obj(vs)
 
     def mdate(self, date_format='%c'):
@@ -482,9 +493,8 @@ class Meta:
 
     def __repr__(self):
         """Return dictionary with all metainformation."""
-        return self.to_dict()
+        return self.as_dict()
 
     def __str__(self):
         """Return string representation for an object of this class."""
         return str(self.meta)
-

@@ -66,7 +66,7 @@ Tags are case insensitive.
 +--------------+----------------------------------------+----------+----------+
 | ``comments`` | If comment engine is setup, allow them | Yes      | No       |
 +--------------+----------------------------------------+----------+----------+
-| ``private``  | Build the post but do not reference it | Yes      | No       |
+| ``private``  | Build the post but do not reference it | Yes      | Yes      |
 +--------------+----------------------------------------+----------+----------+
 | ``nav``      | Indicates if a page is on the nav. bar | No       | Yes      |
 +--------------+----------------------------------------+----------+----------+
@@ -88,6 +88,8 @@ Aliases
 | ``summary``  | ``subtitle``            |
 +--------------+-------------------------+
 | ``updated``  | ``modified``, ``mdate`` |
++--------------+-------------------------+
+| ``private``  | ``priv``                |
 +--------------+-------------------------+
 
 Not all the tags work on individual pages, as they do not require the
@@ -114,8 +116,9 @@ categorizing all entries under one only subject.  There could be many
 posts in the category of "Computers", each one of the with a different
 set of tags.  A post can belong only to one category.
 
-Posts can be ``private``.  This means that the post will be generated,
-but will not be referenced in any index in the website.
+Posts and pages can be ``private``.  This means that the content will be
+generated, and it can be accessed if the URI is known, but will not be
+referenced in any link or index of the website.
 
 By default, a page will be linked to the navigation bar, after the blog
 main features and before the feed link.  If you want a page not to be
@@ -133,8 +136,6 @@ referencing it from a blog post, and only from that post.
     +---------------+------------------------------------------+------+------+
     | Meta tag      | Description                              | Post | Page |
     +===============+==========================================+======+======+
-    | ``private``   | Build post/page but do not reference it  | Yes  | Yes  |
-    +---------------+------------------------------------------+------+------+
     | ``language``  | Language for this particular content     | Yes  | Yes  |
     +---------------+------------------------------------------+------+------+
     | ``slug``      | Slug of the post/page defined by user    | Yes  | Yes  |

@@ -34,12 +34,12 @@ def main():
     .. versionchanged:: 1.3.1a2
         Move functions to :mod:`cli` and renamed file as ``main.py``.
     """
-    parser = argparse.ArgumentParser(description=
-                "PynFact!: "
-                "Static website generator from Markdown and "
-                "reStructuredText to HTML5",
-            prog="pynfact",)
-            #formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(description=""
+                                     "PynFact!: "
+                                     "Static website generator from Markdown "
+                                     "and reStructuredText to HTML5",
+                                     prog="pynfact",)
+    # formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     rgroup = parser.add_mutually_exclusive_group(required=True)
 
     rgroup.add_argument('-i', '--init', default=None,
@@ -76,4 +76,3 @@ def main():
 # Main entry
 if __name__ == '__main__':
     main()
-

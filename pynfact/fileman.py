@@ -66,7 +66,7 @@ def link_to(name, prefix='', makedirs=True, justdir=False,
     """Make a link relative path in terms of the build.
 
     It may return a string to the destination, and also create that path
-    if it doesn't exist. 
+    if it doesn't exist.
 
     :param name: Filename (extension will be disregarded)
     :type name: str
@@ -104,4 +104,3 @@ def link_to(name, prefix='', makedirs=True, justdir=False,
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
     return os.path.dirname(path) if justdir else path
-

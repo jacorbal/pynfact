@@ -43,13 +43,15 @@ def date_iso(date):
     """Convert a datetime string into ISO 8601 format.
 
     HTML date format agrees with ISO 8601 (see also, :RFC:`3339`), ie::
-    
+
         YYYY[-MM[-DD]][Thh[:mm[:ss[.s]]]T]
 
     For more information:
 
-    * `Date and Time Formats <https://www.w3.org/TR/NOTE-datetime>`_
-    * `Date formats <https://www.w3.org/International/questions/qa-date-format>`_
+    * `Date and Time Formats:
+      <https://www.w3.org/TR/NOTE-datetime>`_
+    * `Date formats:
+      <https://www.w3.org/International/questions/qa-date-format>`_
 
     :param date: Datetime object
     :type date: datetime.datetime
@@ -64,4 +66,3 @@ def date_iso(date):
     if date and not datetime.strftime(date, '%z'):
         date = date.replace(tzinfo=tz.tzutc())
     return datetime.isoformat(date, timespec='minutes') if date else ''
-

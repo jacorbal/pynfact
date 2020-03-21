@@ -78,7 +78,7 @@ class ParserRst:
         }
 
     def html(self):
-        """Generate HTML from a reStructuredText file.
+        """Generate HTML from  a reStructuredText file.
 
         .. note::
             This reStructuredText parser import some roles defined
@@ -201,4 +201,3 @@ class ParserRst:
 #            'Parsed body data of: "{}"'.format(self.input_data))
 #
 #        return meta
-

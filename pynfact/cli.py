@@ -223,4 +223,3 @@ def arg_serve(logger, host='localhost', port=4000):
     """
     server = Server(host, port=port, path='_build', logger=logger)
     server.serve()
-

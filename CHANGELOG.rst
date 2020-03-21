@@ -5,7 +5,15 @@ Changelog
 Release history
 ===============
 
-1.3.1b2 -- Mar 22 Sun 2020 02:22:20 +0100
+1.3.1b3 -- Mar 22 Sun 2020 00:03:03 +0100
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Pages can be private, just as posts
+* Files are read only *once* when building the website
+* Update documentation
+* Safer retrieval from dictionaries without raising ``KeyError``
+
+1.3.1b2 -- Mar 21 Sat 2020 02:22:20 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Feed can be disabled in the ``config.yaml`` file by setting any value
