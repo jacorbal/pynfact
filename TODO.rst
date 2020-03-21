@@ -28,7 +28,7 @@ Next features for future versions
 Content configuration
 ---------------------
 
-* **[2]** Pages allowed to be ``private``
+* **[X]** Pages allowed to be ``private``
 * **[3]** Tags (and categories) in bold and/or italics (accept MU lang)
 * **[X]** Slug in pages taken from title, not from filename
 
@@ -136,10 +136,6 @@ Input format
 Functionality
 -------------
 
-* **[3]** Do not write a log file on ``init`` operations, only ``build``
-  and ``serve`` because those require to be within the blog directory,
-  so there will be no logs outside the related path.
-
 * **[X]** Logging, instead of using ``stdout`` when generating the site
 * **[2]** User should choose where to store the logs in ``config.yaml``.
 
@@ -169,6 +165,9 @@ Intended command line interface
 
 * **[5]** Check if CWD is a pynfact blog one when invoking ``--init``
 * **[1]** Logs in specific directory: ``log/`` (?)
+* **[3]** Do not write a log file on ``--init`` operations, only
+  ``--build`` and ``--serve`` because those require to be within the
+  blog directory, so there will be no logs outside the related path.
 
 Command line options:
 

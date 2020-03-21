@@ -56,11 +56,6 @@ class Builder:
         module :mod:`fileman`.  No extensions passed as parameters nor
         defined explicitly in this class.
 
-    .. versionchanged:: 1.3.1b1
-        Feed is disabled if it has a value that doesn't match "rss" or
-        "atom".  The templates will not generate the feed link in this
-        particular case.
-
     .. versionchanged:: 1.3.1b2
         Feed can be disabled and will not be generated if the value of
         ``feed_format`` is neither "rss" nor "atom" (case insensitive).
@@ -774,7 +769,6 @@ class Builder:
         :type absolute: bool
         :return: Link to final external URI relative to root directory
         :rtype: str
-            .
         """
         if absolute:
             path = os.path.join('/',
