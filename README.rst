@@ -24,6 +24,7 @@ Features
 * *Code syntax highlighting*
 * *Atom/RSS feed generation*
 * *Categories and tags*
+* *Tag cloud*
 * *Articles and pages*
 
 Requirements
@@ -99,7 +100,7 @@ Recent changes
 * Add Esperanto locale (``eo``)
 * Simplify ``Builder``  class constructor, now takes a configuration
   dictionary, sorted semantically
-* Replace ``feedgen`` for ``pyatom`` to generate RSS/Atom syndication
+* Replace ``pyatom`` for ``feedgen`` to generate RSS/Atom syndication
   feeds
 
 Refer to ``CHANGELOG`` file for more details.

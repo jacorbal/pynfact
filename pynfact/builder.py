@@ -243,8 +243,8 @@ class Builder:
                     val = meta.as_dict(override, self.meta_defaults,
                                        date_format)
                     oyear_idx = meta.odate('%Y')
-                    # %m to sort chronologically
-                    omonth_idx = meta.odate('<%m> %B')
+                    # '%m-%d' to sort chronologically
+                    omonth_idx = meta.odate('%m-%d')
                     if oyear_idx in archive:
                         if omonth_idx in archive[oyear_idx]:
                             archive[oyear_idx][omonth_idx].append(val)

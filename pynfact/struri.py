@@ -9,6 +9,7 @@ URI strings manipulation functions.
     Relocate file management functions to :mod:`fileman`.
 """
 from datetime import datetime
+from dateutil import tz
 import unidecode
 import re
 
@@ -54,6 +55,13 @@ def date_iso(date):
     :type date: datetime.datetime
     :return: Datetime formatted as ISO 8601, or empty string if invalid
     :rtype: str
+
+    .. note::
+        If the datetime object it timezone naïve, it'll be localized to
+        UTC, so the feed parser, and any other function that requires
+        timezone aware datetime objects, do not raise an exception.
     """
+    if date and not datetime.strftime(date, '%z'):
+        date = date.replace(tzinfo=tz.tzutc())
     return datetime.isoformat(date, timespec='minutes') if date else ''
 
