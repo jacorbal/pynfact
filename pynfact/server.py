@@ -49,7 +49,7 @@ class Server:
             self.logger and self.logger.error("Deploy directory not found")
             sys.exit(61)
 
-        try:  # Initialize the serve
+        try:  # Initialize the server
             httpd = HTTPServer((self.host, self.port),
                                SimpleHTTPRequestHandler)
         except OSError:

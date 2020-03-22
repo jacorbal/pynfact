@@ -14,13 +14,6 @@ import shutil
 import sys
 
 
-try:
-    import colored_traceback.auto
-    colored_traceback.add_hook(always=True)
-except ImportError:
-    pass
-
-
 def set_logger(verbosity=False, error_log='pynfact.err',
                echo_log=sys.stdout):
     """Set up the system logger.
@@ -62,10 +55,13 @@ def set_logger(verbosity=False, error_log='pynfact.err',
     +---------------+--------------+--------------+---------------+
 
     The only way to deactivate the ``error_log`` is to use the command
-    line option ``-l none``, or ``--log=none``.  Either way, the
-    warnings, errors and critical messages will still be shown on
-    screen, for any value of ``verbosity``.  What ``verbosity`` does is
-    to enable or disabe the debug messages.
+    line option ``-l none``, or ``--log=none``; or ``--log=/dev/null``.
+    Either way, the warnings, errors and critical messages will still be
+    shown on screen, for any value of ``verbosity``.  What ``verbosity``
+    does is to enable or disabe the debug messages.
+    Apart from that, warnings an errors may be forced to be in the
+    standard output by using ``--log=/dev/stdout``, or to the standard
+    error with ``--log=/dev/stderr``.
 
     :param verbosity: Show basic information, or also debug messages
     :type verbosity: bool
@@ -84,7 +80,7 @@ def set_logger(verbosity=False, error_log='pynfact.err',
         ``logging.StreamHandler`` to ``sys.stdout`` or ``sys.stderr``
         respectively.  In any other case, write to a file.
 
-    -- versionchanged:: 1.3.1b2
+    .. versionchanged:: 1.3.1b2
         If the error log is set to ``/dev/null``, act in the same way as
         using the value "None" (case insensive), i.e., deactivate the
         warnings and errors log.

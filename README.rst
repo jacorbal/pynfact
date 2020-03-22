@@ -83,6 +83,7 @@ More details at: <https://github.com/jacorbal/pynfact/wiki>.
 Recent changes
 ==============
 
+* Parsing read the content input files just once, and not several times
 * Logging errors now can be redirected to ``stderr``, ``stdout`` and not
   only to a file, using the command line ``--log`` (or ``-l``)
 * Refactor document parser and metadata gathering
