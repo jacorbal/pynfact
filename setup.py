@@ -9,7 +9,7 @@ Source distribution setup.
 from setuptools import setup, find_packages
 
 
-version = '1.3.1b3'
+version = '1.3.1rc1'
 
 with open("README.rst", "r") as fh:
     long_description = fh.read()

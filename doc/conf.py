@@ -26,7 +26,7 @@ author = 'J. A. Corbal'
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '1.3.1b3'
+release = '1.3.1rc1'
 
 
 # -- General configuration ---------------------------------------------------

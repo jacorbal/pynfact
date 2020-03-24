@@ -80,11 +80,9 @@ class ParserRst:
     def html(self):
         """Generate HTML from  a reStructuredText file.
 
-        .. note::
-            This reStructuredText parser import some roles defined
-            locally for this application.
-
-        .. seealso:: :mod:`rstroles`
+        .. todo::
+            This reStructuredText parser should import some locally
+            defined roles for this application.
         """
         with open(self.input_data, "r", encoding=self.encoding) as f:
             text = f.read()
@@ -112,9 +110,9 @@ class ParserRst:
 
         .. note::
             This is a "cheap" approximation that I dislike.  The
-            non-bibliographical fields are gotten in a differen way that
-            the bibliographical ones.  In docutils, the bibliographical
-            fields are::
+            non-bibliographical fields are gotten in a different way
+            than the bibliographical ones.  In docutils, the
+            bibliographical fields are::
 
                 address, author, authors, contact, copyright, date,
                 field, organization, revision, status, version
@@ -159,45 +157,3 @@ class ParserRst:
             'Parsed body data of: "{}"'.format(self.input_data))
 
         return meta
-
-#    def _old_metadata(self):
-#        """Fetch metadata in a reStructuredText file.
-#
-#        The metadata syntax is case insensitive and as follows::
-#
-#            :author: Author A. Author
-#            :title: This is a title
-#            :subtitle: A longer, much longer title for this entry
-#            :cdate: 2020-03-10
-#            :mdate: 2020-03-19
-#            :tags: this, are, a, lot, of, tags
-#            :comments: yes
-#
-#        .. note::
-#            This method requires ``rst2html5 >= 1.10``::
-#
-#                from rst2html5_ import HTML5Writer as Writer
-#
-#            It works, but I want less dependecies.
-#        """
-#        with open(self.input_data, "r", encoding=self.encoding) as f:
-#            text = f.read()
-#
-#        parts = publish_parts(text,
-#                              writer=Writer(),
-#                              settings_overrides=self.settings)
-#
-#        # Lowercase all the keys in the docinfo, and use the same
-#        # structure `{k: [v]}` as the Markdown metadata retriever
-#        meta = {k.lower(): [v] for k, v in parts.get('docinfo').items()
-#                if parts.get('docinfo').items}
-#
-#        # In reStructuredText, if there's no title in the meta tags, get
-#        # it from the document part 'title'
-#        if 'title' not in meta:
-#            meta['title'] = parts.get('title')
-#
-#        self.logger and self.logger.debug(
-#            'Parsed body data of: "{}"'.format(self.input_data))
-#
-#        return meta

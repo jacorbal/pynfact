@@ -71,12 +71,6 @@ class Yamler:
         :type key: str
         :param default_value: Default value if key is not found
         :return: The value associated to that key, or the default value
-
-        .. todo::
-            Use :func:`self.__getitem__`?
         """
-        if key in self.config:
-            value = self.config[key]
-        else:
-            value = default_value
+        value = self.config[key] if key in self.config else default_value
         return value

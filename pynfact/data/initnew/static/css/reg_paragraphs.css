@@ -155,6 +155,11 @@ p.no_indent {
     text-indent: 0 !important;
 }
 
+p.hanged {
+    text-indent: -1.5em;
+    padding-left: 1.5em;
+}
+
 p.no_last {
 /*
     text-align-last: auto;

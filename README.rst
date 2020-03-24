@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: **1.3.1b3** (2020-03-22)
+:Latest version: **1.3.1rc1** (2020-03-25)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
@@ -83,12 +83,13 @@ More details at: <https://github.com/jacorbal/pynfact/wiki>.
 Recent changes
 ==============
 
+* Perform tests and upgraded to *release candidate* version (1.3.1rc1)
 * Parsing read the content input files just once, and not several times
 * Logging errors now can be redirected to ``stderr``, ``stdout`` and not
   only to a file, using the command line ``--log`` (or ``-l``)
 * Refactor document parser and metadata gathering
-* Perform test and upgraded to *beta* version (1.3.1b1)
-* Add reStructuredText support
+* Perform tests and upgraded to *beta* version (1.3.1b1)
+* Add reStructuredText support (``docutils``)
 * Validate  input metadata (titles, and dates if required) in ``Meta``
 * Update ``setup.py`` to fix missing dependency ``PyYAML``
 * CLI interface with ``argparser`` and more modularized
@@ -144,5 +145,6 @@ License
 
 .. _`GitHub issue tracker`: https://github.com/jacorbal/pynfact/issues
 .. _r/PynFact: https://www.reddit.com/r/PynFact/
-.. _`MIT License`: https://opensource.org/licenses/MIT
+.. .. _`MIT License`: https://opensource.org/licenses/MIT
+.. _`MIT License`: https://github.com/jacorbal/pynfact/blob/master/LICENSE
 

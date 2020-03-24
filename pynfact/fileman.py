@@ -19,6 +19,17 @@ def has_extension(filename, extension, case_sensitive=False):
     :type extension: str
     :return: ``True`` if the filename has the inquired extension
     :rtype: bool
+
+    :Example:
+
+    >>> has_extension('filename.MD', '.md', case_sensitive=True)
+    False
+
+    >>> has_extension('filename.RST', '.rst', case_sensitive=False)
+    True
+
+    >>> has_extension('filename.txt', '.md')
+    False
     """
     if case_sensitive:
         return os.path.splitext(filename)[1] == extension
@@ -32,12 +43,23 @@ def has_extensions(filename, extensions, case_sensitive=False):
 
     :param filename: Filename to test
     :type filename: str
-    :param extension: List of extensions to test against
-    :type extension: str
+    :param extensions: List of extensions to test against
+    :type extensions: list
     :param case_sensitive: Do not considerate case if ``False``
     :type case_sensitive: bool
     :return: ``True`` if filename has a matching extension
     :rtype: bool
+
+    :Example:
+
+    >>> has_extensions('filename.md', ['.md', '.rst'])
+    True
+
+    >>> has_extensions('filename.rst', ['.md', '.rst'])
+    True
+
+    >>> has_extensions('filename.txt', ['.md', '.rst'])
+    False
     """
     if case_sensitive:
         return os.path.splitext(filename)[1] in extensions
@@ -47,17 +69,55 @@ def has_extensions(filename, extensions, case_sensitive=False):
 
 
 def has_extension_md(filename):
-    """Check whether a filename has a valid Markdown extension."""
+    """Check whether a filename has a valid Markdown extension.
+
+    :Example:
+
+    >>> has_extension_md('filename.md')
+    True
+
+    >>> has_extension_md('filename.mDown')
+    True
+
+    >>> has_extension_md('filename.rst')
+    False
+
+    """
     return has_extensions(filename, ['.md', '.mdown', '.mkdn', '.markdown'])
 
 
 def has_extension_rst(filename):
-    """Check whether a filename has a valid reStructuredText extension."""
+    """Check whether a filename has a valid reStructuredText extension.
+
+    :Example:
+
+    >>> has_extension_rst('filename.md')
+    False
+
+    >>> has_extension_rst('filename.rst')
+    True
+
+    >>> has_extension_rst('filename.reSt')
+    True
+
+    """
     return has_extensions(filename, ['.rst', '.rest', '.rtext'])
 
 
 def has_extension_md_rst(filename):
-    """Check if a filename has Markdown or reStructuredText extension."""
+    """Check if a filename has Markdown or reStructuredText extension.
+
+    :Example:
+
+    >>> has_extension_md_rst('filename.md')
+    True
+
+    >>> has_extension_md_rst('filename.rst')
+    True
+
+    >>> has_extension_rst('filename.txt')
+    False
+    """
     return has_extension_md(filename) or has_extension_rst(filename)
 
 

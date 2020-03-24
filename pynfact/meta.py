@@ -144,13 +144,16 @@ class Meta:
     def subtitle(self, default=''):
         """Get post subtitle as a string from post meta information.
 
+        Add a full stop or period at the end if the parsed string
+        doesn't have one.
+
         :param default: Default value if title is empty
         :type default: str
         :return: Summary field
         :rtype: str
         """
         vs = {'subtitle', 'summary'}
-        return self._parse_str_md(vs, default, ' ')
+        return self._parse_str_md(vs, default, ' ', period=True)
 
     def category(self, default='Miscellaneous'):
         """Get post category as a string from post meta information.
@@ -400,7 +403,7 @@ class Meta:
         else:
             return default
 
-    def _parse_str_md(self, values, default='', joint=' '):
+    def _parse_str_md(self, values, default='', joint=' ', period=False):
         """Get value as string from metadata allowing Markdown syntax.
 
         It parses the Markdown code to HTML and allow this HTML for this
@@ -413,15 +416,22 @@ class Meta:
         :type default: str
         :param joint: String used as a joint between values
         :type joint: str
+        :param period: Add a period at the end, if there's none
+        :type period: bool
         :return: The value of the meta key, or the default value
         :rtype: str
         """
         value = or_array_in(self.meta, *values)
         if value:
             fmt = markdown.markdown(joint.join(value))
-            return re.sub(r'</*(p|br)[^>]*?>', '', fmt)
+            parsed_str = re.sub(r'</*(p|br)[^>]*?>', '', fmt)
         else:
-            return default
+            parsed_str = default
+
+        if period and parsed_str and parsed_str.endswith('.'):
+            parsed_str = parsed_str + '.'
+
+        return parsed_str
 
     def _parse_bool(self, values, default=True):
         """Get a value as a boolean from post meta information.

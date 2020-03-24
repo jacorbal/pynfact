@@ -9,12 +9,17 @@ Build the content.
     Include processing of reStructuredText files along with Markdown.
     Those files are detected by extension and parsed accordingly.  So,
     no extension test in this module, only in the parser.
+
+.. versionchanged:: 1.3.1b4
+    Replaced functions ``_make_entry_uri`` and ``_make_root_uri`` with
+    just :func:``_make_uri``, which will behave like the former if the
+    argument ``for_entry`` is set to ``True``, and the latter when set
+    to ``False``.
 """
 from datetime import datetime
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader, Markup
 from math import ceil
-from pynfact.dataman import update_list_in_dict
 from pynfact.fileman import link_to
 from pynfact.fileman import has_extension_md_rst
 from pynfact.meta import Meta
@@ -25,6 +30,7 @@ import filecmp
 import gettext
 import locale
 import os
+import resource
 import sys
 
 
@@ -129,7 +135,30 @@ class Builder:
         self.pages_dict = self._gather_content_data().get('pages')
 
     def __del__(self):
-        """Destructor.  Restore the locale, if changed."""
+        """Destructor.  Restore the locale, if changed.
+
+        At the end of the site generation, the destructor prints the
+        maximum resident set size used of this class, if the logger is
+        set to show debug messages.   That is, the maximum number of
+        kilobytes of physical memory that processes used simultaneously.
+        """
+        if sys.platform.startswith('linux') or \
+                sys.platform.startswith('freebsd') or \
+                sys.platform.startswith('openbsd'):
+                # On Linux the result is in kilobytes.
+            units = 'kilobytes'
+            peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        elif sys.platform == 'darwin':
+            # On OSX the result is in bytes.
+            units = 'bytes'
+            peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        else:
+            units = ''
+            peak = '(unsupported)'
+
+        self.logger and self.logger.debug(
+            'Maximum resident set size used: {} {}'.format(peak, units))
+
         return locale.setlocale(locale.LC_ALL, self.old_locale)
 
     def gen_entry(self, filename, date_format='%c'):
@@ -174,9 +203,9 @@ class Builder:
         total_entries = 0
 
         for filename, meta in self.entries_dict.items():
-            override = {'uri': self._make_entry_uri(meta.get('title'),
-                                                    filename,
-                                                    absolute=True)}
+            override = {'uri': self._make_uri(meta.get('title'),
+                                              filename, for_entry=True,
+                                              absolute=True)}
             self.entries_dict[filename].update(override)
             self._update_meta_date_format(meta, date_format)
             if not meta['private']:
@@ -223,14 +252,14 @@ class Builder:
         """
         archive = dict()
         for filename, meta in self.entries_dict.items():
-            override = {'uri': self._make_entry_uri(meta.get('title'),
-                                                    filename,
-                                                    absolute=False)}
+            override = {'uri': self._make_uri(meta.get('title'),
+                                              filename, for_entry=True,
+                                              absolute=False)}
             self.entries_dict.get(filename).update(override)
             if not meta.get('private'):
                 if meta.get('oyear_idx') in archive:
-                    update_list_in_dict(archive[meta.get('oyear_idx')],
-                                        meta.get('omonth_idx'), meta)
+                    archive[meta.get('oyear_idx')].setdefault(
+                        meta.get('omonth_idx'), []).append(meta)
 
                     # sort entries
                     archive[meta.get('oyear_idx')][meta.get('omonth_idx')] = \
@@ -256,12 +285,13 @@ class Builder:
         categories = dict()
         for filename, meta in self.entries_dict.items():
             self._update_meta_date_format(meta, date_format)
-            override = {'uri': self._make_entry_uri(meta.get('title'),
-                                                    filename,
-                                                    absolute=False)}
+            override = {'uri': self._make_uri(meta.get('title'),
+                                              filename, for_entry=True,
+                                              absolute=False)}
             self.entries_dict.get(filename).update(override)
             if not meta.get('private'):
-                update_list_in_dict(categories, meta.get('category'), meta)
+                categories.setdefault(
+                    meta.get('category'), []).append(meta)
 
                 # sort entries
                 categories[meta.get('category')] = \
@@ -285,8 +315,8 @@ class Builder:
             self._update_meta_date_format(meta, date_format)
             if not meta.get('private'):
                 self._update_meta_date_format(meta, date_format)
-                update_list_in_dict(entries_by_category,
-                                    meta.get('category'), meta)
+                entries_by_category.setdefault(
+                    meta.get('category'), []).append(meta)
 
         # One page for each category
         values = self.template_values.copy()
@@ -312,7 +342,7 @@ class Builder:
             if not meta.get('private'):
                 for tag in meta.get('tag_list'):
                     self._update_meta_date_format(meta, date_format)
-                    update_list_in_dict(entries_by_tag, tag, meta)
+                    entries_by_tag.setdefault(tag, []).append(meta)
 
         # One page for each tag
         values = self.template_values.copy()
@@ -335,13 +365,13 @@ class Builder:
         """
         entries_by_tag = dict()
         for filename, meta in self.entries_dict.items():
-            override = {'uri': self._make_entry_uri(meta.get('title'),
-                                                    filename,
-                                                    absolute=False)}
+            override = {'uri': self._make_uri(meta.get('title'),
+                                              filename, for_entry=True,
+                                              absolute=False)}
             self.entries_dict.get(filename).update(override)
             if not meta.get('private'):
                 for tag in meta.get('tag_list'):
-                    update_list_in_dict(entries_by_tag, tag, meta)
+                    entries_by_tag.setdefault(tag, []).append(meta)
 
         # Multipliers seq. for tag size in function of times repeated
         tagcloud_seq = [0, 14, 21, 27, 32, 38, 42, 45, 47, 48, 50, 52]
@@ -451,7 +481,8 @@ class Builder:
         entries = list()
         for filename, meta in self.entries_dict.items():
             if not meta.get('private'):
-                uri = self._make_entry_uri(meta.get('title'), filename)
+                uri = self._make_uri(meta.get('title'), filename,
+                                     for_entry=True)
                 override = {
                     'content':
                         self._fetch_html(self.entries_dir, filename),
@@ -537,8 +568,6 @@ class Builder:
         self.gen_static()
         self.gen_extra_dirs()
 
-        self.logger and self.logger.info('Done!')
-
     def _gather_content_data(self):
         """Gather all metadata from all parseable files.
 
@@ -577,17 +606,18 @@ class Builder:
 
                 override_entry = {
                     'category_uri':
-                        self._make_root_uri(meta.category(),
-                                            self.categories_dir),
+                        self._make_uri(meta.category(),
+                                       self.categories_dir,
+                                       for_entry=False),
                     'odate_idx': meta.odate('%Y-%m-%d %H:%M:%S'),
                     'oyear_idx': meta.odate('%Y'),
                     'omonth_idx': meta.odate('%m-%d'),
                     'site_comments':
                         self.site_config.get('presentation').get('comments'),
                     'uri':
-                        self._make_entry_uri(meta.title(),
-                                             filename,
-                                             absolute=True),
+                        self._make_uri(meta.title(),
+                                       filename, for_entry=True,
+                                       absolute=True),
                 }
                 entries_dict[filename] = \
                     meta.as_dict(override_entry, self.meta_defaults)
@@ -599,7 +629,8 @@ class Builder:
                 meta = self._fetch_meta(self.pages_dir, filename,
                                         odate_required=False)
 
-                override_page = {'uri': self._make_root_uri(meta.title())}
+                override_page = {'uri': self._make_uri(meta.title(),
+                                                       for_entry=False)}
                 pages_dict[filename] = \
                     meta.as_dict(override_page, self.meta_defaults)
 
@@ -753,8 +784,8 @@ class Builder:
                             str(odate_arr[2]))
         return path
 
-    def _make_entry_uri(self, name='', infix='', index='index.html',
-                        absolute=False):
+    def _make_uri(self, name='', infix='', index='index.html',
+                  for_entry=True, absolute=False):
         """Generate the link to an entry, based on the date and name.
 
         Link automated generation for final URIs of articles.
@@ -767,42 +798,31 @@ class Builder:
         :type index: str
         :param absolute: Force the URI to be done from the root
         :type absolute: bool
+        :param for_entry: Entry URI if ``True``, else make it from root
+        :type for_entry: bool
         :return: Link to final external URI relative to root directory
         :rtype: str
+
+        .. versionchanged:: 1.3.1b4
+            Make a link either to a blog entry or to a page in just one
+            method, instead of using ``_make_entry_uri`` and
+            ``_make_root_uri``.
         """
-        if absolute:
+        if for_entry:
+            if absolute:
+                path = os.path.join('/',
+                                    self.site_config.get('uri').get('base'),
+                                    self._entry_link_prefix(infix))
+
+            else:
+                path = self._entry_link_prefix(infix)
+        else:
             path = os.path.join('/',
                                 self.site_config.get('uri').get('base'),
-                                self._entry_link_prefix(infix))
-
-        else:
-            path = self._entry_link_prefix(infix)
+                                infix)
 
         return link_to(name, path, makedirs=False, justdir=True,
                        index=index)
-
-    def _make_root_uri(self, name='', infix='', index='index.html'):
-        """Generate the link to any resource in the root file system.
-
-        Link automated generation for final URIs of the content in
-        the website root directory, such as pages.
-
-        :type name: Destination basename
-        :param name: str
-        :param infix: Appendix to the deploy directory
-        :type infix: str
-        :param index: Default name of the generated resource
-        :type index: str
-        :return: Link to final external URI relative to root directory
-
-        .. versionadded:: 1.3.2a
-
-        """
-        return link_to(name,
-                       os.path.join('/',
-                                    self.site_config.get('uri').get('base'),
-                                    infix),
-                       makedirs=False, justdir=True, index=index)
 
     def _make_output_file(self, name='', infix='', index='index.html'):
         """Return the output file link, and make required directories.

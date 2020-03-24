@@ -25,15 +25,25 @@ def or_array_in(dictionary, *keys):
     :type dictionary: dict
     :return: Value for the matching key, or ``None``
     :rtype: mixed
+
+    :Example:
+
+    >>> dictionary = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+
+    >>> or_array_in(dictionary, ['a', 'i', 'j']
+    True
+
+    >>> or_array_in(dictionary, ['x', 'y', 'z']
+    False
     """
     for key in keys:
         if key in dictionary:
-            return dictionary[key]
+            return dictionary.get(key)
     return None
 
 
-def keys_exists(dictionary, *keys):
-    """Check if nested keys exist in a dictionary.
+def key_exists(dictionary, *keys):
+    """Check if key exist in a nested dictionary.
 
     :param dictionary: Nested dicionary
     :type dictionary: dict
@@ -50,19 +60,3 @@ def keys_exists(dictionary, *keys):
         except KeyError:
             return False
     return True
-
-
-def update_list_in_dict(dictionary, key, value):
-    """Update a dictionary with a value of type list.
-
-    :param dictionary: Dictionary to update
-    :type dictionary: dict
-    :param key: Key to check for
-    :type key: mixed
-    :param value: Value to append
-    :type value: mixed
-    """
-    if key in dictionary:
-        dictionary[key].append(value)
-    else:
-        dictionary[key] = [value]

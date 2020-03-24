@@ -12,110 +12,6 @@
 /* @import("reset.css"); */
 
 
-/* Fonts {{{ */
-@font-face {
-    font-family: "Alegreya Sans";
-    font-weight: 300;
-    src: url("fonts/AlegreyaSans/AlegreyaSans-Light.ttf");
-}
-
-@font-face {
-    font-family: "Merriweather";
-    font-weight: 300;
-    src: url("fonts/AlegreyaSans/Merriweather-Light.ttf");
-}
-
-@font-face {
-    font-family: "Merriweather";
-    font-weight: 300;
-    src: url("fonts/Merriweather/Merriweather-Light.ttf");
-}
-
-@font-face {
-    font-family: "Merriweather";
-    font-style: italic;
-    font-weight: 300;
-    src: url("fonts/Merriweather/Merriweather-LightItalic.ttf");
-}
-
-@font-face {
-    font-family: "Merriweather";
-    font-weight: 400;
-    src: url("fonts/Merriweather/Merriweather-Bold.ttf");
-}
-
-@font-face {
-    font-family: "Merriweather";
-    font-style: italic;
-    font-weight: 400;
-    src: url("fonts/Merriweather/Merriweather-BoldItalic.ttf");
-}
-
-@font-face {
-    font-family: "Open Sans";
-    font-weight: 300;
-    src: url("fonts/OpenSans/OpenSans-Light.ttf");
-}
-
-@font-face {
-    font-family: "Open Sans";
-    font-style: italic;
-    font-weight: 300;
-    src: url("fonts/OpenSans/OpenSans-LightItalic.ttf");
-}
-
-@font-face {
-    font-family: "Open Sans";
-    font-weight: 400;
- /* src: url("fonts/OpenSans/OpenSans-SemiBold.ttf"); */
-    src: url("fonts/OpenSans/OpenSans-Regular.ttf");
-}
-
-@font-face {
-    font-family: "Open Sans";
-    font-style: italic;
-    font-weight: 400;
- /* src: url("fonts/OpenSans/OpenSans-SemiBoldItalic.ttf"); */
-    src: url("fonts/OpenSans/OpenSans-Italic.ttf");
-}
-
-/*
-@font-face {
-    font-family: "Lato";
-    font-weight: 300;
-    src: url("fonts/Lato/Lato-Light.ttf");
-}
-*/
-
-@font-face {
-    font-family: "Ubuntu Mono";
-    font-weight: 400;
-    src: url("fonts/UbuntuMono/UbuntuMono.ttf");
-}
-
-@font-face {
-    font-family: "Ubuntu Mono";
-    font-style: italic;
-    font-weight: 400;
-    src: url("fonts/UbuntuMono/UbuntuMono-Italic.ttf");
-}
-
-@font-face {
-    font-family: "Ubuntu Mono";
-    font-weight: 700;
-    src: url("fonts/UbuntuMono/UbuntuMono-Bold.ttf");
-}
-
-@font-face {
-    font-family: "Ubuntu Mono";
-    font-style: italic;
-    font-weight: 700;
-    src: url("fonts/UbuntuMono/UbuntuMono-BoldItalic.ttf");
-}
-
-/*}}}*/
-
-
 /* General style {{{ */
 body {
     background-color: #232b32;
@@ -194,6 +90,10 @@ body, input, select, textarea {
     text-transform: lowercase;
 }
 
+span.highlight {
+    color: #fff;
+}
+
 /* Strong font */
 strong { font-weight: 400; }
 
@@ -210,6 +110,14 @@ cite > em > em,
 em > em > cite,
 em > em > em {
     font-style: italic;
+}
+
+.unem {
+    font-style: normal !important;
+}
+
+.em {
+    font-style: italic !important;
 }
 
 /* Units *never* in italics even when inside an italicized block.
@@ -237,15 +145,21 @@ ins { text-decoration: underline; }
 del { text-decoration: line-through; }
 
 big { font-size: 1.17em; }
-small.medium { font-size: 0.915em}
+small { font-size: 0.83em; }
+small.medium { font-size: 0.915em; }
 
 .subscript, .superscript,
-small, sub, sup {
+sub, sup {
     font-size: 0.83em;
+    position: relative;
+    vertical-align: baseline;
 }
 
-.subscript, sub { vertical-align: sub; }
-.superscript, sup { vertical-align: super; }
+sup { top: -0.4em; }
+sub { top: 0.4em; }
+
+.subscript { vertical-align: sub; }
+.superscript { vertical-align: super; }
 
 .footnote-reference, a.footnote-reference {
     font-size: 0.83em;
@@ -293,19 +207,6 @@ span.center {
     font-size: 0.938em;
 }
 
-/* For integrals, sub before sup limits */
-sub.int-inf-lim {
-    margin-left: -0.25em;
-    vertical-align: -0.75em;
-    font-size: 0.75em;
-}
-
-sup.int-sup-lim {
-    margin-left: -0.45em;
-    vertical-align: 0.75em;
-    font-size: 0.75em;
-}
-
 em.equation,
 span.equation {
     display: block;
@@ -327,14 +228,6 @@ em.variable, span.variable {
     font-style: italic;
     padding-right: -0.5ex;
     white-space:nowrap;
-}
-
-span.highlight {
-    color: #fff;
-}
-
-.unem {
-    font-style: normal !important;
 }
 
 div.definition {
@@ -364,46 +257,6 @@ h2 > div.definition,
 h3 > div.definition,
 h4 > div.definition {
     margin-top: 0;
-}
-
-span.center {
-    display: block;
-    text-align: center;
-}
-
-.equation, .math, .definition {
-    font-size: 0.938em;
-}
-
-em.equation,
-span.equation {
-    display: block;
-    font-family: 'Merriweather', 'Gilda Display', 'Rosarivo', serif;
-    font-style: italic;
-    margin: 0.5em auto;
-    text-align: center;
-    text-indent: 0;
-}
-
-.equation-number {
-    text-align: right;
-}
-
-em.math, span.math,
-em.var, span.var,
-em.variable, span.variable {
-    font-family: 'Merriweather', 'Gilda Display', 'Rosarivo', serif;
-    font-style: italic;
-    padding-right: -0.5ex;
-    white-space:nowrap;
-}
-
-span.highlight {
-    color: #fff;
-}
-
-.unem {
-    font-style: normal !important;
 }
 
 /*}}}*/
@@ -661,6 +514,10 @@ section.entry h6 {
 
 
 /* Blockquotes, lists and other Margins and stuff {{{*/
+div.vseparator {
+    margin: 1.5em 0;
+}
+
 /* Two break lines is an context change, i.e. 'asterism' */
 section.entry div.line-block:before {
     color: #232b32;
@@ -680,16 +537,6 @@ section.entry div.line-block  {
     text-align: center;
     width: auto;
 }
-
-div#disqus_thread {
-    margin-top: 1em; /* 16px = 1em */
-}
-
-#dsq-content #dsq-comments .dsq-comment-message {
-    font: 1em/1.5em 'Open Sans', Helvetica, Arial, sans-serif !important;
-    font-weight: inherit !important;
-}
-
 
 article + section#comments:before {
     border-top: 1px dotted #ccc;
@@ -797,15 +644,6 @@ table {
     font-size: 0.85em;
     margin: 0.5em auto;
 }
-
-tr:nth-child(even) {
-    background-color: #444;
-}
-
-tr:nth-child(odd) {
-    background-color: #333;
-}
-
 td, th {
     border: 1px solid #ccc;
     padding: 0.125em 0.750em;

@@ -23,9 +23,21 @@ def slugify(unslugged, separator='-'):
     :type separator: str
     :return: Slugged string
     :rtype: str
+
+    :Example:
+
+    >>> slugify('Here you go a not so very long string')
+    'here-you-go-a-not-so-very-long-string'
+
+    >>> slugify('Does**this%&string=has--DASHES!?, [Also] symbols?')
+    'does-this-string-has-dashes-also-symbols'
+
+    .. versionchanged:: 1.3.1b3
+        Strip beginning and ending separator characters.
     """
     return re.sub(r'\W+', separator,
-                  unidecode.unidecode(unslugged).strip().lower())
+                  unidecode.unidecode(
+                      unslugged).strip().lower()).strip(separator)
 
 
 def strip_html_tags(text):
@@ -35,6 +47,14 @@ def strip_html_tags(text):
     :type text: str
     :return: String without HTML tags
     :rtype: str
+
+    :Example:
+
+    >>> strip_html_tags('<div><p>This is a paragraph</div>')
+    'This is a paragraph'
+
+    >>> strip_html_tags('<em class="highlight">Highlighted</em> text')
+    'Highlighted text'    
     """
     return re.sub('<[^<]+?>', '', text)
 
