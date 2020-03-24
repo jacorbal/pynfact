@@ -428,7 +428,7 @@ class Meta:
         else:
             parsed_str = default
 
-        if period and parsed_str and parsed_str.endswith('.'):
+        if period and parsed_str and not parsed_str.endswith('.'):
             parsed_str = parsed_str + '.'
 
         return parsed_str
