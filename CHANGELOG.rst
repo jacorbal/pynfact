@@ -5,6 +5,11 @@ Changelog
 Release history
 ===============
 
+1.3.1rc2 -- Wed 25 Mar 2020 04:12:51 +0100
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fix typos and minimal but annoying bugs
+
 1.3.1rc1 -- Wed 25 Mar 2020 02:36:18 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -136,46 +141,46 @@ Release history
 * Remove deprecated ``safe_mode`` in Markdown calls
 * Fixed some bugs
 
-0.3.8 -- Mon 09 Mar 2020 15:34:52 +0100
+0.3.8 -- Mon  9 Mar 2020 15:34:52 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Simplify ``Builder`` class constructor: now it takes a configuration
   dictionary sorted semantically
 * Refactor and improved exceptions check
 
-0.3.7 -- Mon 09 Mar 2020 11:46:19 +0100
+0.3.7 -- Mon  9 Mar 2020 11:46:19 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Remove Javascript and added light/dark CSS styles
 
-0.3.6 -- Wed 04 Mar 2020 15:30:48 +0100
+0.3.6 -- Wed  4 Mar 2020 15:30:48 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Enable/disable comments by option in configuration file
 
-0.3.5 -- Tue 03 Mar 2020 15:36:29 +0100
+0.3.5 -- Tue  3 Mar 2020 15:36:29 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Minor bugs and refactoring
 
-0.3.4 -- Tue 03 Mar 2020 14:27:04 +0100
+0.3.4 -- Tue  3 Mar 2020 14:27:04 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Files that haven't changed are no longer rewritten after parsing the
   Markdown text; only overwrite those files that are different (using
   ``filecmp``)
 
-0.3.3 -- Tue 03 Mar 2020 08:23:24 +0100
+0.3.3 -- Tue  3 Mar 2020 08:23:24 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Repository going Git instead of Mercurial (Hg) [#]_
 
-0.3.2 -- Mon 02 Mar 2020 15:39:12 +0100
+0.3.2 -- Mon  2 Mar 2020 15:39:12 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Update existing parsed files only if they are different (*diff*)
 
-0.3.1 -- Sun 01 Mar 2020 16:02:01 +0100
+0.3.1 -- Sun  1 Mar 2020 16:02:01 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Restore categories support
@@ -228,7 +233,7 @@ Release history
   * Galician
   * Catalan
 
-0.1.1 -- Sun 02 Jun 2013 16:23:48 +0200
+0.1.1 -- Sun  2 Jun 2013 16:23:48 +0200
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Fix bugs and correct code

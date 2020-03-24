@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: **1.3.1rc1** (2020-03-25)
+:Latest version: **1.3.1rc2** (2020-03-25)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
@@ -78,12 +78,14 @@ needed:
 #. ``pynfact --serve=localhost``: Serves locally to test the results
    (by default at ``localhost:4000``)
 
-More details at: <https://github.com/jacorbal/pynfact/wiki>.
+More details at the `GitHub project Wiki
+<https://github.com/jacorbal/pynfact/wiki>`_, and at the `Qucikstart
+guide <https://github.com/jacorbal/pynfact/wiki/Quickstart>`_.
 
 Recent changes
 ==============
 
-* Perform tests and upgraded to *release candidate* version (1.3.1rc1)
+* Perform tests and upgraded to *release candidate* version (1.3.1rc2)
 * Parsing read the content input files just once, and not several times
 * Logging errors now can be redirected to ``stderr``, ``stdout`` and not
   only to a file, using the command line ``--log`` (or ``-l``)
