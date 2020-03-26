@@ -1,4 +1,4 @@
-# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent foldlevel=0 nowrap:
 """
 URI strings manipulation functions.
 
@@ -54,7 +54,7 @@ def strip_html_tags(text):
     'This is a paragraph'
 
     >>> strip_html_tags('<em class="highlight">Highlighted</em> text')
-    'Highlighted text'    
+    'Highlighted text'
     """
     return re.sub('<[^<]+?>', '', text)
 

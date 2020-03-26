@@ -1,4 +1,4 @@
-# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent foldlevel=1 nowrap:
 """
 Handles a YAML file by setting a default value when variable is not set.
 

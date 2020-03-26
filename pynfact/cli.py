@@ -1,4 +1,4 @@
-# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent foldlevel=0 nowrap:
 """
 Command line interface functions.
 
@@ -97,7 +97,7 @@ def set_logger(verbosity=False, error_log='pynfact.err',
     logger.addHandler(echo_shandler)
 
     # Errors and Critical errors handler
-    if error_log.lower() != 'none' or error.log != '/dev/null':
+    if error_log.lower() != 'none' or error_log != '/dev/null':
         if error_log == '/dev/stdout':
             warning_fhandler = logging.StreamHandler(sys.stdout)
         elif error_log == '/dev/stderr':

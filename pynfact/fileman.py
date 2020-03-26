@@ -1,4 +1,4 @@
-# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent foldlevel=0 nowrap:
 """
 File and path manipulation functions.
 

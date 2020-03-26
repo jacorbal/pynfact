@@ -20,10 +20,20 @@ Coding style
 Unit testing
 ============
 
-* **[4]** Finish beta tests stage 2 and upload them to repository
+* **[X]** Finish beta tests stage 2
+* **[5]** Release candidate unity tests, and upload them to repository
 
 Next features for future versions
 =================================
+
+Packaging
+---------
+
+* **[3]** Make ``docutils`` an optional dependency and set Markdown to
+  the default format::
+
+    pip install pynfact             # Only Markdown support
+    pip install pynfact['docutils'] # also with reStructuredText support
 
 Content configuration
 ---------------------

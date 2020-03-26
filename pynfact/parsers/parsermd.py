@@ -1,4 +1,4 @@
-# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent foldlevel=1 nowrap:
 """
 Markdown translation to HTML and metadata retrieval.
 
@@ -58,7 +58,7 @@ class ParserMd:
 
         html = self.md.convert(text)
         self.logger and self.logger.debug(
-            'Parsed body data of: "{}"'.format(self.input_data))
+            'Parsed text body of: "{}"'.format(self.input_data))
 
         return html
 
@@ -70,7 +70,7 @@ class ParserMd:
             author: Author A. Author
             title: This is a title
             subtitle: A longer, much longer title for this entry
-            cdate: 2020-03-10
+            odate: 2020-03-10
             mdate: 2020-03-19
             tags: this, are, a, lot, of, tags
             comments: yes
@@ -81,8 +81,8 @@ class ParserMd:
         with open(self.input_data, "r", encoding=self.encoding) as f:
             text = f.read()
 
-        html = self.md.convert(text)
+        self.md.convert(text)
         self.logger and self.logger.debug(
-            'Parsed meta data of: "{}"'.format(self.input_data))
+            'Parsed metadata of: "{}"'.format(self.input_data))
 
         return self.md.Meta

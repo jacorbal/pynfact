@@ -5,6 +5,12 @@ Changelog
 Release history
 ===============
 
+1.3.1rc3 -- Thu 26 Mar 2020 09:17:22 +0100
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fix bug when parsing reStructuredText
+* Remove unused imports
+
 1.3.1rc2 -- Wed 25 Mar 2020 04:12:51 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -1,4 +1,4 @@
-# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent foldlevel=1 nowrap:
 """
 Build the content.
 
@@ -16,9 +16,8 @@ Build the content.
     argument ``for_entry`` is set to ``True``, and the latter when set
     to ``False``.
 """
-from datetime import datetime
 from feedgen.feed import FeedGenerator
-from jinja2 import Environment, FileSystemLoader, Markup
+from jinja2 import Environment, FileSystemLoader
 from math import ceil
 from pynfact.fileman import link_to
 from pynfact.fileman import has_extension_md_rst
@@ -263,9 +262,10 @@ class Builder:
 
                     # sort entries
                     archive[meta.get('oyear_idx')][meta.get('omonth_idx')] = \
-                        sorted(archive[meta.get('oyear_idx')][meta.get('omonth_idx')],
-                               key=lambda k: k.get('odate_idx'),
-                               reverse=False)
+                        sorted(
+                            archive[meta.get('oyear_idx')][meta.get('omonth_idx')],
+                            key=lambda k: k.get('odate_idx'),
+                            reverse=False)
                 else:
                     archive[meta.get('oyear_idx')] = dict()
                     archive[meta.get('oyear_idx')][meta.get('omonth_idx')] = \

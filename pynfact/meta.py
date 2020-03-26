@@ -20,13 +20,10 @@ Meta information processor from Markdown or reStructuredText file.
 """
 from dateutil.parser import parse as dt_parse
 from pynfact.dataman import or_array_in
-from pynfact.fileman import has_extensions
 from pynfact.struri import date_iso, strip_html_tags
-import logging
 import markdown
 import re
 import sys
-import locale
 
 
 class Meta:
@@ -84,17 +81,17 @@ class Meta:
         """
         metadata = {
             'author': defaults['author']
-                if not self.author()
-                else self.author(),
+            if not self.author()
+            else self.author(),
             'category': defaults['category']
-                if not self.category()
-                else self.category(),
+            if not self.category()
+            else self.category(),
             'comments': self.comments(),
             'copyright': self.copyright(),
             'email': self.email(),
             'language': defaults['language']
-                if not self.language()
-                else self.language(),
+            if not self.language()
+            else self.language(),
             'mdate_html': date_iso(self.mdate_info()),
             'mdate_info': self.mdate_info(),
             'mdate': self.mdate(date_format),

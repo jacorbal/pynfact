@@ -1,4 +1,4 @@
-# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent nowrap:
+# vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent foldlevel=1 nowrap:
 """
 reStructuredText translation to HTML and metadata retrieval.
 
@@ -16,7 +16,7 @@ reStructuredText translation to HTML and metadata retrieval.
     It's required ``docutils>=0.15``.
 """
 
-from docutils.core import publish_string, publish_parts, publish_doctree
+from docutils.core import publish_parts, publish_doctree
 from docutils.nodes import docinfo
 from docutils.writers.html5_polyglot import Writer
 
@@ -91,7 +91,7 @@ class ParserRst:
                              writer=Writer(),
                              settings_overrides=self.settings).get('fragment')
         self.logger and self.logger.debug(
-            'Parsed body data of: "{}"'.format(self.input_data))
+            'Parsed text body of: "{}"'.format(self.input_data))
 
         return html
 
@@ -151,9 +151,9 @@ class ParserRst:
         # In reStructuredText, if there's no title in the meta tags, get
         # it from the document part 'title'
         if 'title' not in meta:
-            meta['title'] = parts.get('title')
+            meta['title'] = [doctree.get('title')]
 
         self.logger and self.logger.debug(
-            'Parsed body data of: "{}"'.format(self.input_data))
+            'Parsed metadata of: "{}"'.format(self.input_data))
 
         return meta
