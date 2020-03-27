@@ -6,8 +6,7 @@ Markdown translation to HTML and metadata retrieval.
 :license: MIT
 """
 from pynfact.fileman import has_extension_md, has_extension_rst
-from pynfact.parsers import ParserMd
-from pynfact.parsers import ParserRst
+from pynfact.parsers import ParserMd, ParserRst
 
 
 class Parser:

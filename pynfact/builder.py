@@ -16,14 +16,6 @@ Build the content.
     argument ``for_entry`` is set to ``True``, and the latter when set
     to ``False``.
 """
-from feedgen.feed import FeedGenerator
-from jinja2 import Environment, FileSystemLoader
-from math import ceil
-from pynfact.fileman import link_to
-from pynfact.fileman import has_extension_md_rst
-from pynfact.meta import Meta
-from pynfact.parser import Parser
-from pynfact.struri import slugify, strip_html_tags
 import distutils.dir_util
 import filecmp
 import gettext
@@ -31,6 +23,15 @@ import locale
 import os
 import resource
 import sys
+from math import ceil
+
+from feedgen.feed import FeedGenerator
+from jinja2 import Environment, FileSystemLoader
+
+from pynfact.fileman import has_extension_md_rst, link_to
+from pynfact.meta import Meta
+from pynfact.parser import Parser
+from pynfact.struri import slugify, strip_html_tags
 
 
 class Builder:
@@ -144,7 +145,7 @@ class Builder:
         if sys.platform.startswith('linux') or \
                 sys.platform.startswith('freebsd') or \
                 sys.platform.startswith('openbsd'):
-                # On Linux the result is in kilobytes.
+            # On Linux the result is in kilobytes.
             units = 'kilobytes'
             peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
         elif sys.platform == 'darwin':
@@ -219,7 +220,7 @@ class Builder:
         values = self.template_values.copy()
 
         # Generate 'index.html' even when there are no posts
-        if total_entries == 0:
+        if not total_entries:
             outfile = self._make_output_file()
             self._render_template('entries.html.j2', outfile, values)
 

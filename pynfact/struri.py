@@ -8,10 +8,11 @@ URI strings manipulation functions.
 .. versionchanged:: 1.2.0a1
     Relocate file management functions to :mod:`fileman`.
 """
-from datetime import datetime
-from dateutil import tz
-import unidecode
 import re
+from datetime import datetime
+
+import unidecode
+from dateutil import tz
 
 
 def slugify(unslugged, separator='-'):

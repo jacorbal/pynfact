@@ -15,8 +15,7 @@ reStructuredText translation to HTML and metadata retrieval.
     publisher data structure seem to have also some erratic behaviour.
     It's required ``docutils>=0.15``.
 """
-
-from docutils.core import publish_parts, publish_doctree
+from docutils.core import publish_doctree, publish_parts
 from docutils.nodes import docinfo
 from docutils.writers.html5_polyglot import Writer
 

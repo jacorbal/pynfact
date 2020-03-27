@@ -5,13 +5,14 @@ Command line interface functions.
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
 """
-from pynfact.builder import Builder
-from pynfact.server import Server
-from pynfact.yamler import Yamler
 import logging
 import os
 import shutil
 import sys
+
+from pynfact.builder import Builder
+from pynfact.server import Server
+from pynfact.yamler import Yamler
 
 
 def set_logger(verbosity=False, error_log='pynfact.err',

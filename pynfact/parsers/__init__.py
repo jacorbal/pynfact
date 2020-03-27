@@ -39,5 +39,5 @@ __maintainer__ = "J. A. Corbal"
 __status__ = "Production"
 
 
-from pynfact.parsers.parserrst import ParserRst
 from pynfact.parsers.parsermd import ParserMd
+from pynfact.parsers.parserrst import ParserRst

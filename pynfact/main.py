@@ -6,13 +6,10 @@ Main entry point.
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
 """
-from pynfact.cli import arg_build
-from pynfact.cli import arg_init
-from pynfact.cli import arg_serve
-from pynfact.cli import set_logger
 import argparse
 import sys
 
+from pynfact.cli import arg_build, arg_init, arg_serve, set_logger
 
 try:
     import colored_traceback.auto

@@ -11,7 +11,6 @@ A blog-oriented static web content generator.
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
 """
-
 from pynfact.main import main
 
 

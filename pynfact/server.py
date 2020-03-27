@@ -5,9 +5,9 @@ Simple server for testing purposes.
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
 """
-from http.server import HTTPServer, SimpleHTTPRequestHandler
 import os
 import sys
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 
 class Server:

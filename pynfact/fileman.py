@@ -5,9 +5,9 @@ File and path manipulation functions.
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
 """
+import os
 
 from pynfact.struri import slugify, strip_html_tags
-import os
 
 
 def has_extension(filename, extension, case_sensitive=False):
