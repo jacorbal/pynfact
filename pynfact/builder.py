@@ -223,6 +223,7 @@ class Builder:
         if not total_entries:
             outfile = self._make_output_file()
             self._render_template('entries.html.j2', outfile, values)
+            return
 
         # Home page (and subsequent ones)
         for cur_page in range(1, total_pages + 1):
@@ -264,7 +265,8 @@ class Builder:
                     # sort entries
                     archive[meta.get('oyear_idx')][meta.get('omonth_idx')] = \
                         sorted(
-                            archive[meta.get('oyear_idx')][meta.get('omonth_idx')],
+                            archive[meta.get(
+                                'oyear_idx')][meta.get('omonth_idx')],
                             key=lambda k: k.get('odate_idx'),
                             reverse=False)
                 else:
@@ -600,40 +602,43 @@ class Builder:
         """
         # Gather entries
         entries_dict = dict()
-        for filename in os.listdir(self.entries_dir):
-            if has_extension_md_rst(filename):
-                meta = self._fetch_meta(self.entries_dir, filename,
-                                        odate_required=True)
+        if os.path.isdir(self.entries_dir):
+            for filename in os.listdir(self.entries_dir):
+                if has_extension_md_rst(filename):
+                    meta = self._fetch_meta(self.entries_dir, filename,
+                                            odate_required=True)
 
-                override_entry = {
-                    'category_uri':
-                        self._make_uri(meta.category(),
-                                       self.categories_dir,
-                                       for_entry=False),
-                    'odate_idx': meta.odate('%Y-%m-%d %H:%M:%S'),
-                    'oyear_idx': meta.odate('%Y'),
-                    'omonth_idx': meta.odate('%m-%d'),
-                    'site_comments':
-                        self.site_config.get('presentation').get('comments'),
-                    'uri':
-                        self._make_uri(meta.title(),
-                                       filename, for_entry=True,
-                                       absolute=True),
-                }
-                entries_dict[filename] = \
-                    meta.as_dict(override_entry, self.meta_defaults)
+                    override_entry = {
+                        'category_uri':
+                            self._make_uri(meta.category(),
+                                           self.categories_dir,
+                                           for_entry=False),
+                        'odate_idx': meta.odate('%Y-%m-%d %H:%M:%S'),
+                        'oyear_idx': meta.odate('%Y'),
+                        'omonth_idx': meta.odate('%m-%d'),
+                        'site_comments':
+                            self.site_config.get(
+                                'presentation').get('comments'),
+                        'uri':
+                            self._make_uri(meta.title(),
+                                           filename, for_entry=True,
+                                           absolute=True),
+                    }
+                    entries_dict[filename] = \
+                        meta.as_dict(override_entry, self.meta_defaults)
 
         # Gather pages
         pages_dict = dict()
-        for filename in os.listdir(self.pages_dir):
-            if has_extension_md_rst(filename):
-                meta = self._fetch_meta(self.pages_dir, filename,
-                                        odate_required=False)
+        if os.path.isdir(self.pages_dir):
+            for filename in os.listdir(self.pages_dir):
+                if has_extension_md_rst(filename):
+                    meta = self._fetch_meta(self.pages_dir, filename,
+                                            odate_required=False)
 
-                override_page = {'uri': self._make_uri(meta.title(),
-                                                       for_entry=False)}
-                pages_dict[filename] = \
-                    meta.as_dict(override_page, self.meta_defaults)
+                    override_page = {'uri': self._make_uri(meta.title(),
+                                                           for_entry=False)}
+                    pages_dict[filename] = \
+                        meta.as_dict(override_page, self.meta_defaults)
 
         return {'entries': entries_dict, 'pages': pages_dict}
 
