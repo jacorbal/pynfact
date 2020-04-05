@@ -46,7 +46,8 @@ class Server:
         try:  # Find the deploy directory
             os.chdir(self.path)
         except FileNotFoundError:
-            self.logger and self.logger.error("Deploy directory not found")
+            self.logger and self.logger.error(
+                "Deploy directory not found")
             sys.exit(61)
 
         try:  # Initialize the server

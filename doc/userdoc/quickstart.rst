@@ -58,7 +58,7 @@ the deployed static code.
 
 In order to preview the website::
 
-    pynfact --serve=localhost [--port=4000]
+    pynfact --serve[=localhost [--port=4000]]
 
 And use any browser at `<http://localhost:4000/>`_
 

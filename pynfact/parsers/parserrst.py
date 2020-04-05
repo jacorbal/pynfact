@@ -6,7 +6,7 @@ reStructuredText translation to HTML and metadata retrieval.
 :license: MIT
 
 .. note::
-    There are some presentation and parsing probles using the docutils
+    There are some presentation and parsing problems using the docutils
     ``Writer`` class from ``html5_polyglot`` if docutils version is
     ``<0.15``.  The result is not the same, some settings are ignored,
     and the ``doctree`` seems to be interpreted in a different way

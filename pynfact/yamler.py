@@ -1,6 +1,6 @@
 # vim: set ft=python fileencoding=utf-8 tw=72 fdm=indent foldlevel=1 nowrap:
 """
-Handles a YAML file by setting a default value when variable is not set.
+Handle a YAML file by setting a default value when variable is not set.
 
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
@@ -26,7 +26,7 @@ class Yamler:
         :raise IOError: If the configuration files cannot be read
 
         .. versionchanged:: 1.3.1.a2
-            Update YAML loaded method to :func:``yaml.safe_load``.
+            Update YAML loaded method to :func:`yaml.safe_load`.
         """
         self.filename = filename
         self.logger = logger
@@ -45,7 +45,7 @@ class Yamler:
         Close all opened files, just to make sure, although those will
         be automatically closed.
         """
-        if (self.fd):
+        if self.fd:
             self.fd.close()
 
     def __getitem__(self, key):

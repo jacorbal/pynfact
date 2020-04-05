@@ -118,7 +118,7 @@ set of tags.  A post can belong only to one category.
 
 Posts and pages can be ``private``.  This means that the content will be
 generated, and it can be accessed if the URI is known, but will not be
-referenced in any link or index of the website.
+referenced by any link or index of the website.
 
 By default, a page will be linked to the navigation bar, after the blog
 main features and before the feed link.  If you want a page not to be

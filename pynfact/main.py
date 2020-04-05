@@ -30,6 +30,12 @@ def main():
 
     .. versionchanged:: 1.3.1a2
         Move functions to :mod:`cli` and renamed file as ``main.py``.
+
+    .. versionchanged: 1.3.1rc3
+        Add option to change configuration file and modified the
+        requirements for main options.  Now ``--serve`` defaults to
+        ``localhost`` when no host is specified, and it can be used in
+        conjuction with ``--build``.
     """
     parser = argparse.ArgumentParser(description=""
                                      "PynFact!: "
@@ -37,36 +43,46 @@ def main():
                                      "and reStructuredText to HTML5",
                                      prog="pynfact",)
     # formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    rgroup = parser.add_mutually_exclusive_group(required=True)
+    rgroup = parser.add_mutually_exclusive_group()  # required=True)
 
     rgroup.add_argument('-i', '--init', default=None,
                         metavar='<site>',
                         help="initialize a new website structure")
     rgroup.add_argument('-b', '--build', action='store_true',
                         help="parse input files and build the website")
-    rgroup.add_argument('-s', '--serve', nargs='?',
+    parser.add_argument('-s', '--serve', nargs='?',
                         default='localhost', const='localhost',
                         metavar='<host>',
-                        help="set host where to serve the website (localhost)")
+                        help="set host where to serve the website "
+                             "(localhost)")
     parser.add_argument('-p', '--port', default=4000,
                         metavar='<port>', type=int,
                         help="set port to listen to when serving (4000)")
+    parser.add_argument('-c', '--config',
+                        default='config.yml',
+                        metavar='<config_file>',
+                        help="use a config file other than the default "
+                             "(config.yaml)")
     parser.add_argument('-l', '--log', default='pynfact.err',
-                        metavar='<logfile>',
-                        help="set file where to log errors (pynfact.err)")
+                        metavar='<log_file>',
+                        help="set file where to log errors "
+                             "(pynfact.err)")
     parser.add_argument('-v', '--verbose', action='store_true',
                         help="increase output verbosity")
 
     # Print help if no arguments supplied
     args = parser.parse_args(None if sys.argv[1:] else ['--help'])
 
-    # Process arguments
+    # Set the logger
     logger = set_logger(args.verbose, error_log=args.log)
+
+    # Process arguments
     if args.init:
         arg_init(logger, args.init)
     elif args.build:
-        arg_build(logger)
-    elif args.serve:
+        arg_build(logger, config_file=args.config)
+
+    if args.serve:
         arg_serve(logger, args.serve, int(args.port))
 
 

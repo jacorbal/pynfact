@@ -80,7 +80,7 @@ def date_iso(date):
     :rtype: str
 
     .. note::
-        If the datetime object it timezone naïve, it'll be localized to
+        If the datetime object is timezone naïve, it'll be localized to
         UTC, so the feed parser, and any other function that requires
         timezone aware datetime objects, do not raise an exception.
     """

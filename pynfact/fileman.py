@@ -115,7 +115,7 @@ def has_extension_md_rst(filename):
     >>> has_extension_md_rst('filename.rst')
     True
 
-    >>> has_extension_rst('filename.txt')
+    >>> has_extension_md_rst('filename.txt')
     False
     """
     return has_extension_md(filename) or has_extension_rst(filename)

@@ -646,7 +646,7 @@ class Builder:
         """Update the date format from a meta dictionary object.
 
         Operates on a dictionary of metainformation, output of
-        :fun:`Meta.as_dict``, so the key names are known.  Uses the
+        :func:`Meta.as_dict``, so the key names are known.  Uses the
         two datetime information fields, ``odate_info`` for the original
         date, and ``mdate_info`` for the modified date, and rewrites in
         place the values of their string counterparts, ``odate`` and
@@ -657,7 +657,7 @@ class Builder:
         :param date_format: New date format for ``odate`` and ``mdate``
         :type date_format: str
 
-        .. seealso:: :fun:`Meta.as_dict`
+        .. seealso:: :func:`Meta.as_dict`
         """
         if meta.get('odate'):
             meta['odate'] = meta.get('odate_info').strftime(date_format)

@@ -350,8 +350,6 @@ class Meta:
           long and it's not properly indented (subsequent lines require
           to be indented a minimum of four spaces).
 
-        :return: ``False`` if problem found while getting the metadata
-        :rtype: bool
         :raise ValueError: If the metadata is malformed
 
         .. versionadded:: 1.3.1a3
