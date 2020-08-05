@@ -126,8 +126,8 @@ Contributing
 Bugs
 ~~~~
 
-This project is still in development, so there are probably lots of bugs
-that need to be fixed before deploying a stable release.  If you find a
+This project is stable, yet still in development, so there are probably
+lots of bugs that need to be fixed in future releases.  If you find a
 bug, please, report it at the `GitHub issue tracker`_.
 
 License
