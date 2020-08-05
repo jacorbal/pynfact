@@ -50,8 +50,8 @@ def main():
                         help="initialize a new website structure")
     rgroup.add_argument('-b', '--build', action='store_true',
                         help="parse input files and build the website")
-    parser.add_argument('-s', '--serve', nargs='?',
-                        default='localhost', const='localhost',
+    parser.add_argument('-s', '--serve',  # nargs='?',
+                        # default='localhost', const='localhost',
                         metavar='<host>',
                         help="set host where to serve the website "
                              "(localhost)")

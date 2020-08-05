@@ -5,6 +5,12 @@ Changelog
 Release history
 ===============
 
+1.3.1 -- Wed  5 Aug 2020 12:13:53 +0200
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Stable release
+* Tests performed, fixed typos and bugs
+
 1.3.1rc3 -- Thu 26 Mar 2020 09:17:22 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: **1.3.1rc3** (2020-03-26)
+:Latest version: **1.3.1** (2020-08-05)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
@@ -129,12 +129,6 @@ Bugs
 This project is still in development, so there are probably lots of bugs
 that need to be fixed before deploying a stable release.  If you find a
 bug, please, report it at the `GitHub issue tracker`_.
-
-Getting help, suggesting, asking questions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-There's the subreddit `r/PynFact`_ wher you can state your problem,
-offer tips, make sugestions, or ask questions; or via classic email.
 
 License
 =======
