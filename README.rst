@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: **1.3.1** (2020-08-05)
+:Latest version: **1.3.2** (2020-08-05)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact

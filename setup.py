@@ -6,10 +6,11 @@ Source distribution setup.
 :copyright: © 2012-2020, J. A. Corbal
 :license: MIT
 """
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
 
-version = '1.3.1'
+version = '1.3.2'
 
 with open("README.rst", "r") as fh:
     long_description = fh.read()
@@ -38,7 +39,7 @@ setup(name='pynfact',
       packages=['pynfact'],
       entry_points={'console_scripts': ['pynfact = pynfact.__main__:main']},
       classifiers=[
-          'Development Status :: 4 - Beta',
+          'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
           'Intended Audience :: Developers',
           'Intended Audience :: End Users/Desktop',
