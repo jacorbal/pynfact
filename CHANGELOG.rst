@@ -5,6 +5,12 @@ Changelog
 Release history
 ===============
 
+1.3.3 -- Tue 20 Oct 2020 17:01:36 +0200
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Corrected typo in template: "entries categorized-[ as]" in
+  file ``cat.html.j2``, line 6
+
 1.3.2 -- Wed  5 Aug 2020 12:28:32 +0200
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
