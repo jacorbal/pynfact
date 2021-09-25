@@ -12,6 +12,110 @@
 /* @import("reset.css"); */
 
 
+/* Fonts {{{ */
+@font-face {
+    font-family: "Alegreya Sans";
+    font-weight: 300;
+    src: url("fonts/AlegreyaSans/AlegreyaSans-Light.ttf");
+}
+
+@font-face {
+    font-family: "Merriweather";
+    font-weight: 300;
+    src: url("fonts/Merriweather/Merriweather-Light.ttf");
+}
+
+@font-face {
+    font-family: "Merriweather";
+    font-weight: 300;
+    src: url("fonts/Merriweather/Merriweather-Light.ttf");
+}
+
+@font-face {
+    font-family: "Merriweather";
+    font-style: italic;
+    font-weight: 300;
+    src: url("fonts/Merriweather/Merriweather-LightItalic.ttf");
+}
+
+@font-face {
+    font-family: "Merriweather";
+    font-weight: 400;
+    src: url("fonts/Merriweather/Merriweather-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Merriweather";
+    font-style: italic;
+    font-weight: 400;
+    src: url("fonts/Merriweather/Merriweather-BoldItalic.ttf");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 300;
+    src: url("fonts/OpenSans/OpenSans-Light.ttf");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: 300;
+    src: url("fonts/OpenSans/OpenSans-LightItalic.ttf");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 400;
+ /* src: url("fonts/OpenSans/OpenSans-SemiBold.ttf"); */
+    src: url("fonts/OpenSans/OpenSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: 400;
+ /* src: url("fonts/OpenSans/OpenSans-SemiBoldItalic.ttf"); */
+    src: url("fonts/OpenSans/OpenSans-Italic.ttf");
+}
+
+/*
+@font-face {
+    font-family: "Lato";
+    font-weight: 300;
+    src: url("fonts/Lato/Lato-Light.ttf");
+}
+*/
+
+@font-face {
+    font-family: "Ubuntu Mono";
+    font-weight: 400;
+    src: url("fonts/UbuntuMono/UbuntuMono.ttf");
+}
+
+@font-face {
+    font-family: "Ubuntu Mono";
+    font-style: italic;
+    font-weight: 400;
+    src: url("fonts/UbuntuMono/UbuntuMono-Italic.ttf");
+}
+
+@font-face {
+    font-family: "Ubuntu Mono";
+    font-weight: 700;
+    src: url("fonts/UbuntuMono/UbuntuMono-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Ubuntu Mono";
+    font-style: italic;
+    font-weight: 700;
+    src: url("fonts/UbuntuMono/UbuntuMono-BoldItalic.ttf");
+}
+
+/*}}}*/
+
+
 /* General style {{{ */
 body {
     background-color: #232b32;
@@ -540,7 +644,7 @@ section.entry div.line-block  {
 
 article + section#comments:before {
     border-top: 1px dotted #ccc;
-    content: "\2029"; /* Paragraph separator */
+    content: "\2029"; /* paragraph separator */
     display: block;
     text-align: center;
 }

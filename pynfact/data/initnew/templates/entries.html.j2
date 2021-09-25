@@ -28,17 +28,17 @@
         <!-- PAGER -->
         <div class="paginator">
             {%- if cur_page == 1 %}
-            <span class="disabled">&laquo;&nbsp;{% trans %}Previous{% endtrans %}</span>
+            <span class="disabled">&laquo;&nbsp;{% trans %}Next{% endtrans %}</span>
             {%- endif %}
             {%- if cur_page == 2 %}
             <span><a href="{{ base_uri }}"
-                     title="{% trans %}Previous{% endtrans %}"
-                    >&laquo;&nbsp;{% trans %}Previous{% endtrans %}</a></span>
+                     title="{% trans %}Next{% endtrans %}"
+                    >&laquo;&nbsp;{% trans %}Next{% endtrans %}</a></span>
             {%- endif %}
             {%- if cur_page > 2 %}
             <span><a href="{{ base_uri }}page/{{ cur_page - 1 }}"
-                     title="{% trans %}Previous{% endtrans %}"
-                    >&laquo;&nbsp;{% trans %}Previous{% endtrans %}</a></span>
+                     title="{% trans %}Next{% endtrans %}"
+                    >&laquo;&nbsp;{% trans %}Next{% endtrans %}</a></span>
             {%- endif %}
             <span class="separator">&mdash;</span>
 
@@ -47,10 +47,10 @@
             <span class="separator">&mdash;</span>
             {%- if cur_page < total_pages %}
             <span><a href="{{ base_uri }}page/{{ cur_page + 1 }}"
-                     title="{% trans %}Next{% endtrans %}"
-                    >{% trans %}Next{% endtrans %}&nbsp;&raquo;</a></span>
+                     title="{% trans %}Previous{% endtrans %}"
+                    >{% trans %}Previous{% endtrans %}&nbsp;&raquo;</a></span>
             {%- else %}
-            <span class="disabled">{% trans %}Next{% endtrans %}&nbsp;&raquo;</span>
+            <span class="disabled">{% trans %}Previous{% endtrans %}&nbsp;&raquo;</span>
             {%- endif %}
         </div>
         {%- endif %}
