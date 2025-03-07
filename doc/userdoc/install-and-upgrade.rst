@@ -67,4 +67,3 @@ process with the latest stable version.
 
 .. _GitHub: https://github.com/jacorbal/pynfact
 .. _PyPI: https://pypi.org/project/pynfact/#files
-

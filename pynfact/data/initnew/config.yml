@@ -24,4 +24,3 @@ datefmt_list: "%b %_d, %Y"
 
 extra_dirs: ['media']
 ...
-

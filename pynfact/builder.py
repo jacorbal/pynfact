@@ -2,7 +2,7 @@
 """
 Build the content.
 
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 
 .. versionchanged:: 1.3.1a4
@@ -766,7 +766,7 @@ class Builder:
         To compute the final path, it's required to take the meta
         information of that entry concerning to title and origin date.
         Let's suppose the title is "My post", and the ``odate`` set to
-        "2020-04-01".  The output will be: ``posts/2020/04/01/my-post``.
+        "2025-04-01".  The output will be: ``posts/2025/04/01/my-post``.
 
         :param: Entry filename
         :type: str

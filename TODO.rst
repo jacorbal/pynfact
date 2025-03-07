@@ -200,4 +200,3 @@ Templates
 
 .. _Single-sourcing:
     https://packaging.python.org/guides/single-sourcing-package-version/
-

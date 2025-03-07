@@ -35,4 +35,3 @@ More information: `Semantic Versioning 2.0.0`__.
 
 .. _`Semantic Versioning Specification 2.0.0`: https://semver.org/
 __ `Semantic Versioning Specification 2.0.0`_
-

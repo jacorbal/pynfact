@@ -41,4 +41,3 @@ already there, or bring that suggestion to my attention.
 
 
 .. _`issue tracker`: https://github.com/jacorbal/pynfact/issues
-

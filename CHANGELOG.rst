@@ -5,6 +5,10 @@ Changelog
 Release history
 ===============
 
+1.3.4 -- Fri  7 Mar 2025 16:09:03 +0100
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Added support for `.mmd` extension
+
 1.3.3 -- Tue 20 Oct 2020 17:01:36 +0200
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -267,4 +271,3 @@ Release history
        similar.  This is a personal project being developed just buy one
        person, so there was no need to import the entire Hg repository
        logs.
-

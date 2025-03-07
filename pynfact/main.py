@@ -3,7 +3,7 @@
 """
 Main entry point.
 
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 """
 import argparse

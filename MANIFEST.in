@@ -4,4 +4,3 @@ include LICENSE CHANGELOG.rst
 recursive-include pynfact/ *
 #recursive-include pynfact/initnew *
 #recursive-include pynfact/locale *
-

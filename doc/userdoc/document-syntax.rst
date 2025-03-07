@@ -258,4 +258,3 @@ As well of including text from other files using:
 
 .. _`reStructuredText Markup Specification`:
     https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html
-

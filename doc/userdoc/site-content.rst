@@ -153,4 +153,3 @@ sub-tree within it, for example::
     └── pdfs/
         ├── document1.pdf
         └── document2.pdf
-

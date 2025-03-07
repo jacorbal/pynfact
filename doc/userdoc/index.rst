@@ -41,4 +41,3 @@ Contents
 
 .. _`The Python Package Index (PyPI) repository`:
     https://github.com/jacorbal/pynfact
-

@@ -2,7 +2,7 @@
 """
 File and path manipulation functions.
 
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 """
 import os
@@ -69,7 +69,7 @@ def has_extensions(filename, extensions, case_sensitive=False):
 
 
 def has_extension_md(filename):
-    """Check whether a filename has a valid Markdown extension.
+    """Check whether a filename has a valid or common Markdown extension.
 
     :Example:
 
@@ -79,11 +79,15 @@ def has_extension_md(filename):
     >>> has_extension_md('filename.mDown')
     True
 
+    >>> has_extension_md('filename.mmd')
+    True
+
     >>> has_extension_md('filename.rst')
     False
 
     """
-    return has_extensions(filename, ['.md', '.mdown', '.mkdn', '.markdown'])
+    return has_extensions(filename,
+                          ['.md', '.mdown', '.mkdn', '.mmd', '.markdown'])
 
 
 def has_extension_rst(filename):

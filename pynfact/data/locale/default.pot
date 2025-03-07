@@ -87,4 +87,3 @@ msgstr ""
 #: templates/entries.html.j2:45 templates/entries.html.j2:46 templates/entries.html.j2:48
 msgid "Next"
 msgstr ""
-

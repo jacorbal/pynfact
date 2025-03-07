@@ -72,4 +72,3 @@ the extension to something that is not ``.md`` so it won't be generated
 in future builds.
 
 More help with: ``pynfact --help``
-

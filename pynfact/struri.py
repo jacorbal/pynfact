@@ -2,7 +2,7 @@
 """
 URI strings manipulation functions.
 
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 
 .. versionchanged:: 1.2.0a1

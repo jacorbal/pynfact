@@ -120,4 +120,3 @@ Default ``config.yml`` file:
         Right now is just a string, but it will allow to enter a list
         of authors, comma separated.  Same for entries ``author`` meta
         tag.
-

@@ -95,4 +95,3 @@ Server error codes (``6x``)
     `<http://localhost:4000>`_, is being used by another process.  Try
     closing that process, or specify another port by using the command
     line options.
-

@@ -54,4 +54,3 @@ Example file:
 ```
 
 Feel free to report bugs to <https://github.com/jacorbal/pynfact>.
-

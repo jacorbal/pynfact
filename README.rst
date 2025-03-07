@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: **1.3.3** (2020-10-20)
+:Latest version: **1.3.4** (2025-03-07)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
@@ -143,4 +143,3 @@ License
 .. _r/PynFact: https://www.reddit.com/r/PynFact/
 .. .. _`MIT License`: https://opensource.org/licenses/MIT
 .. _`MIT License`: https://github.com/jacorbal/pynfact/blob/master/LICENSE
-

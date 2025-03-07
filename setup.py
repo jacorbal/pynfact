@@ -3,14 +3,14 @@
 """
 Source distribution setup.
 
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 """
 from setuptools import find_packages
 from setuptools import setup
 
 
-version = '1.3.3'
+version = '1.3.4'
 
 with open("README.rst", "r") as fh:
     long_description = fh.read()

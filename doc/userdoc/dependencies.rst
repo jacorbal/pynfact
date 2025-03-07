@@ -37,4 +37,3 @@ Dependency list:
 All dependencies will be installed automatically when installing with
 ``pip``.  You'll have to install them manually if you use the code
 tarball instead of using ``pip``.
-

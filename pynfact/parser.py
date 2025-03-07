@@ -2,7 +2,7 @@
 """
 Markdown translation to HTML and metadata retrieval.
 
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 """
 from pynfact.fileman import has_extension_md, has_extension_rst

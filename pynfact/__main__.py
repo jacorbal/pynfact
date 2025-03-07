@@ -8,7 +8,7 @@ A blog-oriented static web content generator.
 
 :author: \J. A. Corbal
 :email: jacorbal@gmail.com
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 """
 from pynfact.main import main

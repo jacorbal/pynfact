@@ -2,7 +2,7 @@
 """
 Data and data structures management functions.
 
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 
 .. versionadded:: 1.3.1a3

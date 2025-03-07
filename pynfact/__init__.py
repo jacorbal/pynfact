@@ -4,7 +4,7 @@
 ########################################################################
 # The MIT License (MIT)
 #
-# Copyright (c) 2012-2020, J. A. Corbal
+# Copyright (c) 2012-2025, J. A. Corbal
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -33,11 +33,11 @@ A blog-oriented static web content generator.
 
 :author: \J. A. Corbal
 :email: jacorbal@gmail.com
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 """
 __author__ = "J. A. Corbal"
-__copyright__ = "Copyright 2012-2020, J. A. Corbal"
+__copyright__ = "Copyright 2012-2025, J. A. Corbal"
 __email__ = "jacorbal@gmail.com"
 __license__ = "MIT"
 __maintainer__ = "J. A. Corbal"

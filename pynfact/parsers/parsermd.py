@@ -2,7 +2,7 @@
 """
 Markdown translation to HTML and metadata retrieval.
 
-:copyright: © 2012-2020, J. A. Corbal
+:copyright: © 2012-2025, J. A. Corbal
 :license: MIT
 """
 import markdown
@@ -70,8 +70,8 @@ class ParserMd:
             author: Author A. Author
             title: This is a title
             subtitle: A longer, much longer title for this entry
-            odate: 2020-03-10
-            mdate: 2020-03-19
+            odate: 2025-03-10
+            mdate: 2025-03-19
             tags: this, are, a, lot, of, tags
             comments: yes
 
