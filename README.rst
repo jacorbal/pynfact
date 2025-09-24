@@ -85,6 +85,7 @@ guide <https://github.com/jacorbal/pynfact/wiki/Quickstart>`_.
 Recent changes
 ==============
 
+* Add support for `mmd` extension (MultiMarkdown)
 * Perform tests and upgraded to *release candidate* version (1.3.1rc2)
 * Parsing read the content input files just once, and not several times
 * Logging errors now can be redirected to ``stderr``, ``stdout`` and not
@@ -134,7 +135,7 @@ License
 =======
 
 **PynFact!** is distributed under the `MIT License`_.  Read the
-``LICENSE`` file embeeded in this project for more information.
+``LICENSE`` file embedded in this project for more information.
 
 
 .. .. _pynfact_logo: logo.png
