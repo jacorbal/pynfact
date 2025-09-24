@@ -60,10 +60,7 @@ Installation
 
 Run::
 
-    $ pip install pynfact
-
-(If your default version of Python is 2.x, maybe you need to type
-``pip3`` instead of ``pip``)
+    $ pipx install pynfact
 
 Usage
 =====
