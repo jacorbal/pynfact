@@ -82,7 +82,9 @@ guide <https://github.com/jacorbal/pynfact/wiki/Quickstart>`_.
 Recent changes
 ==============
 
-* Add support for `mmd` extension (MultiMarkdown)
+* Add option ``--version`` (1.3.5)
+* Remove ``distutils`` dependency (1.3.4)
+* Add support for ``mmd`` extension (MultiMarkdown)
 * Perform tests and upgraded to *release candidate* version (1.3.1rc2)
 * Parsing read the content input files just once, and not several times
 * Logging errors now can be redirected to ``stderr``, ``stdout`` and not
