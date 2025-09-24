@@ -5,9 +5,16 @@ Changelog
 Release history
 ===============
 
+1.3.5 -- Wed 24 Sep 2025 17:11:01 +0200
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Optimized options output and added `--version` option
+
 1.3.4 -- Fri  7 Mar 2025 16:09:03 +0100
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 * Added support for `.mmd` extension
+* Removed ``datautil`` support since it's deprecated
 
 1.3.3 -- Tue 20 Oct 2020 17:01:36 +0200
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

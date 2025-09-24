@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pynfact"
-version = "1.3.4"
+version = "1.3.5"
 description = "Blog-oriented static website generator using Markdown or reStructuredText."
 readme = "README.rst"
 readme-content-type = "text/x-rst"

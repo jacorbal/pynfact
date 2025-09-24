@@ -18,6 +18,10 @@ except ImportError:
     pass
 
 
+# This program version
+__version__ = "1.3.5"
+
+
 def main():
     """Manage the command line arguments.
 
@@ -36,6 +40,9 @@ def main():
         requirements for main options.  Now ``--serve`` defaults to
         ``localhost`` when no host is specified, and it can be used in
         conjuction with ``--build``.
+
+    .. versionchanged: 1.3.5
+        Fix ``--serve`` without argument, and added ``--version``.
     """
     parser = argparse.ArgumentParser(description=""
                                      "PynFact!: "
@@ -45,13 +52,15 @@ def main():
     # formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     rgroup = parser.add_mutually_exclusive_group()  # required=True)
 
+    parser.add_argument('-V', '--version', action='version',
+                        version='%(prog)s ' + __version__)
     rgroup.add_argument('-i', '--init', default=None,
                         metavar='<site>',
                         help="initialize a new website structure")
     rgroup.add_argument('-b', '--build', action='store_true',
                         help="parse input files and build the website")
-    parser.add_argument('-s', '--serve',  # nargs='?',
-                        # default='localhost', const='localhost',
+    parser.add_argument('-s', '--serve', nargs='?',
+                        default='localhost', const='localhost',
                         metavar='<host>',
                         help="set host where to serve the website "
                              "(localhost)")
