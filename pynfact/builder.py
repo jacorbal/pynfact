@@ -133,7 +133,7 @@ class Builder:
     .. versionchanged:: 1.3.4
         Removed use of the deprecated ``distutils`` package (no longer
         part of the ``stdlib`` on Python 3.12).  The code now uses
-        :funct:`copy_tree_update`.
+        :func:`copy_tree_update`.
     """
 
     def __init__(self, site_config, template_values=dict(), logger=None):
@@ -597,7 +597,7 @@ class Builder:
             ``distutils`` package (no longer part of the ``stdlib`` on
             Python 3.12).  Now using ``copy_tree_update`` function.
 
-        ..see:: :funct:`copy_tree_update`
+        ..see:: :func:`copy_tree_update`
         """
         src = self.static_dir
         dst = os.path.join(
@@ -613,7 +613,7 @@ class Builder:
             ``distutils`` package (no longer part of the ``stdlib`` on
             Python 3.12).  Now using ``copy_tree_update`` function.
 
-        ..see:: :funct:`copy_tree_update`
+        ..see:: :func:`copy_tree_update`
         """
         if self.site_config.get('dirs').get('extra'):
             for extra_dir in self.site_config.get('dirs').get('extra'):
@@ -723,8 +723,8 @@ class Builder:
         """Update the date format from a meta dictionary object.
 
         Operates on a dictionary of metainformation, output of
-        :func:`Meta.as_dict``, so the key names are known.  Uses the
-        two datetime information fields, ``odate_info`` for the original
+        :func:`Meta.as_dict``, so the key names are known.  Uses the two
+        datetime information fields, ``odate_info`` for the original
         date, and ``mdate_info`` for the modified date, and rewrites in
         place the values of their string counterparts, ``odate`` and
         ``mdate``, if they are not ``None``.

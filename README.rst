@@ -68,11 +68,11 @@ Usage
 The interaction is done by command line.  Only a few commands are
 needed:
 
-#. ``pynfact --init=<myblog>``: Create a folder with all needed content
+#. ``pynfact -i <myblog>``: Create a folder with all needed content
 #. Go to that directory: ``cd <myblog>``
 #. Configure settings in ``config.yml``, title, name, language...
-#. ``pynfact --build``: Generates the static content
-#. ``pynfact --serve=localhost``: Serves locally to test the results
+#. ``pynfact -b``: Generates the static content
+#. ``pynfact -s localhost``: Serves locally to test the results
    (by default at ``localhost:4000``)
 
 More details at the `GitHub project Wiki
@@ -82,8 +82,8 @@ guide <https://github.com/jacorbal/pynfact/wiki/Quickstart>`_.
 Recent changes
 ==============
 
-* Fix bug in ``arg.parse`` with option ``-s`` (1.3.6)
-* Add option ``--version`` (1.3.5)
+* Fix bug in ``argparse`` with option ``-s`` (1.3.6)
+* Add option ``--version`` or ``-V`` (1.3.5)
 * Remove ``distutils`` dependency (1.3.4)
 * Add support for ``mmd`` extension (MultiMarkdown)
 * Perform tests and upgraded to *release candidate* version (1.3.1rc2)
