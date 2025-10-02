@@ -9,9 +9,8 @@ URI strings manipulation functions.
     Relocate file management functions to :mod:`fileman`.
 """
 import re
-from datetime import datetime
-
 import unidecode
+from datetime import datetime
 from dateutil import tz
 
 

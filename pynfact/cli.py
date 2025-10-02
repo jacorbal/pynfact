@@ -15,7 +15,7 @@ from pynfact.server import Server
 from pynfact.yamler import Yamler
 
 
-def set_logger(verbosity=False, error_log='pynfact.err',
+def set_logger(verbosity=False, error_log='pynfact.log',
                echo_log=sys.stdout):
     """Set up the system logger.
 

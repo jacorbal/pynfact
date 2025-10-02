@@ -18,10 +18,10 @@ Meta information processor from Markdown or reStructuredText file.
     to one universal language instead of hardcoding the
     internationalization.
 """
+import markdown
 import re
 import sys
 
-import markdown
 from dateutil.parser import parse as dt_parse
 
 from pynfact.dataman import or_array_in
