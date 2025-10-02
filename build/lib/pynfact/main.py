@@ -11,15 +11,17 @@ import sys
 
 from pynfact.cli import arg_build, arg_init, arg_serve, set_logger
 
+
+# This program version
+__version__ = "1.3.6"
+
+
+# Attempts to enable colored tracebacks for better error readability
 try:
     import colored_traceback.auto
     colored_traceback.add_hook(always=True)
 except ImportError:
     pass
-
-
-# This program version
-__version__ = "1.3.5"
 
 
 def main():
@@ -60,7 +62,7 @@ def main():
     rgroup.add_argument('-b', '--build', action='store_true',
                         help="parse input files and build the website")
     parser.add_argument('-s', '--serve', nargs='?',
-                        default='localhost', const='localhost',
+                        default=None, const='localhost',
                         metavar='<host>',
                         help="set host where to serve the website "
                              "(localhost)")
@@ -72,10 +74,10 @@ def main():
                         metavar='<config_file>',
                         help="use a config file other than the default "
                              "(config.yaml)")
-    parser.add_argument('-l', '--log', default='pynfact.err',
+    parser.add_argument('-l', '--log', default='pynfact.log',
                         metavar='<log_file>',
                         help="set file where to log errors "
-                             "(pynfact.err)")
+                             "(pynfact.log)")
     parser.add_argument('-v', '--verbose', action='store_true',
                         help="increase output verbosity")
 
@@ -91,7 +93,7 @@ def main():
     elif args.build:
         arg_build(logger, config_file=args.config)
 
-    if args.serve:
+    if args.serve is not None:
         arg_serve(logger, args.serve, int(args.port))
 
 

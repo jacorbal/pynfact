@@ -30,11 +30,10 @@ import os
 import resource
 import shutil
 import sys
-from math import ceil
-from pathlib import Path
-
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
+from math import ceil
+from pathlib import Path
 
 from pynfact.fileman import has_extension_md_rst, link_to
 from pynfact.meta import Meta
@@ -43,7 +42,27 @@ from pynfact.struri import slugify, strip_html_tags
 
 
 def copy_tree_update(src, dst, update=True, verbose=True):
-    """
+    """Recursively copy files and directories from source to
+    destination, with optional update and verbosity.
+
+    :param src: Source directory path as a string or ``Path`` object
+    :type src: str or pathlib.Path
+    :param dst: Destination directory path as a string or Path ``object``
+    :type dst: str or pathlib.Path
+    :param update: If True, only copy files if they are different from
+                   the destination
+    :type update: bool, optional
+    :param verbose: If True, print information about each copied file
+    :type verbose: bool, optional
+
+    The function copies the entire directory tree from ``src`` to
+    ``dst``. If ``update`` is True, files in the destination will only
+    be overwritten if they differ from the source. The copying preserves
+    metadata and creates any necessary parent directories. If
+    ``verbose`` is True, it prints a message each time a file is copied.
+
+    :raises Exception: Propagates exceptions from file comparison or
+                       copying operations if they occur
     """
     src = Path(src)
     dst = Path(dst)
@@ -57,7 +76,7 @@ def copy_tree_update(src, dst, update=True, verbose=True):
         if item.is_dir():
             target.mkdir(parents=True, exist_ok=True)
             continue
-        # item is a file (or symlink)
+        # Item is a file (or symlink)
         copy = True
         if update and target.exists():
             try:
@@ -447,7 +466,7 @@ class Builder:
         to "no".
 
         .. important::
-            Since this add new data to the base template, it **must be
+            Since this adds new data to the base template, it **must be
             invoked first**, before generating any other content.
         """
         for filename, meta in self.pages_dict.items():

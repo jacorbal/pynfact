@@ -9,7 +9,7 @@ Disqus, TalkYard, etc., or Google Analytics...  Theming and
 configuration is possible by editing Jinja2 templates.
 
 :Purpose:        A blog-oriented static website generator
-:Latest version: **1.3.5** (2025-09-24)
+:Latest version: **1.3.6** (2025-10-02)
 
 .. image:: https://badge.fury.io/py/pynfact.svg
    :target: https://badge.fury.io/py/pynfact
@@ -82,6 +82,7 @@ guide <https://github.com/jacorbal/pynfact/wiki/Quickstart>`_.
 Recent changes
 ==============
 
+* Fix bug in ``arg.parse`` with option ``-s`` (1.3.6)
 * Add option ``--version`` (1.3.5)
 * Remove ``distutils`` dependency (1.3.4)
 * Add support for ``mmd`` extension (MultiMarkdown)

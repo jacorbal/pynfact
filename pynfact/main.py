@@ -13,7 +13,7 @@ from pynfact.cli import arg_build, arg_init, arg_serve, set_logger
 
 
 # This program version
-__version__ = "1.3.5"
+__version__ = "1.3.6"
 
 
 # Attempts to enable colored tracebacks for better error readability

@@ -6,7 +6,6 @@ Handle a YAML file by setting a default value when variable is not set.
 :license: MIT
 """
 import sys
-
 import yaml
 
 
