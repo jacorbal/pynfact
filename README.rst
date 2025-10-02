@@ -1,8 +1,8 @@
-######
-README
-######
+########
+PynFact!
+########
 
-Pynfact is a simple static website generator oriented to chronological
+PynFact! is a simple static website generator oriented to chronological
 content, like blogs or websites with historic and sequential data.  It
 allows integration with external scripts, comment engines such as
 Disqus, TalkYard, etc., or Google Analytics...  Theming and
@@ -83,7 +83,7 @@ Recent changes
 ==============
 
 * Fix bug in ``argparse`` with option ``-s`` (1.3.6)
-* Add option ``--version`` or ``-V`` (1.3.5)
+* Add ``--version`` (or ``-V``) option (1.3.5)
 * Remove ``distutils`` dependency (1.3.4)
 * Add support for ``mmd`` extension (MultiMarkdown)
 * Perform tests and upgraded to *release candidate* version (1.3.1rc2)
@@ -138,9 +138,7 @@ License
 ``LICENSE`` file embedded in this project for more information.
 
 
-.. .. _pynfact_logo: logo.png
+.. _pynfact_logo: logo.png
 
 .. _`GitHub issue tracker`: https://github.com/jacorbal/pynfact/issues
-.. _r/PynFact: https://www.reddit.com/r/PynFact/
-.. .. _`MIT License`: https://opensource.org/licenses/MIT
 .. _`MIT License`: https://github.com/jacorbal/pynfact/blob/master/LICENSE
